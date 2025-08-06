@@ -6,13 +6,13 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:10:53 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/04 16:38:25 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/06 15:55:12 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-char	*start_pattern(const char *str, char *pattern)
+/* char	*start_pattern(const char *str, char *pattern)
 {
 	int	i;
 	int	j;
@@ -33,7 +33,7 @@ void	wildcard_skipper(int i, int j, const char *str, char *pattern)
 		i++;
 	j++;
 }
-
+ */
 /*
 	Usage : * = wildcard. Use '**' to detect '*'
 	Return : pointer to first detected pattern, NULL

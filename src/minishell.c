@@ -6,16 +6,17 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:19:42 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/06 14:50:17 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/06 15:55:51 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+/* int	main(int argc, char **argv, char **envp)
 {
 	int	i = -1;
 	while (envp[++i])
 		printf("- %s\n", envp[i]);
 	return (0);
 }
+ */
