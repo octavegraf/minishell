@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug minishell",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/minishell",
+            "args": ["src"],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Build minishell"
+        }
+    ]
+}

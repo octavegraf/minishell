@@ -6,31 +6,38 @@
 #    By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 09:37:05 by ljudd             #+#    #+#              #
-#    Updated: 2025/08/04 14:48:05 by ocgraf           ###   ########.fr        #
+#    Updated: 2025/08/06 16:48:16 by ocgraf           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -MMD -MP
-NAME			= minishells
+DEBUG			= -g
+CFLAGS			= -Wall -Wextra -Werror -MMD -MP $(DEBUG)
+NAME			= minishell
 INCLUDES		= -Ilibft -Iincludes
 
 # Sources
-SRC_PATH		= src/
-SRC				= *.c
-SOURCES			= $(addprefix $(SRC_PATH), $(SRC))
+SRC_FOLDER		= src/
+BUILTIN_FOLDER	= $(SRC_FOLDER)builtin/
+EXEC_FOLDER		= $(SRC_FOLDER)exec/
+PARSING_FOLDER	= $(SRC_FOLDER)parsing/
+BUILTIN			= $(wildcard $(BUILTIN_FOLDER)*.c)
+EXEC			= $(wildcard $(EXEC_FOLDER)*.c)
+PARSING			= $(wildcard $(PARSING_FOLDER)*.c)
+MAIN			= $(wildcard $(SRC_FOLDER)*.c)
+SOURCES			= $(BUILTIN) $(EXEC) $(PARSING) $(MAIN)
 
 # Objects
 OBJ_PATH		= obj/
-OBJ				= $(SRC:.c=.o)
+OBJ				= $(SOURCES:.c=.o)
 OBJECTS			= $(addprefix $(OBJ_PATH), $(OBJ))
-DEP				= $(SRC:.c=.d)
+DEP				= $(SOURCES:.c=.d)
 DEPS			= $(addprefix $(OBJ_PATH), $(DEP))
 
 # libft
 LIBFT			= libft.a
 LIBFT_FLAGS		= -Llibft -lft
-LIBFT_DIR		= ./libft
+LIBFT_DIR		= libft/
 
 # Colors for display
 RED				= \e[31m
@@ -45,12 +52,13 @@ all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJECTS)
 	@printf "$(BLUE)%s$(RESET): $(YELLOW)Building $(NAME)...$(RESET)\n" $(NAME)
-	@$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT_FLAGS) -o $(NAME) --no-print-directory
+	@$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT_FLAGS) -o $(NAME)
 	@printf "$(BLUE)%s$(RESET): $(GREEN)Successfully built $(NAME)$(RESET)\n" $(NAME)
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c | $(OBJ_PATH)
+$(OBJ_PATH)%.o: %.c | $(OBJ_PATH)
+	@mkdir -p $(dir $@)
 	@printf "$(BLUE)%s$(RESET): $(MAGENTA)Compiling$(RESET) $<\n" $(NAME)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ --no-print-directory
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJ_PATH):
 	@mkdir $(OBJ_PATH)
