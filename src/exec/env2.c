@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:17:12 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/06 15:23:44 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/06 16:38:36 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	delete_all_env(t_env *head)
 {
 	t_env	*next;
 
+	next = NULL;
 	while (head)
 	{
 		next = head->next;
@@ -41,9 +42,9 @@ void	delete_all_env(t_env *head)
 	}
 }
 
-t_env	*find_env(t_env *head, const char *name)
+t_env	*search_env(t_env *head, const char *name)
 {
-	while (ft_strcmp(head->name, name) != 0 && head)
+	while (head && ft_strcmp(head->name, name) != 0)
 	{
 		head = head->next;
 	}
