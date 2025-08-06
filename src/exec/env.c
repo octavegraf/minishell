@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:43:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/06 15:13:15 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/06 15:20:29 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,6 @@ void	modify_env(t_env *env, char *name, char *value)
 		free(env->value);
 		env->value = value;
 	}
-}
-
-void	delete_env(t_env *to_delete, t_env *head)
-{
-	t_env	*prev;
-	t_env	*next;
-
-	while (head && head != to_delete)
-	{
-		prev = head;
-		head = head->next;
-	}
-	next = head->next;
-	if (prev)
-		prev->next = next;
-	free_env(to_delete);
 }
 
 void	free_env(t_env *env)
