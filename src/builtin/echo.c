@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:21:51 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/11 13:43:46 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/11 14:25:52 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	mini_echo(char **prompt)
 	}
 	if (nl)
 		write(1, "\n", 1);
-	return (0);
 }
 
 /* int	main(int argc, char **argv)
