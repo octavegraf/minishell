@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:43:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/11 14:47:59 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/11 17:03:35 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_env	*get_env(char **envp)
 			delete_all_env(env);
 			return (NULL);
 		}
-		env = add_env(env, sub, ft_strchr(envp[i], '=') + 1);
+		env = add_env_back(env, sub, ft_strchr(envp[i], '=') + 1);
 		free(sub);
 	}
 	return (env);
@@ -50,7 +50,7 @@ t_env	*create_env(char *name, char *value)
 	return (new_env);
 }
 
-t_env	*add_env(t_env *env, char *name, char *value)
+t_env	*add_env_back(t_env *env, char *name, char *value)
 {
 	t_env	*new_env;
 	t_env	*current;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env2.c                                             :+:      :+:    :+:   */
+/*   get_env2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:17:12 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/06 16:38:36 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/11 15:34:38 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,14 @@ t_env	*search_env(t_env *head, const char *name)
 	if (head)
 		return (head);
 	return (NULL);
+}
+
+t_env	*add_env(t_env *current_env, t_env *to_add)
+{
+	t_env	*next;
+
+	next = current_env->next;
+	current_env->next = to_add;
+	to_add->next = next;
+	return (to_add);
 }
