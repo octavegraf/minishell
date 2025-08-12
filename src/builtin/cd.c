@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:23:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/07 15:01:35 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/12 13:34:28 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	mini_cd(char *prompt, t_env *env)
 	if (!old_pwd_value)
 		return (perror("malloc"), 1);
 	if (!search_env(env, "HOME"))
-		ft_dprintf(2, "cd: HOME not set\n");
+		return (ft_dprintf(2, "cd: HOME not set\n"), 1);
 	if (chdir(prompt) == -1)
 		return (perror("cd"), 1);
 	if (!getcwd(path, 1024))

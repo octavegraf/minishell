@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:06:38 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/11 15:35:08 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/12 13:55:22 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,28 @@ typedef struct s_env
 // cd
 int		mini_cd(char *path, t_env *env);
 
+// echo
+void	mini_echo(char **prompt);
+int		disable_nl(char *prompt);
+
+// env
+int		mini_env(t_env *env);
+
+// exit
+int		mini_exit(int exit_code);
+
+// export
+int		mini_export(t_env *env, char **args);
+int		mini_export2(t_env *env, char *name, char *value);
+t_env	*insert_env(t_env *env, char *name, char *value);
+
+// utils
+char	*join_args(char **args);
+
 /********************************** PAR_SING **********************************/
 
 /************************************ EXEC ************************************/
+
 
 // env
 t_env	*get_env(char **envp);
