@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   detect_pattern.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:10:53 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/06 15:55:12 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/11 19:45:27 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 /* char	*start_pattern(const char *str, char *pattern)
 {

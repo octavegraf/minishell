@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:19:42 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/11 15:36:39 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/12 14:05:11 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ int	main_loop(t_data *data)
 	// prompt ? necessaire a gerer ? "minishell ATM"
 	data->inputs = readline("minishell");
 	// precaution a prendre relative au readline ?
+	// readline vide a convertir en \n ?
 	add_history(data->inputs);
 	core_parsing(data);
-	core_exec(data);
+	if (!data->error_parse)
+		core_exec(data);
 	main_clean_next(data);
 }
 
