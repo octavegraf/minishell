@@ -6,78 +6,88 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:26:32 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/11 17:45:50 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/12 14:09:08 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_env	*closest_env(t_env *head, const char *name)
+t_env	*insert_env(t_env *env, char *name, char *value)
 {
+	t_env	*new_env;
 	t_env	*current;
-	t_env	*closest;
-	int		cmp;
+	t_env	*prev;
 
-	current = head;
-	closest = NULL;
-	while (current)
+	new_env = create_env(name, value);
+	if (!new_env)
+		return (NULL);
+	current = env;
+	prev = NULL;
+	while (current && ft_strcmp(name, current->name) > 0)
 	{
-		cmp = ft_strcmp(current->name, name);
-		if (cmp < 0)
-		{
-			if (!closest || ft_strcmp(current->name, closest->name) > 0)
-				closest = current;
-		}
+		prev = current;
 		current = current->next;
 	}
-	return (closest);
+	new_env->next = current;
+	if (prev)
+		prev->next = new_env;
+	return (new_env);
 }
 
-t_env	*verify_env(t_env *env, char *prompt, char **name, char **value)
+int	mini_export2(t_env *env, char *name, char *value)
 {
-	int		i;
-	int		equal;
 	t_env	*current;
 
-	current = NULL;
-	equal = ft_strlen(prompt) - ft_strlen(ft_strchr(prompt, '='));
-	if (!equal)
-		return ;
-	*name = ft_substr(prompt, 0, equal);
-	if (!*name)
-		return (ft_printf("export: Memory allocation failed\n"), 1);
-	i = -1;
-	while ((*name)[++i])
-		if ((*name)[i] == ' ' || (*name)[i] == '\t' || (*name)[i] == '\n')
-			return (ft_printf("export: Invalid identifier\n"), free(*name),
-				NULL);
-	if (ft_strchr(*name, ' ') || ft_strchr(*name, '\t')
-		|| ft_strchr(*name, '\n'))
-		return (ft_printf("export: Invalid identifier\n"), 1);
-	*value = prompt + equal + 1;
-}
-
-int	mini_export(t_env *env, char *prompt)
-{
-	int		equal;
-	char	*name;
-	char	*value;
-	t_env	*current;
-	t_env	*new;
-
-	if (!prompt || !*prompt)
-		mini_env(env);
-	else
+	if (!env)
 	{
-		verify_env(env, prompt, &name, &value);
-		if (current)
-			current->value = value;
-		else
-		{
-			current = closest_env;
-			new = create_env(name, value);
-			if (!new)
-				return (ft_printf("export: Memory allocation failed\n"), 1);
-		}
+		if (!create_env(name, value))
+			return (ft_dprintf(2, "export: Memory allocation failed\n"), 1);
 	}
+	current = search_env(env, name);
+	if (current)
+		modify_env(current, name, value);
+	else
+		if (!insert_env(env, name, value))
+			return (ft_dprintf(2, "export: Memory allocation failed\n"), 1);
+	return (0);
 }
+
+int	mini_export(t_env *env, char **args)
+{
+	char	*equal;
+	char	*name;
+	int		i;
+
+	if (!args || !**args)
+		return (mini_env(env));
+	i = -1;
+	while (args[++i])
+	{
+		if (!ft_strchr(args[i], '=') || ft_strchr(args[i], ' ')
+			|| ft_strchr(args[i], '\t') || ft_strchr(args[i], '\n')
+			|| ft_strchr(args[i], '\r') || ft_strchr(args[i], '\v')
+			|| ft_strchr(args[i], '\f'))
+			continue ;
+		equal = ft_strchr(args[i], '=');
+		if (ft_strchr(equal + 1, '='))
+			continue ;
+		name = ft_substr(args[i], 0, equal - args[i]);
+		if (!name)
+			return (ft_dprintf(2, "export: Memory allocation failed\n"), 1);
+		if (mini_export2(env, name, ft_substr(equal + 1, 0,
+					ft_strlen(equal + 1))))
+			return (1);
+	}
+	return (0);
+}
+
+/* int main(int argc, char **argv, char **envp)
+{
+	t_env	*env;
+
+	(void)argc;
+	(void)argv;
+	env = get_env(envp);
+	mini_export(env, NULL);
+	return (0);
+} */
