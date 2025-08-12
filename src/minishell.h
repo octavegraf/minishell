@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:06:38 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/12 14:12:12 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/12 14:46:29 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ t_env	*insert_env(t_env *env, char *name, char *value);
 
 // pwd
 int		mini_pwd(void);
+
+// unset
+int		mini_unset(t_env *env, char **args);
 
 
 // utils
