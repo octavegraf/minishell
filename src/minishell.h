@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:06:38 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/12 13:55:22 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/12 14:12:12 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ int		mini_exit(int exit_code);
 int		mini_export(t_env *env, char **args);
 int		mini_export2(t_env *env, char *name, char *value);
 t_env	*insert_env(t_env *env, char *name, char *value);
+
+// pwd
+int		mini_pwd(void);
+
 
 // utils
 char	*join_args(char **args);
