@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/11 19:43:43 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/13 17:15:56 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* core_exec :
-	dummy function right now, Octavio part
-*/
-void	core_exec(t_data *data)
+bool	is_builtin(t_cmd *cmd)
 {
-	return ;
+	if (!ft_strcmp(cmd->args[0], "cd")
+		|| !ft_strcmp(cmd->args[0], "echo")
+		|| !ft_strcmp(cmd->args[0], "env")
+		|| !ft_strcmp(cmd->args[0], "exit")
+		|| !ft_strcmp(cmd->args[0], "export")
+		|| !ft_strcmp(cmd->args[0], "pwd")
+		|| !ft_strcmp(cmd->args[0], "unset"))
+		return (true);
+	return (false);
 }
+
