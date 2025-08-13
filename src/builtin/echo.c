@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:21:51 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/13 14:41:06 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/13 17:16:58 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	mini_echo(char **prompt)
 		if (i != 0 && prompt[i] && to_print)
 			write(1, " ", 1);
 		if (to_print)
-			ft_printf("%s", prompt[i]);
+			printf("%s", prompt[i]);
 	}
 	if (nl)
 		write(1, "\n", 1);
