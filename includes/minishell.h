@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:06:38 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/12 16:13:02 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/13 14:43:25 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,29 +156,53 @@ typedef struct s_redir
 	t_redir			*next;
 }	t_redir;
 
-/********************************** BUILTIN ***********************************/
+/********************************** BUILT_IN **********************************/
 
-/*	cd	*/
-
+// cd
 int		mini_cd(char *path, t_env *env);
 
-/********************************** PARSING ***********************************/
+// echo
+void	mini_echo(char **prompt);
+int		disable_nl(char *prompt);
 
+// env
+int		mini_env(t_env *env);
+
+// exit
+int		mini_exit(int exit_code);
+
+// export
+int		mini_export(t_env *env, char **args);
+int		mini_export2(t_env *env, char *name, char *value);
+t_env	*insert_env(t_env *env, char *name, char *value);
+
+// pwd
+int		mini_pwd(void);
+
+// unset
+int		mini_unset(t_env *env, char **args);
+
+
+// utils
+char	*join_args(char **args);
+
+/********************************** PAR_SING **********************************/
 
 /************************************ EXEC ************************************/
 
-/*	env	*/
 
+// env
 t_env	*get_env(char **envp);
 t_env	*create_env(char *name, char *value);
-t_env	*add_env(t_env *env, char *name, char *value);
+t_env	*add_env_back(t_env *env, char *name, char *value);
 void	free_env(t_env *env);
 void	modify_env(t_env *env, char *name, char *value);
 
-/*	env2	*/
-
+// env2
 void	delete_env(t_env *to_delete, t_env *head);
 void	delete_all_env(t_env *head);
 t_env	*search_env(t_env *head, const char *name);
+t_env	*add_env(t_env *current_env, t_env *to_add);
+
 
 #endif
