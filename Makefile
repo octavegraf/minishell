@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+         #
+#    By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 09:37:05 by ljudd             #+#    #+#              #
-#    Updated: 2025/08/06 16:48:16 by ocgraf           ###   ########.fr        #
+#    Updated: 2025/08/13 19:28:21 by ljudd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,13 @@ SRC_FOLDER		= src/
 BUILTIN_FOLDER	= $(SRC_FOLDER)builtin/
 EXEC_FOLDER		= $(SRC_FOLDER)exec/
 PARSING_FOLDER	= $(SRC_FOLDER)parsing/
+UTILS_FOLDER	= $(SRC_FOLDER)utils/
 BUILTIN			= $(wildcard $(BUILTIN_FOLDER)*.c)
 EXEC			= $(wildcard $(EXEC_FOLDER)*.c)
 PARSING			= $(wildcard $(PARSING_FOLDER)*.c)
+UTILS			= $(wildcard $(UTILS_FOLDER)*.c)
 MAIN			= $(wildcard $(SRC_FOLDER)*.c)
-SOURCES			= $(BUILTIN) $(EXEC) $(PARSING) $(MAIN)
+SOURCES			= $(BUILTIN) $(EXEC) $(PARSING) $(UTILS) $(MAIN)
 
 # Objects
 OBJ_PATH		= obj/
@@ -52,7 +54,7 @@ all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJECTS)
 	@printf "$(BLUE)%s$(RESET): $(YELLOW)Building $(NAME)...$(RESET)\n" $(NAME)
-	@$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT_FLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT_FLAGS) -o $(NAME) -lreadline
 	@printf "$(BLUE)%s$(RESET): $(GREEN)Successfully built $(NAME)$(RESET)\n" $(NAME)
 
 $(OBJ_PATH)%.o: %.c | $(OBJ_PATH)

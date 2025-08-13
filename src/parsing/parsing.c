@@ -6,34 +6,91 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:45:12 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/12 16:29:32 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/13 19:14:55 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pretoken_rec(t_data *data, int *i, int *j, t_token token)
+t_token	*token_new(char *inputs, char quoted, t_token *next, t_token *past)
 {
-	while (data->inputs[*i + *j])
+	t_token	*res;
+
+	res = ft_calloc(1, sizeof(t_token));
+	if (!res)
+		clean_exit(12);
+	res->inputs = inputs;
+	res->quoted = quoted;
+	res->next = next;
+	res->past = past;
+	return (res);
+}
+
+// TBD pretoken_quotes
+void	pretoken_quotes(t_data *data, int *i, int *j, t_token *token)
+{
+	(void) data;
+	(void) i;
+	(void) j;
+	(void) token;
+	return ;
+}
+
+// TBD pretoken_ope
+void	pretoken_ope(t_data *data, int *i, int *j, t_token *token)
+{
+	(void) data;
+	(void) i;
+	(void) j;
+	(void) token;
+	return ;
+}
+
+// TBD pretoken_space
+void	pretoken_space(t_data *data, int *i, int *j, t_token *token)
+{
+	(void) data;
+	(void) i;
+	(void) j;
+	(void) token;
+	return ;
+}
+
+void	pretoken_copy(t_data *data, int *i, int *j, t_token *token)
+{
+	if (*j != 0)
 	{
-		if (inputs[*i + *j] == '\'' || inputs[*i + *j] == '"')
-			// CREATE NEW NEXT ELEM
-			// ADD IT
-			// SWITCH VALUES
-			*i = *i + *j + 1;
-			*j = 0;
-			
-		else
-			*j++;
+		token->inputs = ft_strcpy_ij(data->inputs, *i, *j);
+		*i = *i + *j;
+		*j = 0;
 	}
-	if (*j == 0)
+	else if (token->past)
 	{
-		// ON EST ARRIVER AU BOUT, SUPPRIMER L ELEMENT EN COURS QUI EST VIDE
+		token = token->past;
+		free(token->next->inputs);
+		free(token->next);
+		token->next = NULL;
+	}
+}
+
+void	pretoken_rec(t_data *data, int *i, int *j, t_token *token)
+{
+	if (data->inputs[*i + *j])
+	{
+		if (data->inputs[*i + *j] == '\'' || data->inputs[*i + *j] == '"')
+			pretoken_quotes(data, i, j, token);
+		else if (1)
+			pretoken_ope(data, i, j, token);
+		else if (data->inputs[*i + *j] == ' ')
+			pretoken_space(data, i, j, token);
+		else
+		{
+			(*j)++;
+			pretoken_rec(data, i, j, token);
+		}
 	}
 	else
-	{
-		// copie de input de i a j dans l elem, c est le dernier noeud
-	}
+		pretoken_copy(data, i, j, token);
 }
 
 void	pretokenization(t_data *data)
@@ -43,8 +100,36 @@ void	pretokenization(t_data *data)
 
 	i = 0;
 	j = 0;
-	// CREER LE PREMIER ELEM
+	data->token = token_new(NULL, '\0', NULL, NULL);
 	pretoken_rec(data, &i, &j, data->token);
+}
+
+// TBD
+void	expander(t_data *data)
+{
+	(void) data;
+	return ;
+}
+
+// TBD
+void	tokenization(t_data *data)
+{
+	(void) data;
+	return ;
+}
+
+// TBD
+void	token_to_tree(t_data *data)
+{
+	(void) data;
+	return ;
+}
+
+// TBD
+void	tree_to_cmd(t_data *data)
+{
+	(void) data;
+	return ;
 }
 
 /* core_parsing :

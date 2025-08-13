@@ -6,21 +6,24 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:19:42 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/12 14:05:11 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/13 19:28:44 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// TBD TBD TBD
 /* main_clean_next :
 	clean all the elements used between two commands
 */
 void	main_clean_next(t_data *data)
 {
 	// TBD TBD TBD
+	(void) data;
 	return ;
 }
 
+// TBD TBD TBD
 /* main_loop :
 	core loop used in function main, 4 parts
 	- read the input
@@ -31,7 +34,7 @@ void	main_clean_next(t_data *data)
 int	main_loop(t_data *data)
 {
 	// prompt ? necessaire a gerer ? "minishell ATM"
-	data->inputs = readline("minishell");
+	data->inputs = readline("minishell:");
 	// precaution a prendre relative au readline ?
 	// readline vide a convertir en \n ?
 	add_history(data->inputs);
@@ -39,8 +42,10 @@ int	main_loop(t_data *data)
 	if (!data->error_parse)
 		core_exec(data);
 	main_clean_next(data);
+	return (1);
 }
 
+// TBD TBD TBD
 /* main :
 	the part post loop is never supposed to happen, we exit in the loop directly
 */
@@ -50,6 +55,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
+	(void) envp;
 	ft_bzero(&data, sizeof(t_data));
 	// recup environement a faire
 	while (main_loop(&data))

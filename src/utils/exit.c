@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/12 11:15:56 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/13 14:52:49 by ljudd            ###   ########.fr       */
+/*   Created: 2025/08/13 16:02:26 by ljudd             #+#    #+#             */
+/*   Updated: 2025/08/13 18:16:53 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*join_args(char **args)
-
+/* clean_exit :
+*/
+// TBD TBD TBD
+// 12 = MALLOC ERROR
+void	clean_exit(int exit_code)
 {
-	int		i;
-	char	*result;
-	char	*temp;
-
-	i = 0;
-	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	while (args[i])
-	{
-		temp = ft_strjoin(result, args[i]);
-		free(result);
-		result = temp;
-		if (!result)
-			return (NULL);
-		i++;
-	}
-	return (result);
+	mini_exit(exit_code);
 }

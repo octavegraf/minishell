@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/12 11:15:56 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/13 14:52:49 by ljudd            ###   ########.fr       */
+/*   Created: 2025/08/13 18:09:41 by ljudd             #+#    #+#             */
+/*   Updated: 2025/08/13 19:19:50 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*join_args(char **args)
-
+/* ft_strcpy_ij :
+	copy j elements from the array starting at index i end on a \0
+	return the array created
+	use with caution, it supposes we don't go below strlen with the choice of 
+		i and j
+*/
+char	*ft_strcpy_ij(char *src, int i, int j)
 {
-	int		i;
-	char	*result;
-	char	*temp;
+	int		k;
+	char	*res;
 
-	i = 0;
-	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	while (args[i])
+	res = ft_calloc(j + 1, sizeof(char));
+	if (!res)
+		clean_exit(12);
+	k = -1;
+	while (++k < j)
 	{
-		temp = ft_strjoin(result, args[i]);
-		free(result);
-		result = temp;
-		if (!result)
-			return (NULL);
-		i++;
+		res[k] = src[i + k];
 	}
-	return (result);
+	res[k] = '\0';
+	return (res);
 }

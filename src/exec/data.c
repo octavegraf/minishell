@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 11:48:37 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/13 11:52:46 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/13 14:53:08 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 /* t_data	*data_init(char **envp, char *inputs)
 {

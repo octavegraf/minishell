@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:06:38 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/13 14:43:25 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/13 19:24:47 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,38 +30,6 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }	t_env;
-
-/* t_data :
-	core structure handling all the elements used in the program
-	- env : see struct above
-	- exit_code : last exit code returned by a command
-	- inputs : inputs read by readline
-	- error_parse : boolean that indicates that an error happened during parsing
-	- token : token of the inputs through the tokenization phase
-*/
-typedef struct s_data
-{
-	t_env	env;
-	int		exit_code;
-	char	*inputs;
-	bool	error_parse;
-	t_token	token;
-}	t_data;
-
-/* t_redir_type :
-	Types of redirection :
-	- REDIR_IN <
-	- REDIR_OUT >
-	- REDIR_APPEND >>
-	- REDIR_HEREDOC <<
-*/
-typedef enum e_redir_type
-{
-	REDIR_IN,
-	REDIR_OUT,
-	REDIR_APPEND,
-	REDIR_HEREDOC,
-}	t_redir_type;
 
 /* t_node_type :
 	Types of nodes :
@@ -87,13 +55,28 @@ typedef enum e_node_type
 */
 typedef struct s_token
 {
-	t_node_type	type;
-	char		*inputs;
-	char		quoted;
-	char		*target;
-	t_token		*next;
-	t_token		*past;
+	t_node_type		type;
+	char			*inputs;
+	char			quoted;
+	char			*target;
+	struct s_token	*next;
+	struct s_token	*past;
 }	t_token;
+
+/* t_redir_type :
+	Types of redirection :
+	- REDIR_IN <
+	- REDIR_OUT >
+	- REDIR_APPEND >>
+	- REDIR_HEREDOC <<
+*/
+typedef enum e_redir_type
+{
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC,
+}	t_redir_type;
 
 /* t_tree :
 	tree of the different elements
@@ -126,21 +109,6 @@ typedef struct s_tree
 	} tree;
 }	t_tree;
 
-/* t_cmd :
-	list of all the cmds to execute :
-	- args : list of arguments (cf execve)
-	- cmd_path : path of the command (cf execve)
-	- redirs : cf redir structure, list of all the redirs to do before exec
-	- next : next elem
-*/
-typedef struct s_cmd
-{
-	char	**args;
-	char	*cmd_path;
-	t_redir	*redirs;
-	t_cmd	*next;
-}	t_cmd;
-
 /* t_redir :
 	list of all the redirections to do before exectuing the command
 	- type : type of the redirection
@@ -153,56 +121,105 @@ typedef struct s_redir
 	t_redir_type	type;
 	char			*target;
 	int				heredoc_fd;
-	t_redir			*next;
+	struct s_redir	*next;
 }	t_redir;
+
+/* t_cmd :
+	list of all the cmds to execute :
+	- args : list of arguments (cf execve)
+	- cmd_path : path of the command (cf execve)
+	- redirs : cf redir structure, list of all the redirs to do before exec
+	- next : next elem
+*/
+typedef struct s_cmd
+{
+	char			**args;
+	char			*cmd_path;
+	t_redir			*redirs;
+	struct s_cmd	*next;
+}	t_cmd;
+
+/* t_data :
+	core structure handling all the elements used in the program
+	- env : see struct above
+	- exit_code : last exit code returned by a command
+	- inputs : inputs read by readline
+	- error_parse : boolean that indicates that an error happened during parsing
+	- token : token of the inputs through the tokenization phase
+*/
+typedef struct s_data
+{
+	t_env	env;
+	int		exit_code;
+	char	*inputs;
+	bool	error_parse;
+	t_token	*token;
+}	t_data;
+
+/******************************** TEMPORARY **********************************/
+
+void	core_parsing(t_data *data);
+
+void	core_exec(t_data *data);
+
+void	clean_exit(int exit_code);
+char	*ft_strcpy_ij(char *src, int i, int j);
 
 /********************************** BUILT_IN **********************************/
 
-// cd
+/* cd */
+
 int		mini_cd(char *path, t_env *env);
 
-// echo
+/* echo */
+
 void	mini_echo(char **prompt);
 int		disable_nl(char *prompt);
 
-// env
+/* env */
+
 int		mini_env(t_env *env);
 
-// exit
+/* exit */
+
 int		mini_exit(int exit_code);
 
-// export
+/* export */
+
 int		mini_export(t_env *env, char **args);
 int		mini_export2(t_env *env, char *name, char *value);
 t_env	*insert_env(t_env *env, char *name, char *value);
 
-// pwd
+/* pwd */
+
 int		mini_pwd(void);
 
-// unset
+/* unset */
+
 int		mini_unset(t_env *env, char **args);
 
 
-// utils
+/* utils */
+
 char	*join_args(char **args);
 
-/********************************** PAR_SING **********************************/
+/*********************************** PARSING **********************************/
 
 /************************************ EXEC ************************************/
 
+/* env */
 
-// env
 t_env	*get_env(char **envp);
 t_env	*create_env(char *name, char *value);
 t_env	*add_env_back(t_env *env, char *name, char *value);
 void	free_env(t_env *env);
 void	modify_env(t_env *env, char *name, char *value);
 
-// env2
+/* env2 */
+
 void	delete_env(t_env *to_delete, t_env *head);
 void	delete_all_env(t_env *head);
 t_env	*search_env(t_env *head, const char *name);
 t_env	*add_env(t_env *current_env, t_env *to_add);
-
 
 #endif
