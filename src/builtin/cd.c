@@ -6,11 +6,11 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:23:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/12 13:34:28 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/13 14:40:33 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	mini_cd(char *prompt, t_env *env)
 {
