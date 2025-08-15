@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/15 22:23:29 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/15 22:24:37 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	exec_function(t_cmd *cmd, t_env *env)
 	return (1);
 }
 
-int	main(int argc, char **argv, char **envp)
+/* int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	*test_cmd;
 	t_env	*env;
@@ -83,5 +83,5 @@ int	main(int argc, char **argv, char **envp)
 	free(test_cmd);
 	free_env(env);
 	return (0);
-}
+} */
 
