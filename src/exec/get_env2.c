@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:17:12 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/13 14:41:53 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/15 18:57:20 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,3 +62,4 @@ t_env	*add_env(t_env *current_env, t_env *to_add)
 	to_add->next = next;
 	return (to_add);
 }
+

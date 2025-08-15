@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_functions.c                                   :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/13 17:15:56 by ocgraf           ###   ########.fr       */
+/*   Created: 2025/08/15 18:19:31 by ocgraf            #+#    #+#             */
+/*   Updated: 2025/08/15 18:21:10 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-bool	is_builtin(t_cmd *cmd)
+void	double_free(void **ptr)
 {
-	if (!ft_strcmp(cmd->args[0], "cd")
-		|| !ft_strcmp(cmd->args[0], "echo")
-		|| !ft_strcmp(cmd->args[0], "env")
-		|| !ft_strcmp(cmd->args[0], "exit")
-		|| !ft_strcmp(cmd->args[0], "export")
-		|| !ft_strcmp(cmd->args[0], "pwd")
-		|| !ft_strcmp(cmd->args[0], "unset"))
-		return (true);
-	return (false);
-}
+	int	i;
 
+	if (!ptr)
+		return ;
+	i = -1;
+	while (ptr && ptr[++i])
+		free(ptr[i]);
+	free(ptr);
+}
