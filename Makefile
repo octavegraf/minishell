@@ -6,7 +6,7 @@
 #    By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 09:37:05 by ljudd             #+#    #+#              #
-#    Updated: 2025/08/06 16:48:16 by ocgraf           ###   ########.fr        #
+#    Updated: 2025/08/15 14:45:39 by ocgraf           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ INCLUDES		= -Ilibft -Iincludes
 SRC_FOLDER		= src/
 BUILTIN_FOLDER	= $(SRC_FOLDER)builtin/
 EXEC_FOLDER		= $(SRC_FOLDER)exec/
-PARSING_FOLDER	= $(SRC_FOLDER)parsing/
+#PARSING_FOLDER	= $(SRC_FOLDER)parsing/
 BUILTIN			= $(wildcard $(BUILTIN_FOLDER)*.c)
 EXEC			= $(wildcard $(EXEC_FOLDER)*.c)
 PARSING			= $(wildcard $(PARSING_FOLDER)*.c)
