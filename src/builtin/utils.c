@@ -6,11 +6,11 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:15:56 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/12 11:18:11 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/15 12:47:57 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 char	*join_args(char **args)
 

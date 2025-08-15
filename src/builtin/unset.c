@@ -6,11 +6,11 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:27:03 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/12 14:46:13 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/15 12:47:57 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 int	mini_unset(t_env *env, char **args)
 {
