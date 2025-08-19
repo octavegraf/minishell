@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:06:38 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/15 20:46:50 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/19 16:15:47 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <readline/history.h>
 
 /********************************** E_NUMS ************************************/
-
 typedef enum e_redir_type
 {
 	REDIR_IN,
@@ -36,7 +35,6 @@ typedef enum e_node_type
 }	t_node_type;
 
 /******************************** STRUCTURES **********************************/
-
 typedef struct s_env
 {
 	char			*name;
@@ -132,9 +130,8 @@ typedef struct s_garb
 }	t_garb;
 
 /********************************** BUILT_IN **********************************/
-
 // cd.c
-int		mini_cd(char *path, t_env *env);
+int		mini_cd(char **args, t_env *env);
 
 // echo.c
 void	mini_echo(char **prompt);
@@ -157,13 +154,12 @@ int		mini_pwd(void);
 // unset.c
 int		mini_unset(t_env *env, char **args);
 
-
-// utils.c
-char	*join_args(char **args);
-
 /********************************** PAR_SING **********************************/
 
 /************************************ EXEC ************************************/
+// args.c
+char	*join_args(char **args);
+int		args_count(char **args);
 
 // exec.c
 bool	is_builtin(t_cmd *cmd);

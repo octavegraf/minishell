@@ -6,21 +6,21 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/15 22:24:37 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/19 16:22:25 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 bool	is_builtin(t_cmd *cmd)
 {
-	if (!ft_strcmp(cmd->cmd_path[0], "cd")
-		|| !ft_strcmp(cmd->cmd_path[0], "echo")
-		|| !ft_strcmp(cmd->cmd_path[0], "env")
-		|| !ft_strcmp(cmd->cmd_path[0], "exit")
-		|| !ft_strcmp(cmd->cmd_path[0], "export")
-		|| !ft_strcmp(cmd->cmd_path[0], "pwd")
-		|| !ft_strcmp(cmd->cmd_path[0], "unset"))
+	if (!ft_strcmp(cmd->cmd_path, "cd")
+		|| !ft_strcmp(cmd->cmd_path, "echo")
+		|| !ft_strcmp(cmd->cmd_path, "env")
+		|| !ft_strcmp(cmd->cmd_path, "exit")
+		|| !ft_strcmp(cmd->cmd_path, "export")
+		|| !ft_strcmp(cmd->cmd_path, "pwd")
+		|| !ft_strcmp(cmd->cmd_path, "unset"))
 		return (true);
 	return (false);
 }

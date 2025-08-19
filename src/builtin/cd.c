@@ -6,19 +6,21 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:23:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/13 14:40:33 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/19 16:28:44 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	mini_cd(char *prompt, t_env *env)
+int	mini_cd(char **args, t_env *env)
 {
 	char	path[1024];
 	t_env	*pwd_env;
 	t_env	*old_pwd;
 	char	*old_pwd_value;
 
+	if (args_count(args) > 1)
+		return (ft_dprintf(2, "cd: too many arguments\n"), 1);
 	old_pwd = search_env(env, "OLDPWD");
 	if (!old_pwd)
 		return (ft_dprintf(2, "cd: OLDPWD not set\n"), 1);
@@ -27,31 +29,26 @@ int	mini_cd(char *prompt, t_env *env)
 		return (perror("malloc"), 1);
 	if (!search_env(env, "HOME"))
 		return (ft_dprintf(2, "cd: HOME not set\n"), 1);
-	if (chdir(prompt) == -1)
+	if (args_count(args) == 0 || !ft_strcmp(args[0], "~"))
+		chdir(search_env(env, "HOME")->value);
+	else if (chdir(args[0]) == -1)
 		return (perror("cd"), 1);
 	if (!getcwd(path, 1024))
 		return (perror("cd"), 1);
 	pwd_env = search_env(env, "PWD");
 	if (pwd_env)
 		modify_env(pwd_env, NULL, path);
-	modify_env(old_pwd, NULL, old_pwd_value);
-	free(old_pwd_value);
-	return (0);
+	return (modify_env(old_pwd, NULL, old_pwd_value), free(old_pwd_value), 0);
 }
 
-/* int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_env	*env;
 	t_env	*pwd_env;
 
-	ft_printf("Mini CD Command\n");
-	if (argc != 2)
-	{
-		ft_dprintf(2, "Usage: %s <path>\n", argv[0]);
-		return (1);
-	}
+	(void)argc;
 	env = get_env(envp);
-	mini_cd(argv[1], env);
+	mini_cd(argv + 1, env);
 	pwd_env = search_env(env, "PWD");
 	if (pwd_env)
 		ft_printf("Current directory: %s\n", pwd_env->value);
@@ -60,4 +57,4 @@ int	mini_cd(char *prompt, t_env *env)
 		ft_printf("Previous directory: %s\n", pwd_env->value);
 	delete_all_env(env);
 	return (0);
-} */
+}
