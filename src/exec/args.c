@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:15:56 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/15 12:47:57 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/19 15:46:24 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,14 @@ char	*join_args(char **args)
 		i++;
 	}
 	return (result);
+}
+
+int	args_count(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args && args[i])
+		i++;
+	return (i);
 }
