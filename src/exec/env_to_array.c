@@ -6,12 +6,17 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:12:47 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/15 20:53:01 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/23 11:43:54 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * @brief Get the size of the list of environment variables.
+ * @param[in] env Head of list.
+ * @return The number of environment variables in the list.
+ */
 int	env_size(t_env *env)
 {
 	int	i;
@@ -25,6 +30,11 @@ int	env_size(t_env *env)
 	return (i);
 }
 
+/*
+ * @brief Convert environment variables list to an array of strings.
+ * @param[in] env The head of the linked list of environment variables.
+ * @return A NULL-terminated array in the format "ArrNAME=VALUE".
+*/
 char	**env_to_array(t_env *env)
 {
 	int		i;
@@ -51,6 +61,11 @@ char	**env_to_array(t_env *env)
 	return (array);
 }
 
+/*
+* @brief Add each directory in PATH to the command name.
+* @param[in, out] path Array of directories in PATH.
+* @param[in] cmd Command structure.
+*/
 char	**path_to_array(char **path, t_cmd *cmd)
 {
 	int		i;

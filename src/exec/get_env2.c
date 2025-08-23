@@ -6,12 +6,13 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:17:12 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/15 18:57:20 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/23 10:46:57 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Delete an environment variable
 void	delete_env(t_env *to_delete, t_env *head)
 {
 	t_env	*prev;
@@ -28,7 +29,7 @@ void	delete_env(t_env *to_delete, t_env *head)
 	free_env(to_delete);
 }
 
-
+// Delete all environment variables and free the memory
 void	delete_all_env(t_env *head)
 {
 	t_env	*next;
@@ -42,6 +43,7 @@ void	delete_all_env(t_env *head)
 	}
 }
 
+// Search for an environment variable by name
 t_env	*search_env(t_env *head, const char *name)
 {
 	while (head && ft_strcmp(head->name, name) != 0)
