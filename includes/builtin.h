@@ -6,20 +6,36 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:44:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/24 14:05:41 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 15:45:34 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
+/**
+ * @file builtin.h
+ * @brief Built-in shell commands.
+ * @note Some functions does not execute in child process. (cd, exit, export
+ * unset).
+ * @return 0 on success, 1 on user error, -1 on system error.
+ * -1 implies that the program should exit properly.
+ */
 
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+
+# include "../libft/libft.h"
+# include "exec.h"
+# include "parsing.h"
+# include "struct.h"
 
 //	cd.c
 /**
  * @brief Change the current working directory.
  * @param[in] args Array of arguments.
- * @return 0 on success, 1 on failure.
+ * @return 0 on success, 1 on user error, -1 on system error.
 */
 int		mini_cd(char **args, t_env *env);
 
