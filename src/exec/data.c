@@ -6,11 +6,11 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 11:48:37 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/15 12:47:57 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 11:22:39 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/exec.h"
 
 /* t_data	*data_init(char **envp, char *inputs)
 {

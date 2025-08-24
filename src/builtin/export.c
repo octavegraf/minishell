@@ -6,11 +6,11 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:26:32 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/15 12:47:57 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 11:22:13 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/builtin.h"
 
 t_env	*insert_env(t_env *env, char *name, char *value)
 {

@@ -6,11 +6,11 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:19:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/15 18:21:10 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 11:22:39 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/exec.h"
 
 void	double_free(void **ptr)
 {

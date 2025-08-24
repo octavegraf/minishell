@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:43:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/13 14:41:43 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 11:15:04 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,25 @@ t_env	*add_env_back(t_env *env, char *name, char *value)
 	return (env);
 }
 
-void	modify_env(t_env *env, char *name, char *value)
+int	modify_env(t_env *env, char *name, char *value)
 {
 	if (!env)
-		return ;
+		return (1);
 	if (name)
 	{
 		free(env->name);
 		env->name = ft_strdup(name);
+		if (!env->name)
+			return (1);
 	}
 	if (value)
 	{
 		free(env->value);
 		env->value = ft_strdup(value);
+		if (!env->value)
+			return (1);
 	}
+	return (0);
 }
 
 void	free_env(t_env *env)
@@ -91,5 +96,3 @@ void	free_env(t_env *env)
 	free(env->value);
 	free(env);
 }
-
-/* Getting environments variables */

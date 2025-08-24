@@ -6,13 +6,19 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/19 16:22:25 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 11:46:19 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/exec.h"
 
-bool	is_builtin(t_cmd *cmd)
+/**
+ * @brief Check if a command is a built-in shell command.
+ * 
+ * @param [in] cmd String of the command to check. 
+ * @return 1 if the command is a built-in, 0 otherwise.
+ */
+int	is_builtin(t_cmd *cmd)
 {
 	if (!ft_strcmp(cmd->cmd_path, "cd")
 		|| !ft_strcmp(cmd->cmd_path, "echo")
@@ -21,8 +27,8 @@ bool	is_builtin(t_cmd *cmd)
 		|| !ft_strcmp(cmd->cmd_path, "export")
 		|| !ft_strcmp(cmd->cmd_path, "pwd")
 		|| !ft_strcmp(cmd->cmd_path, "unset"))
-		return (true);
-	return (false);
+		return (1);
+	return (0);
 }
 
 int	exec_function(t_cmd *cmd, t_env *env)

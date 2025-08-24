@@ -6,31 +6,32 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:44:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/23 15:59:44 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 14:05:41 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
-# include "minishell.h"
+
+
 
 //	cd.c
-/*
-* @brief Change the current working directory.
-* @param[in] args Array of arguments.
-* @return 0 on success, 1 on failure.
+/**
+ * @brief Change the current working directory.
+ * @param[in] args Array of arguments.
+ * @return 0 on success, 1 on failure.
 */
 int		mini_cd(char **args, t_env *env);
 
 //	echo.c
-/*
-* @brief Print the arguments to the standard output.
-* @param[in] args Array of arguments.
+/**
+ * @brief Print the arguments to the standard output.
+ * @param[in] args Array of arguments.
 */
 void	mini_echo(char **prompt);
-/*
-* @brief Print the arguments to the standard output.
-* @param[in] args Array of arguments.
+/**
+ * @brief Print the arguments to the standard output.
+ * @param[in] args Array of arguments.
 */
 int		disable_nl(char *prompt);
 

@@ -6,11 +6,11 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:21:51 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/15 12:47:57 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 11:22:10 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/builtin.h"
 
 int	mini_env(t_env *env)
 {
