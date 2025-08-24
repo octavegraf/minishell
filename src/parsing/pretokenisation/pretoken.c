@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   pretoken.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 16:02:26 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/24 10:00:29 by ljudd            ###   ########.fr       */
+/*   Created: 2025/08/24 11:47:52 by ljudd             #+#    #+#             */
+/*   Updated: 2025/08/24 11:52:31 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* clean_exit :
-*/
-// TBD TBD TBD
-// 12 = MALLOC ERROR
-// 8 = parsing missing closing quote
-void	clean_exit(int exit_code)
+void	pretokenization(t_data *data)
 {
-	mini_exit(exit_code);
+	int		i;
+	int		j;
+	t_token	*tmp;
+
+	i = 0;
+	j = 0;
+	data->token = token_new(NULL, '\0', NULL, NULL);
+	tmp = data->token;
+	pretoken_rec(data, &i, &j, &tmp);
 }

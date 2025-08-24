@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:08:59 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/04 14:58:16 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 11:49:51 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* mini_getenv :
 	Function to copy and keep the input env at the correct format
 */
-

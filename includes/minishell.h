@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:06:38 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/13 19:24:47 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/24 11:50:36 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,6 @@ typedef enum e_node_type
 	TREE_REDIR,
 }	t_node_type;
 
-/* t_token :
-	structure to handle the pretokenization to tokenization phase :
-	- type : preidentified type of the token
-	- inputs : text
-	- quoted : if infos are quoted or not, and which type of quote (single/doub)
-	- target : only used in tokenization phase, info of the redirection
-	- next and past : chained list in two ways, to easily get the target for
-		redirection
-*/
-typedef struct s_token
-{
-	t_node_type		type;
-	char			*inputs;
-	char			quoted;
-	char			*target;
-	struct s_token	*next;
-	struct s_token	*past;
-}	t_token;
-
 /* t_redir_type :
 	Types of redirection :
 	- REDIR_IN <
@@ -77,6 +58,26 @@ typedef enum e_redir_type
 	REDIR_APPEND,
 	REDIR_HEREDOC,
 }	t_redir_type;
+
+/* t_token :
+	structure to handle the pretokenization to tokenization phase :
+	- type : preidentified type of the token
+	- inputs : text
+	- quoted : if infos are quoted or not, and which type of quote (single/doub)
+	- target : only used in tokenization phase, info of the redirection
+	- next and past : chained list in two ways, to easily get the target for
+		redirection
+*/
+typedef struct s_token
+{
+	t_node_type		type;
+	t_redir_type	redir_type;
+	char			*inputs;
+	char			quoted;
+	char			*target;
+	struct s_token	*next;
+	struct s_token	*past;
+}	t_token;
 
 /* t_tree :
 	tree of the different elements
@@ -198,12 +199,13 @@ int		mini_pwd(void);
 
 int		mini_unset(t_env *env, char **args);
 
-
 /* utils */
 
 char	*join_args(char **args);
 
 /*********************************** PARSING **********************************/
+
+void	pretoken_rec(t_data *data, int *i, int *j, t_token **token);
 
 /************************************ EXEC ************************************/
 

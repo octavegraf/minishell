@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:17:12 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/13 14:41:53 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 11:50:29 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	delete_env(t_env *to_delete, t_env *head)
 		prev->next = next;
 	free_env(to_delete);
 }
-
 
 void	delete_all_env(t_env *head)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:43:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/13 14:41:43 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 11:50:57 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_env	*get_env(char **envp)
 
 	env = NULL;
 	i = -1;
-
 	while (envp[++i])
 	{
 		sep = ft_strlen(envp[i]) - ft_strlen(ft_strchr(envp[i], '='));
@@ -91,5 +90,3 @@ void	free_env(t_env *env)
 	free(env->value);
 	free(env);
 }
-
-/* Getting environments variables */
