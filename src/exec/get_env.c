@@ -6,11 +6,11 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:43:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/24 11:15:04 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 15:03:58 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/exec.h"
 
 t_env	*get_env(char **envp)
 {

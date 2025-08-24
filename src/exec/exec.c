@@ -6,30 +6,11 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/24 11:46:19 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 17:21:36 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec.h"
-
-/**
- * @brief Check if a command is a built-in shell command.
- * 
- * @param [in] cmd String of the command to check. 
- * @return 1 if the command is a built-in, 0 otherwise.
- */
-int	is_builtin(t_cmd *cmd)
-{
-	if (!ft_strcmp(cmd->cmd_path, "cd")
-		|| !ft_strcmp(cmd->cmd_path, "echo")
-		|| !ft_strcmp(cmd->cmd_path, "env")
-		|| !ft_strcmp(cmd->cmd_path, "exit")
-		|| !ft_strcmp(cmd->cmd_path, "export")
-		|| !ft_strcmp(cmd->cmd_path, "pwd")
-		|| !ft_strcmp(cmd->cmd_path, "unset"))
-		return (1);
-	return (0);
-}
 
 int	exec_function(t_cmd *cmd, t_env *env)
 {
@@ -56,7 +37,24 @@ int	exec_function(t_cmd *cmd, t_env *env)
 	return (1);
 }
 
-/* int	main(int argc, char **argv, char **envp)
+int	exec_child(t_cmd *cmd, t_env *env)
+{
+	if (is_builtin(cmd) == 1)
+		return (exec_builtin(cmd, env));
+	else if (is_builtin(cmd) == 2)
+	{
+		if (fork() == 0)
+			return (exec_builtin(cmd, env));
+	}
+	else
+	{
+		if (fork() == 0)
+			return (exec_function(cmd, env));
+	}
+	return (0);
+}
+
+int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	*test_cmd;
 	t_env	*env;
@@ -89,5 +87,5 @@ int	exec_function(t_cmd *cmd, t_env *env)
 	free(test_cmd);
 	free_env(env);
 	return (0);
-} */
+}
 

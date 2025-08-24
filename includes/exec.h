@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/24 11:53:12 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 16:09:37 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ char	*join_args(char **args);
 int		args_count(char **args);
 
 // exec.c
+/**
+ * @brief Check if a command is a built-in shell command.
+ * 
+ * @param [in] cmd String of the command to check. 
+ * @return 1 if the command is a built-in, 0 otherwise.
+ */
 int		is_builtin(t_cmd *cmd);
 int		exec_function(t_cmd *cmd, t_env *env);
 
@@ -68,10 +74,25 @@ t_env	*get_env(char **envp);
 t_env	*create_env(char *name, char *value);
 t_env	*add_env_back(t_env *env, char *name, char *value);
 void	free_env(t_env *env);
-void	modify_env(t_env *env, char *name, char *value);
+/**
+ * @brief Modify an environment variable.
+ * @note Only modifies the name or the value if they are not NULL.
+ * @param [in, out]env Head of the environment variable list.
+ * @param [in]name Name of the environment variable to modify.
+ * @param [in]value New value for the environment variable.
+ * @return 0 on success, 1 on failure.
+ */
+int		modify_env(t_env *env, char *name, char *value);
 
 void	delete_env(t_env *to_delete, t_env *head);
 void	delete_all_env(t_env *head);
+/**
+ * @brief Search for an environment variable by name.
+ *
+ * @param[in] head Head of the environment variable list.
+ * @param[in] name Name of the environment variable to search for.
+ * @return Pointer to the found environment variable, or NULL if not found.
+ */
 t_env	*search_env(t_env *head, const char *name);
 t_env	*add_env(t_env *current_env, t_env *to_add);
 

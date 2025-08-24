@@ -6,11 +6,11 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:17:12 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/23 10:46:57 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/24 15:04:02 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/exec.h"
 
 // Delete an environment variable
 void	delete_env(t_env *to_delete, t_env *head)

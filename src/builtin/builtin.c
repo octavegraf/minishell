@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/04 14:06:38 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/24 14:55:38 by ocgraf           ###   ########.fr       */
+/*   Created: 2025/08/24 17:10:08 by ocgraf            #+#    #+#             */
+/*   Updated: 2025/08/24 17:21:46 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../includes/builtin.h"
 
-# include "../libft/libft.h"
-# include "builtin.h"
-# include "exec.h"
-# include "parsing.h"
-# include "struct.h"
+int	is_builtin(t_cmd *cmd)
+{
+	if (!ft_strcmp(cmd->cmd_path, "cd")
+		|| !ft_strcmp(cmd->cmd_path, "echo")
+		|| !ft_strcmp(cmd->cmd_path, "env")
+		|| !ft_strcmp(cmd->cmd_path, "exit")
+		|| !ft_strcmp(cmd->cmd_path, "export")
+		|| !ft_strcmp(cmd->cmd_path, "pwd")
+		|| !ft_strcmp(cmd->cmd_path, "unset"))
+		return (1);
+	return (0);
+}
 
-#endif
