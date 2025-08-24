@@ -32,3 +32,5 @@ git checkout <branch_name>
 ### [Github repo](https://github.com/octavegraf/minishell)
 
 ### [Project link](https://projects.intra.42.fr/42cursus-minishell/ocgraf)
+
+### [Documentation](/doc/HTML/index.html)
