@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:19:42 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/13 19:34:42 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/24 15:54:08 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 void	main_clean_next(t_data *data)
 {
 	// TBD TBD TBD
-	(void) data;
+	data->error_parse = false;
 	return ;
 }
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 	(void) envp;
 	ft_bzero(&data, sizeof(t_data));
-	// recup environement a faire
+	data.env = get_env(envp);
 	while (main_loop(&data))
 		continue ;
 	// fonction free_all

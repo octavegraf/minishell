@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:06:38 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/24 11:50:36 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/24 16:27:14 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,12 @@ typedef struct s_cmd
 */
 typedef struct s_data
 {
-	t_env	env;
+	t_env	*env;
 	int		exit_code;
 	char	*inputs;
 	bool	error_parse;
 	t_token	*token;
+	t_tree	*tree;
 }	t_data;
 
 /******************************** TEMPORARY **********************************/
@@ -205,7 +206,28 @@ char	*join_args(char **args);
 
 /*********************************** PARSING **********************************/
 
+t_token	*token_new(char *inputs, char quoted, t_token *next, t_token *past);
+void	parse_error(t_data *data, char *msg);
+void	token_visualizer(t_token *token);
+void	env_visualizer(t_env *env);
+
+void	pretokenization(t_data *data);
+
+void	pretoken_copy(t_data *data, int *i, int *j, t_token **token);
+void	pretoken_ope(t_data *data, int *i, int *j, t_token **token);
+void	pretoken_space(t_data *data, int *i, int *j, t_token **token);
+void	pretoken_quotes(t_data *data, int *i, int *j, t_token **token);
 void	pretoken_rec(t_data *data, int *i, int *j, t_token **token);
+
+void	add_char(char **str, char c);
+void	expand_dollar(char **res, char *inp, int *i, t_data *data);
+char	*expand_inputs(char *inp, t_data *data);
+void	expand_token(t_token *token, t_data *data);
+void	expander(t_data *data);
+
+t_token	*token_deleter(t_data *data, t_token *token);
+void	token_redir_target(t_data *data, t_token *token);
+void	tokenization(t_data *data);
 
 /************************************ EXEC ************************************/
 

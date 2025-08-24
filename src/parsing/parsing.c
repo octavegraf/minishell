@@ -6,35 +6,14 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:45:12 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/24 11:49:03 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/24 16:46:55 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // TBD
-void	expander(t_data *data)
-{
-	(void) data;
-	return ;
-}
-
-// TBD
-void	tokenization(t_data *data)
-{
-	(void) data;
-	return ;
-}
-
-// TBD
-void	token_to_tree(t_data *data)
-{
-	(void) data;
-	return ;
-}
-
-// TBD
-void	tree_to_cmd(t_data *data)
+void	token_to_cmd(t_data *data)
 {
 	(void) data;
 	return ;
@@ -56,7 +35,5 @@ void	core_parsing(t_data *data)
 	if (!data->error_parse)
 		tokenization(data);
 	if (!data->error_parse)
-		token_to_tree(data);
-	if (!data->error_parse)
-		tree_to_cmd(data);
+		token_to_cmd(data);
 }

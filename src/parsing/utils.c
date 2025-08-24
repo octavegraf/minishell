@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:46:52 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/24 11:52:34 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/24 15:45:26 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,18 @@ void	token_visualizer(t_token *token)
 		ft_printf("inputs:%s\n", token->inputs);
 		ft_printf("quoted:%c\n", token->quoted);
 		ft_printf("type:%d\n", token->type);
-		ft_printf("redir_type:%d\n\n", token->redir_type);
+		ft_printf("redir_type:%d\n", token->redir_type);
+		ft_printf("target:%s\n\n", token->target);
 		token = token->next;
+	}
+}
+
+void	env_visualizer(t_env *env)
+{
+	while (env)
+	{
+		ft_printf("name:%s\n", env->name);
+		ft_printf("value:%s\n\n", env->value);
+		env = env->next;
 	}
 }

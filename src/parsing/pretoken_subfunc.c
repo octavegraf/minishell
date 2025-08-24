@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:48:45 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/24 11:49:58 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/24 15:51:55 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	pretoken_rec(t_data *data, int *i, int *j, t_token **token)
 	else
 	{
 		if ((*token)->quoted)
-			parse_error(data, "Parsing Error: missing closing quote\n");
+			parse_error(data, "parse error missing closing quote\n");
 		pretoken_copy(data, i, j, token);
 	}
 }
