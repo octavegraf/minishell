@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/24 17:21:36 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/25 09:59:59 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,7 @@ int	exec_function(t_cmd *cmd, t_env *env)
 	return (1);
 }
 
-int	exec_child(t_cmd *cmd, t_env *env)
-{
-	if (is_builtin(cmd) == 1)
-		return (exec_builtin(cmd, env));
-	else if (is_builtin(cmd) == 2)
-	{
-		if (fork() == 0)
-			return (exec_builtin(cmd, env));
-	}
-	else
-	{
-		if (fork() == 0)
-			return (exec_function(cmd, env));
-	}
-	return (0);
-}
-
-int	main(int argc, char **argv, char **envp)
+/* int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	*test_cmd;
 	t_env	*env;
@@ -89,3 +72,4 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
+ */
