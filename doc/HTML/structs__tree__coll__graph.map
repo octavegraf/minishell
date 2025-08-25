@@ -1,0 +1,7 @@
+<map id="s_tree" name="s_tree">
+<area shape="rect" id="node1" title="@LinoaSaga je te laisse le faire" alt="" coords="5,64,68,91"/>
+<area shape="rect" id="node3" href="$structs__tree_1_1u__tree_1_1s__tree__pipe.html" title=" " alt="" coords="152,5,347,32"/>
+<area shape="rect" id="node4" href="$structs__tree_1_1u__tree_1_1s__tree__redir.html" title=" " alt="" coords="170,57,329,98"/>
+<area shape="rect" id="node2" href="$unions__tree_1_1u__tree.html" title=" " alt="" coords="429,103,540,129"/>
+<area shape="rect" id="node5" href="$structs__tree_1_1u__tree_1_1s__tree__cmd.html" title=" " alt="" coords="152,185,347,212"/>
+</map>
