@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:30:23 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/25 16:10:28 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/25 16:44:36 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef enum e_node_type
 	TREE_CMD,
 	TREE_PIPE,
 	TREE_REDIR,
+	TREE_ND,
 }	t_node_type;
 
 /**
@@ -69,56 +70,13 @@ typedef struct s_env
 typedef struct s_token
 {
 	t_node_type		type;
+	t_redir_type	redir_type;
 	char			*inputs;
 	char			quoted;
 	char			*target;
 	struct s_token	*next;
 	struct s_token	*past;
 }	t_token;
-
-/**
- * @brief Core structure handling all the elements used in the program.
- * @param env Env structure.
- * @param exit_code Last exit code returned by a command.
- * @param inputs Inputs read by readline.
- * @param error_parse Indicates that an error happened during parsing.
- * @param token Token of the inputs through the tokenization phase.
-*/
-typedef struct s_data
-{
-	t_env	*env;
-	int		exit_code;
-	char	*inputs;
-	bool	error_parse;
-	t_token	*token;
-}	t_data;
-
-/**
- * @briefStructure
- * 
- */
-typedef struct s_tree
-{
-	t_node_type	type;
-	union u_tree
-	{
-		struct s_tree_cmd
-		{
-			char		*inputs;
-		} cmd;
-		struct s_tree_pipe
-		{
-			struct s_tree	*left;
-			struct s_tree	*right;
-		} pipe;
-		struct s_tree_redir
-		{
-			t_redir_type	type;
-			char			*target;
-			struct s_tree	*child;
-		} redir;
-	} tree;
-}	t_tree;
 
 /**
  * @brief List of all the redirections to do before executing the command.
@@ -149,5 +107,23 @@ typedef struct s_cmd
 	t_redir			*redirs;
 	struct s_cmd	*next;
 }	t_cmd;
+
+/**
+ * @brief Core structure handling all the elements used in the program.
+ * @param env Env structure.
+ * @param exit_code Last exit code returned by a command.
+ * @param inputs Inputs read by readline.
+ * @param error_parse Indicates that an error happened during parsing.
+ * @param token Token of the inputs through the tokenization phase.
+*/
+typedef struct s_data
+{
+	t_env	*env;
+	int		exit_code;
+	char	*inputs;
+	bool	error_parse;
+	t_token	*token;
+	t_cmd	*cmd;
+}	t_data;
 
 #endif

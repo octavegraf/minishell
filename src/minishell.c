@@ -6,11 +6,20 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:19:42 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/25 16:29:36 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/25 16:46:00 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* core_exec :
+	dummy function right now, Octavio part
+*/
+void	core_exec(t_data *data)
+{
+	(void) data;
+	return ;
+}
 
 // TBD TBD TBD
 /* main_clean_next :
