@@ -6,12 +6,18 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 14:42:54 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/24 14:43:20 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/25 15:47:21 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Add a character to the end of a string. Create a new string and free
+ * the input one.
+ * @param[in, out] str Pointer to the string we modify.
+ * @param[in] c Character to add.
+ */
 void	add_char(char **str, char c)
 {
 	char	*tmp;
@@ -31,6 +37,15 @@ void	add_char(char **str, char c)
 	*str = tmp;
 }
 
+/**
+ * @brief Expand a variable in a string, starting from the index i.
+ * 
+ * @param[out] res Output string where the expansion is added.
+ * @param[in] inp Input string containing the variable to expand.
+ * @param[in, out] i Current index in inp, is updated to the end of the
+ * variable name.
+ * @param[in] data Fetch the env list to find the variable.
+ */
 void	expand_dollar(char **res, char *inp, int *i, t_data *data)
 {
 	int		j;
@@ -52,6 +67,13 @@ void	expand_dollar(char **res, char *inp, int *i, t_data *data)
 	}
 }
 
+/**
+ * @brief Expand all the variables in a string.
+ * 
+ * @param[in] inp Input string to expand.
+ * @param[in] data Fetch the env list to find the variables.
+ * @return char* String after expansion.
+ */
 char	*expand_inputs(char *inp, t_data *data)
 {
 	int		i;
@@ -72,6 +94,13 @@ char	*expand_inputs(char *inp, t_data *data)
 	return (res);
 }
 
+/**
+ * @brief Expand all the variables in a token inputs. Do nothing if the token
+ * is single quoted
+ * 
+ * @param[in, out] token Token to expand. Freed and replaced if expanded.
+ * @param[in] data Fetch the env list to find the variables.
+ */
 void	expand_token(t_token *token, t_data *data)
 {
 	char	*expanded_inp;
@@ -83,6 +112,11 @@ void	expand_token(t_token *token, t_data *data)
 	token->inputs = expanded_inp;
 }
 
+/**
+ * @brief Expand all the tokens in the token list.
+ * 
+ * @param[in, out] data token list is modified.
+ */
 void	expander(t_data *data)
 {
 	t_token	*tmp;

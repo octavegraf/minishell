@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:06:38 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/24 16:27:14 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/25 16:06:25 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef enum e_node_type
 	TREE_CMD,
 	TREE_PIPE,
 	TREE_REDIR,
+	TREE_ND,
 }	t_node_type;
 
 /* t_redir_type :
@@ -78,37 +79,6 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*past;
 }	t_token;
-
-/* t_tree :
-	tree of the different elements
-	- type : indicates the type of the node
-	- tree_cmd : cmds with the *inputs
-	- tree_pipe : pipe node with left node (first to execute) and right (2nd)
-	- tree_redir : type of redir (cf enum) + the target of the redir and the
-		node post redirection
-*/
-typedef struct s_tree
-{
-	t_node_type	type;
-	union u_tree
-	{
-		struct s_tree_cmd
-		{
-			char		*inputs;
-		} cmd;
-		struct s_tree_pipe
-		{
-			struct s_tree	*left;
-			struct s_tree	*right;
-		} pipe;
-		struct s_tree_redir
-		{
-			t_redir_type	type;
-			char			*target;
-			struct s_tree	*child;
-		} redir;
-	} tree;
-}	t_tree;
 
 /* t_redir :
 	list of all the redirections to do before exectuing the command
@@ -155,7 +125,7 @@ typedef struct s_data
 	char	*inputs;
 	bool	error_parse;
 	t_token	*token;
-	t_tree	*tree;
+	t_cmd	*cmd;
 }	t_data;
 
 /******************************** TEMPORARY **********************************/
@@ -207,9 +177,14 @@ char	*join_args(char **args);
 /*********************************** PARSING **********************************/
 
 t_token	*token_new(char *inputs, char quoted, t_token *next, t_token *past);
-void	parse_error(t_data *data, char *msg);
+t_cmd	*new_cmd(void);
+t_redir	*new_redir(t_token *token);
+
+char	**add_to_args(char	**vec, char *str);
+void	parse_error(t_data *data, char *msg, t_token *token);
 void	token_visualizer(t_token *token);
 void	env_visualizer(t_env *env);
+void	cmd_visualizer(t_cmd *cmd);
 
 void	pretokenization(t_data *data);
 
@@ -228,6 +203,13 @@ void	expander(t_data *data);
 t_token	*token_deleter(t_data *data, t_token *token);
 void	token_redir_target(t_data *data, t_token *token);
 void	tokenization(t_data *data);
+
+void	token_convert_cmd(t_token *token, t_cmd **cmd);
+void	token_convert_redir(t_token *token, t_cmd **cmd);
+void	token_convert_pipe(t_cmd **cmd);
+void	token_converter(t_data *data, t_node_type *last_treated,
+			t_token *token, t_cmd **cmd);
+void	token_to_cmd(t_data *data);
 
 /************************************ EXEC ************************************/
 

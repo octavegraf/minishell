@@ -6,27 +6,27 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:45:12 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/24 16:46:55 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/25 16:07:01 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TBD
-void	token_to_cmd(t_data *data)
-{
-	(void) data;
-	return ;
-}
-
-/* core_parsing :
-	parsing that transform the char *input into a list of t_cmd,
-	- splitting for pretokenization
-	- expander for $ variable (not between quotes)
-	- tokenization
-	- creation of the tree based on tokenization
-	- tree conversion into the list of cmds used for the exec
-*/
+/**
+ * @brief Parsing of the input string, to reach the command list used in the
+ * execution phase. Four steps :
+ * 
+ * - First, the input string is split into tokens (pretokenization phase)
+ * 
+ * - Second, the tokens are expanded (expansion phase)
+ * 
+ * - Third, the tokens are modified (tokenization phase)
+ * 
+ * - Fourth, the command list is created (token to cmd phase)
+ * 
+ * @param[in,out] data Input is used, token and cmd are created and error_parse
+ * is modified if an error happens.
+ */
 void	core_parsing(t_data *data)
 {
 	pretokenization(data);
@@ -36,4 +36,5 @@ void	core_parsing(t_data *data)
 		tokenization(data);
 	if (!data->error_parse)
 		token_to_cmd(data);
+	cmd_visualizer(data->cmd);
 }
