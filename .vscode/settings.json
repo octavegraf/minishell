@@ -10,6 +10,11 @@
 		"struct.h": "c",
 		"stdbool.h": "c",
 		"unistd.h": "c",
-		"stddef.h": "c"
+		"stddef.h": "c",
+		"stdlib.h": "c"
+	},
+	"editor.tokenColorCustomizations": {
+		"comments": "",
+		"textMateRules": []
 	}
 }

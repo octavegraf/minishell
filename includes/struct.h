@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:30:23 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/24 11:37:02 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/25 16:10:28 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,9 @@ typedef struct s_data
 }	t_data;
 
 /**
- * @brief @LinoaSaga je te laisse le faire
-*/
+ * @briefStructure
+ * 
+ */
 typedef struct s_tree
 {
 	t_node_type	type;
