@@ -1,6 +1,6 @@
 # Doxyfile 1.9.1
 PROJECT_NAME           = "Minishell"
-OUTPUT_DIRECTORY       = ./doc
+OUTPUT_DIRECTORY       = .
 CREATE_SUBDIRS         = NO
 INPUT                  = ./includes/
 FILE_PATTERNS          = *.h
@@ -8,15 +8,15 @@ RECURSIVE              = NO
 EXTRACT_ALL            = YES
 GENERATE_HTML          = YES
 GENERATE_LATEX         = NO
-HTML_OUTPUT            = HTML
+HTML_OUTPUT            = doc
 FULL_PATH_NAMES        = NO
 STRIP_FROM_PATH        = ../includes
 SHOW_FILES             = YES
 SHOW_CLASSES           = NO
-HTML_EXTRA_STYLESHEET  = ./doc/node_modules/@jothepro/doxygen-awesome-css/doxygen-awesome.css \
+HTML_EXTRA_STYLESHEET  = ./doxygen/node_modules/@jothepro/doxygen-awesome-css/doxygen-awesome.css \
                          ./
-                         doc/node_modules/@jothepro/doxygen-awesome-css/doxygen-awesome-sidebar-only.css
-HTML_EXTRA_FILES       = ./doc/node_modules/@jothepro/doxygen-awesome-css/doxygen-awesome-darkmode-toggle.js
+                         ./doxygen/node_modules/@jothepro/doxygen-awesome-css/doxygen-awesome-sidebar-only.css
+HTML_EXTRA_FILES       = ./doxygen/node_modules/@jothepro/doxygen-awesome-css/doxygen-awesome-darkmode-toggle.js
 HTML_COLORSTYLE        = LIGHT
 TREEVIEW               = YES
 GENERATE_TREEVIEW      = YES
