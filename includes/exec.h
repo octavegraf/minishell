@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/25 15:19:45 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/26 17:43:13 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
 # include "../libft/libft.h"
 # include "builtin.h"
@@ -69,6 +70,49 @@ char	**path_to_array(char **path, t_cmd *cmd);
 
 // free.c
 void	double_free(void **ptr);
+
+// exec.c
+/**
+ * @brief Execute a built-in command.
+ * 
+ * @param[in] cmd Command structure.
+ * @param[in] env Environment variables.
+ * @return int 0 on success, 1 on failure.
+ */
+int		exec_builtin(t_cmd *cmd, t_env *env);
+/**
+ * @brief Execute an external command.
+ * 
+ * @param[in] cmd Command structure.
+ * @param[in] env Environment variables.
+ * @return int 0 on success, 1 on failure.
+ */
+int		exec_external(t_cmd *cmd, t_env *env);
+/**
+ * @brief Execute a command in a child process.
+ * 
+ * @param[in] cmd Command structure.
+ * @param[in] env Environment variables.
+ * @return int 0 on success, 1 on failure.
+ */
+int		exec_in_child(t_cmd *cmd, t_env *env);
+/**
+ * @brief Decide between built-in or external command and execute it.
+ * 
+ * @param[in] cmd Command structure.
+ * @param[in] env Environment variables.
+ * @return int 0 on success, 1 on failure.
+ */
+int		exec_function(t_cmd *cmd, t_env *env);
+/**
+ * @brief Decide if a command should be executed in the parent or child process
+ * then execute it.
+ * 
+ * @param[in] cmd Command structure.
+ * @param[in] env Environment variables.
+ * @return int 0 on success, 1 on failure.
+ */
+int		exec_decide(t_cmd *cmd, t_env *env);
 
 // env.c
 t_env	*get_env(char **envp);

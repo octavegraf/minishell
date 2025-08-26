@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:44:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/24 15:45:34 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/26 14:42:03 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ int		mini_cd(char **args, t_env *env);
  * @brief Print the arguments to the standard output.
  * @param[in] args Array of arguments.
 */
-void	mini_echo(char **prompt);
+int		mini_echo(char **prompt);
 /**
  * @brief Print the arguments to the standard output.
  * @param[in] args Array of arguments.
+ * @return 0 on success, -1 on system error.
 */
 int		disable_nl(char *prompt);
 
