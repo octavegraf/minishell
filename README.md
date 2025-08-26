@@ -26,11 +26,25 @@ Change branch
 ``` shell
 git checkout <branch_name>
 ```
-## Useful links
+
+## Run Minishell
+1. Clone the project with all of it's submodules
+	```shell
+	git clone --recursive https://github.com/octavegraf/minishell && cd minishell
+	```
+2.	Build the project
+	```shell
+	make
+	```
+3. Run minishell
+	```shell
+	./minishell
+	```
+
 ### [Figma board](https://www.figma.com/board/ZHV4kQ2Qe8JAcvBIfVHMPx/Minishell?node-id=0-1&p=f&t=JD2uosrCLLm5dmlS-0)
 
 ### [Github repo](https://github.com/octavegraf/minishell)
 
 ### [Project link](https://projects.intra.42.fr/42cursus-minishell/ocgraf)
 
-### [Documentation](/doc/HTML/index.html)
+### [Documentation](https://octavegraf.github.io/minishell/)
