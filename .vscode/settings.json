@@ -12,7 +12,15 @@
 		"unistd.h": "c",
 		"stddef.h": "c",
 		"stdlib.h": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"cmath": "c",
+		"compare": "c",
+		"concepts": "c",
+		"exception": "c",
+		"type_traits": "c",
+		"limits": "c",
+		"new": "c",
+		"typeinfo": "c"
 	},
 	"editor.tokenColorCustomizations": {
 		"comments": "",
