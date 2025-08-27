@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:17:12 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/24 15:04:02 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/25 16:33:31 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	delete_env(t_env *to_delete, t_env *head)
 	free_env(to_delete);
 }
 
-// Delete all environment variables and free the memory
 void	delete_all_env(t_env *head)
 {
 	t_env	*next;

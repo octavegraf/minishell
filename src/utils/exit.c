@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_var.c                                          :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/04 14:08:59 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/04 14:58:16 by ocgraf           ###   ########.fr       */
+/*   Created: 2025/08/13 16:02:26 by ljudd             #+#    #+#             */
+/*   Updated: 2025/08/24 10:00:29 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* mini_getenv :
-	Function to copy and keep the input env at the correct format
-*/
+#include "minishell.h"
 
+/* clean_exit :
+*/
+// TBD TBD TBD
+// 12 = MALLOC ERROR
+// 8 = parsing missing closing quote
+void	clean_exit(int exit_code)
+{
+	mini_exit(exit_code);
+}

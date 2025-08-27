@@ -1,0 +1,7 @@
+<map id="s_data" name="s_data">
+<area shape="rect" id="node1" title="Core structure handling all the elements used in the program." alt="" coords="150,187,215,213"/>
+<area shape="rect" id="node2" href="$structs__cmd.html" title="Command structure containing all the information needed to execute a command." alt="" coords="7,96,71,123"/>
+<area shape="rect" id="node3" href="$structs__redir.html" title="List of all the redirections to do before executing the command." alt="" coords="5,5,72,32"/>
+<area shape="rect" id="node4" href="$structs__env.html" title="Chained list that handle the environment variables." alt="" coords="153,96,213,123"/>
+<area shape="rect" id="node5" href="$structs__token.html" title="Structure to handle the pretokenization to tokenization phase." alt="" coords="295,96,367,123"/>
+</map>

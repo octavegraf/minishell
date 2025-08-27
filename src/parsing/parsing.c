@@ -3,58 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:45:12 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/12 16:29:32 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/08/25 16:46:22 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pretoken_rec(t_data *data, int *i, int *j, t_token token)
-{
-	while (data->inputs[*i + *j])
-	{
-		if (inputs[*i + *j] == '\'' || inputs[*i + *j] == '"')
-			// CREATE NEW NEXT ELEM
-			// ADD IT
-			// SWITCH VALUES
-			*i = *i + *j + 1;
-			*j = 0;
-			
-		else
-			*j++;
-	}
-	if (*j == 0)
-	{
-		// ON EST ARRIVER AU BOUT, SUPPRIMER L ELEMENT EN COURS QUI EST VIDE
-	}
-	else
-	{
-		// copie de input de i a j dans l elem, c est le dernier noeud
-	}
-}
-
-void	pretokenization(t_data *data)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	// CREER LE PREMIER ELEM
-	pretoken_rec(data, &i, &j, data->token);
-}
-
-/* core_parsing :
-	parsing that transform the char *input into a list of t_cmd,
-	- splitting for pretokenization
-	- expander for $ variable (not between quotes)
-	- tokenization
-	- creation of the tree based on tokenization
-	- tree conversion into the list of cmds used for the exec
-*/
+/**
+ * @brief Parsing of the input string, to reach the command list used in the
+ * execution phase. Four steps :
+ * 
+ * - First, the input string is split into tokens (pretokenization phase)
+ * 
+ * - Second, the tokens are expanded (expansion phase)
+ * 
+ * - Third, the tokens are modified (tokenization phase)
+ * 
+ * - Fourth, the command list is created (token to cmd phase)
+ * 
+ * @param[in,out] data Input is used, token and cmd are created and error_parse
+ * is modified if an error happens.
+ */
 void	core_parsing(t_data *data)
 {
 	pretokenization(data);
@@ -63,7 +35,5 @@ void	core_parsing(t_data *data)
 	if (!data->error_parse)
 		tokenization(data);
 	if (!data->error_parse)
-		token_to_tree(data);
-	if (!data->error_parse)
-		tree_to_cmd(data);
+		token_to_cmd(data);
 }
