@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:44:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/26 14:42:03 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/08/29 11:17:31 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 
 # include "../libft/libft.h"
 # include "exec.h"
-# include "parsing.h"
 # include "struct.h"
 
 //	cd.c
