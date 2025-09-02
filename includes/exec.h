@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/26 17:43:13 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/02 14:44:17 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # include "../libft/libft.h"
 # include "builtin.h"
