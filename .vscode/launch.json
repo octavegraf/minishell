@@ -8,7 +8,11 @@
             "program": "${workspaceFolder}/minishell",
             "args": ["src"],
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "Build minishell"
+            "preLaunchTask": "Build minishell",
+            "stopOnEntry": false,
+            "initCommands": [ "process handle SIGTRAP -n true -p true -s false",
+    "settings set target.process.follow-fork-mode child"]
+
         }
     ]
 }
