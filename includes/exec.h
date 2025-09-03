@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/02 14:44:17 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/03 10:16:18 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	double_free(void **ptr);
  * @brief Execute a built-in command.
  * 
  * @param[in] cmd Command structure.
- * @param[in] env Environment variables.
+ * @param[in] env Environment variables structures.
  * @return int 0 on success, 1 on failure.
  */
 int		exec_builtin(t_cmd *cmd, t_env *env);
@@ -88,7 +88,7 @@ int		exec_builtin(t_cmd *cmd, t_env *env);
  * @brief Execute an external command.
  * 
  * @param[in] cmd Command structure.
- * @param[in] env Environment variables.
+ * @param[in] env Environment variables structures.
  * @return int 0 on success, 1 on failure.
  */
 int		exec_external(t_cmd *cmd, t_env *env);
@@ -96,7 +96,7 @@ int		exec_external(t_cmd *cmd, t_env *env);
  * @brief Execute a command in a child process.
  * 
  * @param[in] cmd Command structure.
- * @param[in] env Environment variables.
+ * @param[in] env Environment variables structures.
  * @return int 0 on success, 1 on failure.
  */
 int		exec_in_child(t_cmd *cmd, t_env *env);
@@ -104,7 +104,7 @@ int		exec_in_child(t_cmd *cmd, t_env *env);
  * @brief Decide between built-in or external command and execute it.
  * 
  * @param[in] cmd Command structure.
- * @param[in] env Environment variables.
+ * @param[in] env Environment variables structures.
  * @return int 0 on success, 1 on failure.
  */
 int		exec_function(t_cmd *cmd, t_env *env);
@@ -113,7 +113,7 @@ int		exec_function(t_cmd *cmd, t_env *env);
  * then execute it.
  * 
  * @param[in] cmd Command structure.
- * @param[in] env Environment variables.
+ * @param[in] env Environment variables structures.
  * @return int 0 on success, 1 on failure.
  */
 int		exec_decide(t_cmd *cmd, t_env *env);
@@ -146,11 +146,44 @@ t_env	*add_env(t_env *current_env, t_env *to_add);
 
 // redirs.c
 /**
- * @brief Redirect input to a file, overwriting the file if it exists.
- * @param[in] to_write String to write to the file.
- * @param[in, out] file Path to the file.
+ * @brief Open a file for output redirection.
+ * 
+ * @param[in] redir Redirection structure.
+ * @param[in] append 1 to append to the file, 0 to truncate.
+ * @return int File descriptor on success, -1 on failure.
+ */
+int		open_redir_out(t_redir *redir, int append);
+/**
+ * @brief Open a file for input redirection.
+ * 
+ * @param[in] redir Redirection structure.
+ * @return int File descriptor on success, -1 on failure.
+ */
+int		open_redir_in(t_redir *redir);
+/**
+ * @brief Create a heredoc.
+ * 
+ * @note The end delimiter will work only if it match the complete string.
+ * @param[in] end The end delimiter.
+ * @return int The STDIN file descriptor on success, -1 on failure.
+ */
+int		create_heredoc(const char *end);
+/**
+ * @brief Apply all redirections for a command.
+ * @note Due to 42 norm, dummy values are used. You can pass whatever you want.
+ * @param redirs Redirection structure.
+ * @param fd Dummy value (will be overwritten).
+ * @param dup_result Dummy value (will be overwritten).
  * @return int 0 on success, 1 on failure.
  */
-int		redir_ow(char *input, char *file);
+int		apply_redirs(t_redir *redirs, int fd, int dup_result);
+/**
+ * @brief Execute a command with redirections in a child process.
+ * 
+ * @param cmd Command structure.
+ * @param env Environment variables structures.
+ * @return int 0 on success, 1 on failure.
+ */
+int		exec_redirs(t_cmd *cmd, t_env *env);
 
 #endif
