@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 17:45:17 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/02 18:12:32 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/03 09:57:11 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	exec_redirs(t_cmd *cmd, t_env *env)
 	return (1);
 }
 
-int	main(int argc, char **argv, char **envp)
+/* int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	cmd;
 	t_redir redir;
@@ -125,5 +125,6 @@ int	main(int argc, char **argv, char **envp)
 	env = get_env(envp);
 	int ret = exec_redirs(&cmd, env);
 	printf("%d\n", ret);
+	delete_all_env(env);
 	return (0);
-}
+} */
