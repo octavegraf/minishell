@@ -6,12 +6,12 @@
 #    By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 09:37:05 by ljudd             #+#    #+#              #
-#    Updated: 2025/08/27 12:00:10 by ocgraf           ###   ########.fr        #
+#    Updated: 2025/09/03 11:58:28 by ocgraf           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC				= cc
-DEBUG			= -g
+DEBUG			= -g3
 CFLAGS			= -Wall -Wextra -Werror -MMD -MP $(DEBUG)
 NAME			= minishell
 INCLUDES		= -Ilibft -Iincludes
@@ -20,7 +20,7 @@ INCLUDES		= -Ilibft -Iincludes
 SRC_FOLDER		= src/
 BUILTIN_FOLDER	= $(SRC_FOLDER)builtin/
 EXEC_FOLDER		= $(SRC_FOLDER)exec/
-#PARSING_FOLDER	= $(SRC_FOLDER)parsing/
+PARSING_FOLDER	= $(SRC_FOLDER)parsing/
 UTILS_FOLDER	= $(SRC_FOLDER)utils/
 BUILTIN			= $(wildcard $(BUILTIN_FOLDER)*.c)
 EXEC			= $(wildcard $(EXEC_FOLDER)*.c)
