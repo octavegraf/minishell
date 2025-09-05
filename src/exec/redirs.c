@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 17:45:17 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/03 09:57:11 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/05 16:25:05 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,24 +107,64 @@ int	exec_redirs(t_cmd *cmd, t_env *env)
 	return (1);
 }
 
-/* int	main(int argc, char **argv, char **envp)
-{
-	t_cmd	cmd;
-	t_redir redir;
-	char	*args[] = {"ls", "-l", NULL};
-	t_env	*env = NULL;
-	redir.type = REDIR_OUT;
-	redir.target = "out.txt";
-	redir.heredoc_fd = -1;
-	redir.next = NULL;
-	cmd.args = args;
-	cmd.cmd_path = "ls";
-	cmd.redirs = &redir;
-	cmd.next = NULL;
-	(void)argc, (void)argv;
-	env = get_env(envp);
-	int ret = exec_redirs(&cmd, env);
-	printf("%d\n", ret);
-	delete_all_env(env);
-	return (0);
-} */
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_cmd	cmd;
+// 	t_redir redir;
+// 	char	*args[] = {"cat", "-e", NULL};
+// 	t_env	*env = NULL;
+// 	redir.type = REDIR_HEREDOC;
+// 	redir.target = "EOF";
+// 	redir.heredoc_fd = -1;
+// 	redir.next = NULL;
+// 	cmd.args = args;
+// 	cmd.cmd_path = "cat";
+// 	cmd.redirs = &redir;
+// 	cmd.next = NULL;
+// 	(void)argc, (void)argv;
+// 	env = get_env(envp);
+// 	int ret = exec_redirs(&cmd, env);
+// 	printf("%d\n", ret);
+// 	delete_all_env(env);
+// 	return (0);
+// }
+
+// int	main(int ac, char **av, char **envp)
+// {
+// 	(void)ac;
+// 	(void)av;
+
+// 	t_env	*env = get_env(envp);
+// 	while (1)
+// 	{
+// 		char	*input = readline("minishell$ ");
+// 		if (!input)
+// 			break ;
+// 		if (ft_strlen(input) > 0)
+// 			add_history(input);
+// 		t_data	data;
+// 		data.env = env;
+// 		data.exit_code = 0;
+// 		data.inputs = input;
+// 		data.error_parse = false;
+// 		data.token = NULL;
+// 		data.cmd = malloc(sizeof(t_cmd));
+// 		ft_bzero(data.cmd, sizeof(t_cmd));
+// 		data.cmd->redirs = malloc(sizeof(t_redir));
+// 		ft_bzero(data.cmd->redirs, sizeof(t_redir));
+// 		// ex: cat -e < EOF
+// 		char	**redir_input = ft_split(input, '<');
+// 		// redir_input[0] = "cat -e " ; redir_input[1] = " EOF"
+// 		data.cmd->redirs->target = redir_input[1];
+// 		// target = " EOF"
+// 		data.cmd->redirs->type = REDIR_HEREDOC;
+// 		// redir_input[0] = "cat -e "
+// 		data.cmd->args = ft_split(redir_input[0], ' ');
+// 		// args = {"cat", "-e", NULL}
+// 		data.cmd->cmd_path = data.cmd->args[0];
+// 		// cmd_path = "cat"
+// 		core_exec(data.cmd, data.env);
+// 		free(input);
+// 		double_free((void **)data.cmd);
+// 	}
+// }
