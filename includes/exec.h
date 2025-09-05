@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/03 10:16:18 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/05 14:03:56 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,5 +185,7 @@ int		apply_redirs(t_redir *redirs, int fd, int dup_result);
  * @return int 0 on success, 1 on failure.
  */
 int		exec_redirs(t_cmd *cmd, t_env *env);
+
+int		core_exec(t_cmd *cmd, t_env *env);
 
 #endif

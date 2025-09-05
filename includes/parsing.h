@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 16:39:28 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/25 16:45:45 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/03 11:09:35 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,38 +22,41 @@
 # include "struct.h"
 
 /**
- * @brief Add a string to the given array of strings. Create a new array and free the input one.
+ * @brief Add a string to the given array of strings. Create a new array and
+ * free the input one.
  * @param[in, out] vec Input array.
  * @param[in] str String to add.
  * @return New array created.
  */
-char **add_to_args(char **vec, char *str);
+char	**add_to_args(char **vec, char *str);
 
 /**
- * @brief Indicate that an error happened during the parsing and print an error message.
+ * @brief Indicate that an error happened during the parsing and print an erro
+ * message.
  * @param[out] data error_parse is set to true.
  * @param[in] msg Message to be printed.
- * @param[in] token If no message is given, print an error message depending on the token type.
+ * @param[in] token If no message is given, print an error message depending on
+ * the token type.
  */
-void parse_error(t_data *data, char *msg, t_token *token);
+void	parse_error(t_data *data, char *msg, t_token *token);
 
 /**
  * @brief Print in output the list of tokens. Used for debugging.
  * @param[in] token First token of the list.
  */
-void token_visualizer(t_token *token);
+void	token_visualizer(t_token *token);
 
 /**
  * @brief Print in output the list of env variables. Used for debugging.
  * @param[in] env First env variable of the list.
  */
-void env_visualizer(t_env *env);
+void	env_visualizer(t_env *env);
 
 /**
  * @brief Print in output the list of commands. Used for debugging.
  * @param[in] cmd First cmd of the list.
  */
-void cmd_visualizer(t_cmd *cmd);
+void	cmd_visualizer(t_cmd *cmd);
 
 /**
  * @brief Copy a substring from src, starting at index i and of length j.
@@ -62,98 +65,106 @@ void cmd_visualizer(t_cmd *cmd);
  * @param[in] j Length of the substring.
  * @return char* New string created.
  */
-char *ft_strcpy_ij(char *src, int i, int j);
+char	*ft_strcpy_ij(char *src, int i, int j);
 
 /* clean_exit :
  * 12 = MALLOC ERROR
  * 8 = parsing missing closing quote
  */
-void clean_exit(int exit_code);
+void	clean_exit(int exit_code);
 
 /**
  * @brief Create a new token structure.
  * @param[in] inputs Inputs of the token.
- * @param[in] quoted Whether the token is quoted or not. ' or " or \0 if not quoted.
+ * @param[in] quoted Whether the token is quoted or not. ' or " or \0 if not
+ * quoted.
  * @param[in] next Next token in the list.
  * @param[in] past Previous token in the list.
  * @return t_token* New token created.
  */
-t_token *token_new(char *inputs, char quoted, t_token *next, t_token *past);
+t_token	*token_new(char *inputs, char quoted, t_token *next, t_token *past);
 
 /**
  * @brief Create a new empty command structure.
  * @note res->args is initialized as an array with one NULL element.
  * @return t_cmd* New command created.
  */
-t_cmd *new_cmd(void);
+t_cmd	*new_cmd(void);
 
 /**
  * @brief Create a new redirection structure from a token.
  * @param[in] token Token from which we want to create a redirection.
  * @return t_redir* Redirection created.
  */
-t_redir *new_redir(t_token *token);
+t_redir	*new_redir(t_token *token);
 
 /**
- * @brief Add the current word as input the token and reset the word length counter.
+ * @brief Add the current word as input the token and reset the word length
+ * counter.
  * @param[in, out] data Inputs is used and token is created.
  * @param[in, out] i Current index in the input string.
  * @param[in, out] j Length of the current word being processed.
  * @param[in, out] token Current token being processed.
  */
-void pretoken_copy(t_data *data, int *i, int *j, t_token **token);
+void	pretoken_copy(t_data *data, int *i, int *j, t_token **token);
 
 /**
- * @brief Handle the operators in the input string during the pretokenization phase.
+ * @brief Handle the operators in the input string during the pretokenization
+ * phase.
  * @param[in, out] data Inputs is used and token is created.
  * @param[in, out] i Current index in the input string.
  * @param[in, out] j Length of the current word being processed.
  * @param[in, out] token Current token being processed.
  */
-void pretoken_ope(t_data *data, int *i, int *j, t_token **token);
+void	pretoken_ope(t_data *data, int *i, int *j, t_token **token);
 
 /**
- * @brief Handle the spaces in the input string during the pretokenization phase.
+ * @brief Handle the spaces in the input string during the pretokenization
+ * phase.
  * @param[in, out] data Inputs is used and token is created.
  * @param[in, out] i Current index in the input string.
  * @param[in, out] j Length of the current word being processed.
  * @param[in, out] token Current token being processed.
  */
-void pretoken_space(t_data *data, int *i, int *j, t_token **token);
+void	pretoken_space(t_data *data, int *i, int *j, t_token **token);
 
 /**
- * @brief Handle the quotes in the input string during the pretokenization phase.
+ * @brief Handle the quotes in the input string during the pretokenization
+ * phase.
  * @param[in, out] data Inputs is used and token is created.
  * @param[in, out] i Current index in the input string.
  * @param[in, out] j Length of the current word being processed.
  * @param[in, out] token Current token being processed.
  */
-void pretoken_quotes(t_data *data, int *i, int *j, t_token **token);
+void	pretoken_quotes(t_data *data, int *i, int *j, t_token **token);
 
 /**
  * @brief Recursive function to create the list of tokens from the input string.
- * @param[in, out] data Inputs is used, token is created and error_parse can be set to true.
+ * @param[in, out] data Inputs is used, token is created and error_parse can be
+ * set to true.
  * @param[in, out] i Current index in the input string.
  * @param[in, out] j Length of the current word being processed.
  * @param[in, out] token Current token being processed.
  */
-void pretoken_rec(t_data *data, int *i, int *j, t_token **token);
+void	pretoken_rec(t_data *data, int *i, int *j, t_token **token);
 
 /**
- * @brief Add a character to the end of a string. Create a new string and free the input one.
+ * @brief Add a character to the end of a string. Create a new string and free
+ * the input one.
  * @param[in, out] str Pointer to the string we modify.
  * @param[in] c Character to add.
  */
-void add_char(char **str, char c);
+void	add_char(char **str, char c);
 
 /**
  * @brief Expand a variable in a string, starting from the index i.
  * @param[out] res Output string where the expansion is added.
  * @param[in] inp Input string containing the variable to expand.
- * @param[in, out] i Current index in inp, is updated to the end of the variable name.
+ * @param[in, out] i Current index in inp, is updated to the end of the
+ * variable name.
  * @param[in] data Fetch the env list to find the variable.
  */
-void expand_dollar(char **res, char *inp, int *i, t_data *data);
+void	expand_dollar(char **res, char *inp, int *i, t_data *data);
 
 /**
  * @brief Expand all the variables in a string.
@@ -161,28 +172,30 @@ void expand_dollar(char **res, char *inp, int *i, t_data *data);
  * @param[in] data Fetch the env list to find the variables.
  * @return char* String after expansion.
  */
-char *expand_inputs(char *inp, t_data *data);
+char	*expand_inputs(char *inp, t_data *data);
 
 /**
  * @brief Expand all the tokens in the token list.
- * 
  * @param[in, out] data token list is modified.
  */
 void	expander(t_data *data);
 
 /**
- * @brief Parsing of the input string, to reach the command list used in the execution phase. Four steps.
- * @param[in,out] data Input is used, token and cmd are created and error_parse is modified if an error happens.
+ * @brief Parsing of the input string, to reach the command list used in the
+ * execution phase. Four steps.
+ * @param[in,out] data Input is used, token and cmd are created and error_parse
+ * is modified if an error happens.
  */
-void core_parsing(t_data *data);
+void	core_parsing(t_data *data);
 
 /**
  * @brief Delete the current token and adjust accordingly the previous and next.
- * @param[out] data error_parse is set to true if the list is empty after the deletion.
+ * @param[out] data error_parse is set to true if the list is empty after the
+ * deletion.
  * @param[in, out] token token to delete.
  * @return t_token* next token after the deletion.
  */
-t_token *token_deleter(t_data *data, t_token *token);
+t_token	*token_deleter(t_data *data, t_token *token);
 
 /**
  * @brief Create the list of tokens from the input string.
@@ -192,51 +205,57 @@ t_token *token_deleter(t_data *data, t_token *token);
 void	pretokenization(t_data *data);
 
 /**
- * @brief Add the next token as a target to the current redirection token and delete the next token from the list.
- * @param[out] data error_parse is set to true if the next token is a redirection or a pipe.
+ * @brief Add the next token as a target to the current redirection token and
+ * delete the next token from the list.
+ * @param[out] data error_parse is set to true if the next token is a
+ * redirection or a pipe.
  * @param[in, out] token Redirection token to which we want to add a target.
  */
-void token_redir_target(t_data *data, t_token *token);
+void	token_redir_target(t_data *data, t_token *token);
 
 /**
  * @brief Change the token list to finish the tokenization phase, two steps.
  * @param[in, out] data token is modified and error_parse can be set to true.
  */
-void tokenization(t_data *data);
+void	tokenization(t_data *data);
 
 /**
- * @brief Convert a command token into a command. Add the input to the args and set cmd_path if not already set.
+ * @brief Convert a command token into a command. Add the input to the args and
+ * set cmd_path if not already set.
  * @param[in] token Token to convert.
  * @param[in, out] cmd Current command to which we add the argument.
  */
-void token_convert_cmd(t_token *token, t_cmd **cmd);
+void	token_convert_cmd(t_token *token, t_cmd **cmd);
 
 /**
  * @brief Convert a redirection token into a redirection in the current command.
  * @param[in] token Token to convert.
  * @param[in, out] cmd Current command to which we add the redirection.
  */
-void token_convert_redir(t_token *token, t_cmd **cmd);
+void	token_convert_redir(t_token *token, t_cmd **cmd);
 
 /**
  * @brief Convert a pipe token into a new command in the command list.
  * @param[in, out] cmd Current command to which we add a new command.
  */
-void token_convert_pipe(t_cmd **cmd);
+void	token_convert_pipe(t_cmd **cmd);
 
 /**
- * @brief Convert a token depending on its type and the last treated token in a command.
+ * @brief Convert a token depending on its type and the last treated token in a
+ * command.
  * @param[out] data error_parse is set to true if an error happens.
  * @param[in, out] last_treated Last treated token type, is updated.
  * @param[in] token Current token to convert.
- * @param[in, out] cmd Current command to which we add args/redirs or create a new command.
+ * @param[in, out] cmd Current command to which we add args/redirs or create a
+ * new command.
  */
-void token_converter(t_data *data, t_node_type *last_treated, t_token *token, t_cmd **cmd);
+void	token_converter(t_data *data, t_node_type *last_treated,
+			t_token *token, t_cmd **cmd);
 
 /**
  * @brief Convert the token list into a command list.
  * @param[in, out] data cmd is created and error_parse can be set to true.
  */
-void token_to_cmd(t_data *data);
+void	token_to_cmd(t_data *data);
 
 #endif
