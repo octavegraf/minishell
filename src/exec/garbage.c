@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   garbage.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 18:19:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/05 14:03:51 by ocgraf           ###   ########.fr       */
+/*   Created: 2025/09/03 11:13:37 by ocgraf            #+#    #+#             */
+/*   Updated: 2025/09/03 11:27:06 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../includes/exec.h"
 
-void	double_free(void **ptr)
-{
-	int	i;
-
-	if (!ptr)
-		return ;
-	i = -1;
-	while (ptr && ptr[++i])
-		free(ptr[i]);
-	free(ptr);
-}
-
-void	free_cmd(t_cmd *cmd)
-{
-	int	i;
-
-	i = -1;
-	while (cmd->args && cmd->args[++i])
-		free(cmd->args[i]);
-	if (cmd->args)
-		free(cmd->args);
-	// tbd
-}
+// void	garbage_collector(t_data *data)
+// {
+// 	if (!data)
+// 		return ;
+// 	double_free((void **)data->env);
+// 	double_free((void **)data->tokens);
+// 	double_free((void **)data->cmds);
+// 	free(data);
+// }
