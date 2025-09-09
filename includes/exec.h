@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/05 14:03:56 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/08 17:01:53 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int		exec_external(t_cmd *cmd, t_env *env);
 int		exec_in_child(t_cmd *cmd, t_env *env);
 /**
  * @brief Decide between built-in or external command and execute it.
+ * It will not create a new process.
  * 
  * @param[in] cmd Command structure.
  * @param[in] env Environment variables structures.
