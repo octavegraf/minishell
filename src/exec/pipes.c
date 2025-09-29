@@ -6,11 +6,44 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 14:04:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/12 17:36:04 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/29 14:53:23 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec.h"
+
+void	setup_child(t_cmd *cmd, int prev_pipefd, int *pipefd, t_env *env)
+{
+	setup_child_signals();
+	if (prev_pipefd >= 0)
+	{
+		if (dup2(prev_pipefd, STDIN_FILENO) < 0)
+			exit(1);
+		close(prev_pipefd);
+	}
+	if (cmd->next)
+	{
+		if (dup2(pipefd[1], STDOUT_FILENO) < 0)
+			exit(1);
+		close(pipefd[1]);
+		close(pipefd[0]);
+	}
+	if (apply_redirs(cmd->redirs, 0, 0))
+		exit(1);
+	exec_function(cmd, env);
+	exit(1);
+}
+
+void	close_parent_pipes(t_cmd *cmd, int *prev_pipefd, int *pipefd)
+{
+	if (*prev_pipefd >= 0)
+		close(*prev_pipefd);
+	if (cmd->next)
+	{
+		close(pipefd[1]);
+		*prev_pipefd = pipefd[0];
+	}
+}
 
 int	exec_pipeline(t_cmd *cmd, t_env *env)
 {
@@ -30,33 +63,9 @@ int	exec_pipeline(t_cmd *cmd, t_env *env)
 		if (pid < 0)
 			return (perror("fork"), 1);
 		if (pid == 0)
-		{
-			if (prev_pipefd >= 0)
-			{
-				if (dup2(prev_pipefd, STDIN_FILENO) < 0)
-					exit(1);
-				close(prev_pipefd);
-			}
-			if (cmd->next)
-			{
-				if (dup2(pipefd[1], STDOUT_FILENO) < 0)
-					exit(1);
-				close(pipefd[1]);
-				close(pipefd[0]);
-			}
-			if (apply_redirs(cmd->redirs, 0, 0))
-				exit(1);
-			exec_function(cmd, env);
-			exit(1);
-		}
+			setup_child(cmd, prev_pipefd, pipefd, env);
 		pid_array[count++] = pid;
-		if (prev_pipefd >= 0)
-			close(prev_pipefd);
-		if (cmd->next)
-		{
-			close(pipefd[1]);
-			prev_pipefd = pipefd[0];
-		}
+		close_parent_pipes(cmd, &prev_pipefd, pipefd);
 		cmd = cmd->next;
 	}
 	if (prev_pipefd >= 0)
