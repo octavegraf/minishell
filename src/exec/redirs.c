@@ -29,11 +29,13 @@ int	open_redir_in(t_redir *redir)
 	return (open(redir->target, O_RDONLY));
 }
 
-int	create_heredoc(const char *end)
+int	create_heredoc(const char *end, t_env *env)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
 	char	*line;
+	char	*expanded_line;
+	t_data	temp_data;
 
 	if (pipe(pipe_fd))
 		return (perror("pipe"), -1);
@@ -43,14 +45,18 @@ int	create_heredoc(const char *end)
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
+		temp_data.env = env;
 		while (1)
 		{
 			line = readline("> ");
 			if (!line || !ft_strcmp(line, end))
 				return (free(line), close(pipe_fd[1]), exit(0), 1);
-			write(pipe_fd[1], line, ft_strlen(line));
+			expanded_line = expand_inputs(line, &temp_data);
+			write(pipe_fd[1], expanded_line, ft_strlen(expanded_line));
 			write(pipe_fd[1], "\n", 1);
 			free(line);
+			if (expanded_line != line)
+				free(expanded_line);
 		}
 	}
 	close(pipe_fd[1]);
@@ -58,7 +64,7 @@ int	create_heredoc(const char *end)
 	return (pipe_fd[0]);
 }
 
-int	apply_redirs(t_redir *redirs, int fd, int dup_result)
+int	apply_redirs(t_redir *redirs, int fd, int dup_result, t_env *env)
 {
 	while (redirs)
 	{
@@ -70,7 +76,7 @@ int	apply_redirs(t_redir *redirs, int fd, int dup_result)
 			fd = open_redir_in(redirs);
 		else if (redirs->type == REDIR_HEREDOC)
 		{
-			fd = create_heredoc(redirs->target);
+			fd = create_heredoc(redirs->target, env);
 		}
 		if (fd < 0)
 			return (perror("open"), 1);
@@ -96,7 +102,7 @@ int	exec_redirs(t_cmd *cmd, t_env *env)
 		return (perror("fork"), 1);
 	if (pid == 0)
 	{
-		if (apply_redirs(cmd->redirs, 0, 0))
+		if (apply_redirs(cmd->redirs, 0, 0, env))
 			exit(1);
 		exec_function(cmd, env);
 		exit(1);

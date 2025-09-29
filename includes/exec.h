@@ -197,7 +197,7 @@ int		open_redir_in(t_redir *redir);
  * @param[in] end The end delimiter.
  * @return int The STDIN file descriptor on success, -1 on failure.
  */
-int		create_heredoc(const char *end);
+int		create_heredoc(const char *end, t_env *env);
 /**
  * @brief Apply all redirections for a command.
  * @note Due to 42 norm, dummy values are used. You can pass whatever you want.
@@ -214,7 +214,7 @@ int		create_heredoc(const char *end);
  * @param[in] dup_result Dup result (unused in current implementation).
  * @return int 0 on success, 1 on failure.
  */
-int		apply_redirs(t_redir *redirs, int fd, int dup_result);
+int		apply_redirs(t_redir *redirs, int fd, int dup_result, t_env *env);
 
 // signals.c
 /**

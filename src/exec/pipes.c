@@ -28,7 +28,7 @@ void	setup_child(t_cmd *cmd, int prev_pipefd, int *pipefd, t_env *env)
 		close(pipefd[1]);
 		close(pipefd[0]);
 	}
-	if (apply_redirs(cmd->redirs, 0, 0))
+	if (apply_redirs(cmd->redirs, 0, 0, env))
 		exit(1);
 	exec_function(cmd, env);
 	exit(1);
