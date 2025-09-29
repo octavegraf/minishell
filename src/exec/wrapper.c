@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:31:39 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/03 11:53:41 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/29 14:35:54 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 int	core_exec(t_cmd *cmd, t_env *env)
 {
-	while (cmd)
+	if (!cmd)
+		return (0);
+	if (cmd->next)
+		return (exec_pipeline(cmd, env));
+	if (!cmd->redirs)
 	{
-		if (!cmd->redirs)
-		{
-			if (exec_decide(cmd, env))
-				return (1);
-		}
-		else
-		{
-			if (exec_redirs(cmd, env))
-				return (1);
-		}
-		cmd = cmd->next;
+		if (exec_decide(cmd, env))
+			return (1);
+	}
+	else
+	{
+		if (exec_redirs(cmd, env))
+			return (1);
 	}
 	return (0);
 }
@@ -38,9 +38,12 @@ int	core_exec(t_cmd *cmd, t_env *env)
 */
 void	main_clean_next(t_data *data)
 {
-	// TBD TBD TBD
+	if (data->inputs)
+	{
+		free(data->inputs);
+		data->inputs = NULL;
+	}
 	data->error_parse = false;
-	return ;
 }
 
 // TBD TBD TBD
@@ -53,10 +56,15 @@ void	main_clean_next(t_data *data)
 */
 int	main_loop(t_data *data)
 {
-	// prompt ? necessaire a gerer ? "minishell ATM"
 	data->inputs = readline("minishell:");
-	// precaution a prendre relative au readline ?
-	// readline vide a convertir en \n ?
+	if (!data->inputs)
+		return (0);
+	if (ft_strlen(data->inputs) == 0)
+	{
+		free(data->inputs);
+		data->inputs = NULL;
+		return (1);
+	}
 	add_history(data->inputs);
 	core_parsing(data);
 	if (!data->error_parse)
@@ -73,13 +81,14 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
-	(void) argc;
-	(void) argv;
-	(void) envp;
+	(void)argc;
+	(void)argv;
 	ft_bzero(&data, sizeof(t_data));
 	data.env = get_env(envp);
+	setup_signals();
 	while (main_loop(&data))
 		continue ;
-	// fonction free_all
+	if (data.env)
+		delete_all_env(data.env);
 	return (data.exit_code);
 }

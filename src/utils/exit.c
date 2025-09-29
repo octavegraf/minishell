@@ -19,5 +19,6 @@
 // 8 = parsing missing closing quote
 void	clean_exit(int exit_code)
 {
-	mini_exit(exit_code);
+	printf("exit\n");
+	exit(exit_code);
 }
