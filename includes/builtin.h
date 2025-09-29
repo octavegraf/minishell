@@ -55,7 +55,7 @@ int		disable_nl(char *prompt);
 int		mini_env(t_env *env);
 
 //	exit.c
-int		mini_exit(int exit_code);
+int		mini_exit(char **args);
 
 //	export.c
 int		mini_export(t_env *env, char **args);

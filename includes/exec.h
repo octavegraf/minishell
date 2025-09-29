@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/08 17:01:53 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/29 16:49:26 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -145,6 +146,34 @@ void	delete_all_env(t_env *head);
 t_env	*search_env(t_env *head, const char *name);
 t_env	*add_env(t_env *current_env, t_env *to_add);
 
+// pipes.c
+/**
+ * @brief Setup child objects for a command in a pipeline.
+ * 
+ * @param cmd Command structure.
+ * @param prev_pipefd File descriptor for the previous pipe.
+ * @param pipefd Array to hold the current pipe file descriptors.
+ * @param env Environment variables structures.
+ */
+void	setup_child(t_cmd *cmd, int prev_pipefd, int *pipefd, t_env *env);
+/**
+ * @brief Close the pipes for a command in a pipeline.
+ * 
+ * @param prev_pipefd File descriptor for the previous pipe.
+ * @param pipefd Array to hold the current pipe file descriptors.
+ * @param cmd Command structure.
+ */
+void	close_parent_pipes(t_cmd *cmd, int *prev_pipefd, int *pipefd);
+/**
+ * @brief Execute a pipeline of commands.
+ * 
+ * @param[in] cmd First command in the pipeline.
+ * @param[in] env Environment variables structures.
+ * @param[in] count Dummy value (will be overwritten).
+ * @return int 0 on success, 1 on failure.
+ */
+int		exec_pipeline(t_cmd *cmd, t_env *env);
+
 // redirs.c
 /**
  * @brief Open a file for output redirection.
@@ -177,7 +206,26 @@ int		create_heredoc(const char *end);
  * @param dup_result Dummy value (will be overwritten).
  * @return int 0 on success, 1 on failure.
  */
+/**
+ * @brief Apply redirections for a command.
+ * 
+ * @param[in] redirs List of redirections to apply.
+ * @param[in] fd File descriptor (unused in current implementation).
+ * @param[in] dup_result Dup result (unused in current implementation).
+ * @return int 0 on success, 1 on failure.
+ */
 int		apply_redirs(t_redir *redirs, int fd, int dup_result);
+
+// signals.c
+/**
+ * @brief Setup signal handlers for the shell.
+ */
+void	setup_signals(void);
+/**
+ * @brief Setup default signal handlers for child processes.
+ */
+void	setup_child_signals(void);
+
 /**
  * @brief Execute a command with redirections in a child process.
  * 
