@@ -17,7 +17,7 @@ int	exec_builtin(t_cmd *cmd, t_env *env)
 	if (!ft_strcmp(cmd->cmd_path, "cd"))
 		return (mini_cd(cmd->args, env));
 	else if (!ft_strcmp(cmd->cmd_path, "exit"))
-		return (mini_exit(0));
+		return (mini_exit(cmd->args));
 	else if (!ft_strcmp(cmd->cmd_path, "export"))
 		return (mini_export(env, cmd->args + 1));
 	else if (!ft_strcmp(cmd->cmd_path, "unset"))

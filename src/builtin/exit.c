@@ -12,9 +12,16 @@
 
 #include "../includes/builtin.h"
 
-int	mini_exit(int exit_code)
+int	mini_exit(char **args)
 {
+	int	exit_code;
+
+	exit_code = 0;
+	if (args && args[1])
+		exit_code = ft_atoi(args[1]);
+	printf("exit\n");
 	exit(exit_code);
+	return (exit_code);
 }
 
 /* int main(void)
