@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/09/02 17:41:29 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/30 13:12:17 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,14 @@ int	exec_external(t_cmd *cmd, t_env *env)
 		{
 			execve(path[i], cmd->args, env_to_array(env));
 			perror("execve");
-			return (1);
+			exit(1);
 		}
 	}
-	free(path);
-	return (1);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd->cmd_path, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	double_free((void **)path);
+	return (127);
 }
 
 int	exec_in_child(t_cmd *cmd, t_env *env)
@@ -67,7 +70,10 @@ int	exec_in_child(t_cmd *cmd, t_env *env)
 	if (pid < 0)
 		return (perror("fork"), -1);
 	if (!pid)
-		exec_function(cmd, env);
+	{
+		setup_child_signals();
+		exit(exec_function(cmd, env));
+	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
