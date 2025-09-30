@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:27:03 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/25 16:32:17 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/30 15:22:24 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	mini_unset(t_env *env, char **args)
 	t_env	*to_delete;
 
 	if (!args || !*args)
-		return (ft_dprintf(2, "unset: not enough arguments\n"), 1);
+		return (0);
 	i = -1;
 	while (args[++i])
 	{
