@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 17:45:17 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/05 16:25:05 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/30 11:54:45 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,41 @@ int	open_redir_in(t_redir *redir)
 	return (open(redir->target, O_RDONLY));
 }
 
+void	heredoc_child_process(int pipe_fd, const char *end, t_env *env)
+{
+	char	*line;
+	char	*expanded_line;
+	t_data	temp_data;
+
+	temp_data.env = env;
+	setup_heredoc_signals();
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || is_heredoc_interrupted())
+		{
+			if (line)
+				free(line);
+			break ;
+		}
+		if (!ft_strcmp(line, end))
+		{
+			free(line);
+			break ;
+		}
+		expanded_line = expand_inputs(line, &temp_data);
+		write(pipe_fd, expanded_line, ft_strlen(expanded_line));
+		write(pipe_fd, "\n", 1);
+		free(line);
+		if (expanded_line != line)
+			free(expanded_line);
+	}
+}
+
 int	create_heredoc(const char *end, t_env *env)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
-	char	*line;
-	char	*expanded_line;
-	t_data	temp_data;
 
 	if (pipe(pipe_fd))
 		return (perror("pipe"), -1);
@@ -45,19 +73,11 @@ int	create_heredoc(const char *end, t_env *env)
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
-		temp_data.env = env;
-		while (1)
-		{
-			line = readline("> ");
-			if (!line || !ft_strcmp(line, end))
-				return (free(line), close(pipe_fd[1]), exit(0), 1);
-			expanded_line = expand_inputs(line, &temp_data);
-			write(pipe_fd[1], expanded_line, ft_strlen(expanded_line));
-			write(pipe_fd[1], "\n", 1);
-			free(line);
-			if (expanded_line != line)
-				free(expanded_line);
-		}
+		heredoc_child_process(pipe_fd[1], end, env);
+		close(pipe_fd[1]);
+		if (is_heredoc_interrupted())
+			exit(1);
+		exit(0);
 	}
 	close(pipe_fd[1]);
 	waitpid(pid, NULL, 0);
