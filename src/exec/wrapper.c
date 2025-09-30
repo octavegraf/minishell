@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:31:39 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/29 14:35:54 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/30 15:22:29 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,16 @@ void	main_clean_next(t_data *data)
 int	main_loop(t_data *data)
 {
 	data->inputs = readline("minishell:");
+	if (get_signal_received())
+	{
+		reset_signal_received();
+		if (data->inputs)
+		{
+			free(data->inputs);
+			data->inputs = NULL;
+		}
+		return (1);
+	}
 	if (!data->inputs)
 		return (0);
 	if (ft_strlen(data->inputs) == 0)
@@ -68,7 +78,7 @@ int	main_loop(t_data *data)
 	add_history(data->inputs);
 	core_parsing(data);
 	if (!data->error_parse)
-		core_exec(data->cmd, data->env);
+		data->exit_code = core_exec(data->cmd, data->env);
 	main_clean_next(data);
 	return (1);
 }
