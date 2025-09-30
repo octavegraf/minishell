@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/29 16:49:26 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/09/30 15:23:20 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,18 +150,18 @@ t_env	*add_env(t_env *current_env, t_env *to_add);
 /**
  * @brief Setup child objects for a command in a pipeline.
  * 
- * @param cmd Command structure.
- * @param prev_pipefd File descriptor for the previous pipe.
- * @param pipefd Array to hold the current pipe file descriptors.
- * @param env Environment variables structures.
+ * @param[in] cmd Command structure.
+ * @param[in] prev_pipefd File descriptor for the previous pipe.
+ * @param[in] pipefd Array to hold the current pipe file descriptors.
+ * @param[in] env Environment variables structures.
  */
 void	setup_child(t_cmd *cmd, int prev_pipefd, int *pipefd, t_env *env);
 /**
  * @brief Close the pipes for a command in a pipeline.
  * 
- * @param prev_pipefd File descriptor for the previous pipe.
- * @param pipefd Array to hold the current pipe file descriptors.
- * @param cmd Command structure.
+ * @param[in] prev_pipefd File descriptor for the previous pipe.
+ * @param[in, out] pipefd Array to hold the current pipe file descriptors.
+ * @param[in] cmd Command structure.
  */
 void	close_parent_pipes(t_cmd *cmd, int *prev_pipefd, int *pipefd);
 /**
@@ -195,26 +195,75 @@ int		open_redir_in(t_redir *redir);
  * 
  * @note The end delimiter will work only if it match the complete string.
  * @param[in] end The end delimiter.
+ * @param[in] env Environment variables for expansion.
  * @return int The STDIN file descriptor on success, -1 on failure.
  */
 int		create_heredoc(const char *end, t_env *env);
 /**
+ * @brief Handle heredoc input in child process.
+ * 
+ * @param[in] pipe_fd File descriptor to write to.
+ * @param[in] end Delimiter string.
+ * @param[in] env Environment variables.
+ */
+void	heredoc_child_process(int pipe_fd, const char *end, t_env *env);
+/**
  * @brief Apply all redirections for a command.
  * @note Due to 42 norm, dummy values are used. You can pass whatever you want.
- * @param redirs Redirection structure.
- * @param fd Dummy value (will be overwritten).
- * @param dup_result Dummy value (will be overwritten).
+ * @param[in] redirs Redirection structure.
+ * @param[in] fd Dummy value (will be overwritten).
+ * @param[in] dup_result Dummy value (will be overwritten).
  * @return int 0 on success, 1 on failure.
  */
 /**
- * @brief Apply redirections for a command.
+ * @brief Open a file for output redirection.
  * 
- * @param[in] redirs List of redirections to apply.
- * @param[in] fd File descriptor (unused in current implementation).
- * @param[in] dup_result Dup result (unused in current implementation).
+ * @param[in] redir Redirection structure.
+ * @param[in] append 1 to append to the file, 0 to truncate.
+ * @return int File descriptor on success, -1 on failure.
+ */
+int		open_redir_out(t_redir *redir, int append);
+/**
+ * @brief Open a file for input redirection.
+ * 
+ * @param[in] redir Redirection structure.
+ * @return int File descriptor on success, -1 on failure.
+ */
+int		open_redir_in(t_redir *redir);
+/**
+ * @brief Create a heredoc.
+ * 
+ * @brief Apply all redirections for a command.
+ * @note Due to 42 norm, dummy values are used. You can pass whatever you want.
+ * @param[in] redirs Redirection structure.
+ * @param[in] fd Dummy value (will be overwritten).
+ * @param[in] dup_result Dummy value (will be overwritten).
  * @return int 0 on success, 1 on failure.
  */
 int		apply_redirs(t_redir *redirs, int fd, int dup_result, t_env *env);
+/**
+ * @brief Execute a command with redirections in a child process.
+ * 
+ * @param[in] cmd Command structure.
+ * @param[in] env Environment variables structures.
+ * @return int 0 on success, 1 on failure.
+ */
+int		exec_redirs(t_cmd *cmd, t_env *env);
+
+// signals.c
+/**
+ * @brief Handle SIGINT signal.
+ * 
+ * @param[in] sig Signal number.
+ */
+void	handle_sigint(int sig);
+void	handle_heredoc_sigint(int sig);
+void	setup_child_signals(void);
+void	setup_heredoc_signals(void);
+int		is_heredoc_interrupted(void);
+void	setup_child_signals(void);
+
+int		core_exec(t_cmd *cmd, t_env *env);
 
 // signals.c
 /**
@@ -225,16 +274,23 @@ void	setup_signals(void);
  * @brief Setup default signal handlers for child processes.
  */
 void	setup_child_signals(void);
-
 /**
- * @brief Execute a command with redirections in a child process.
- * 
- * @param cmd Command structure.
- * @param env Environment variables structures.
- * @return int 0 on success, 1 on failure.
+ * @brief Setup signal handlers for heredoc mode.
  */
-int		exec_redirs(t_cmd *cmd, t_env *env);
-
-int		core_exec(t_cmd *cmd, t_env *env);
+void	setup_heredoc_signals(void);
+/**
+ * @brief Check if heredoc was interrupted by signal.
+ * @return 1 if interrupted, 0 otherwise.
+ */
+int		is_heredoc_interrupted(void);
+/**
+ * @brief Check if a signal was received.
+ * @return 1 if signal received, 0 otherwise.
+ */
+int		get_signal_received(void);
+/**
+ * @brief Reset the signal received flag.
+ */
+void	reset_signal_received(void);
 
 #endif
