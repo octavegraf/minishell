@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 16:39:28 by ljudd             #+#    #+#             */
-/*   Updated: 2025/09/03 11:09:35 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/02 13:36:47 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,25 @@ void	pretoken_rec(t_data *data, int *i, int *j, t_token **token);
  * @param[in] c Character to add.
  */
 void	add_char(char **str, char c);
+
+/**
+ * @brief Add a string to the end of a string. Create a new string and free
+ * the input one.
+ * 
+ * @param[in, out] str Pointer to the string we modify.
+ * @param[in] to_add String to add.
+ */
+void	add_str(char **str, char *to_add);
+
+/**
+ * @brief Add the exit code to the result string, starting from the index i.
+ * 
+ * @param[out] res Output string where the exit code is added.
+ * @param[in, out] i Current index in inp, is updated to the end of the
+ * variable name.
+ * @param[in] data Fetch the exit code.
+ */
+void	add_exit(char **res, int *i, t_data *data);
 
 /**
  * @brief Expand a variable in a string, starting from the index i.

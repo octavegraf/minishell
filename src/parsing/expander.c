@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 14:42:54 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/25 15:47:21 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/02 13:35:48 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,25 @@ void	expand_dollar(char **res, char *inp, int *i, t_data *data)
 	char	*to_find;
 	t_env	*found;
 
-	j = 0;
-	while (inp[*i + j] && inp[*i + j] != ' ')
+	if (!inp[*i])
+		return (add_char(res, '$'));
+	if (inp[*i] == '?')
+		return (add_exit(res, i, data));
+	if (!(ft_isalpha(inp[*i]) || inp[*i] == '_'))
+	{
+		add_char(res, '$');
+		(*i)--;
+		return ;
+	}
+	j = 1;
+	while (inp[*i + j] && (ft_isalnum(inp[*i + j]) || inp[*i + j] == '_'))
 		j++;
 	to_find = ft_strcpy_ij(inp, *i, j);
 	*i = *i + j - 1;
 	found = search_env(data->env, to_find);
 	free(to_find);
 	if (found)
-	{
-		j = -1;
-		while (found->value[++j])
-			add_char(res, found->value[j]);
-	}
+		add_str(res, found->value);
 }
 
 /**
