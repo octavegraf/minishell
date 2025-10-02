@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 18:09:41 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/25 16:08:38 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/01 11:51:57 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// A REMPLACER PAR SUBSTR
 
 /**
  * @brief Copy a substring from src, starting at index i and of length j.
