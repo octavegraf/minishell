@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 14:04:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/29 14:53:23 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:28:51 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	exec_pipeline(t_cmd *cmd, t_env *env)
 	pid_t	pid;
 	int		pid_array[100];
 	int		count;
+	int		status;
+	int		exit_code;
 
 	prev_pipefd = -1;
 	count = 0;
@@ -70,9 +72,13 @@ int	exec_pipeline(t_cmd *cmd, t_env *env)
 	}
 	if (prev_pipefd >= 0)
 		close(prev_pipefd);
-	while (count > 0)
-		waitpid(pid_array[--count], NULL, 0);
-	return (0);
+	exit_code = 0;
+	waitpid(pid_array[count - 1], &status, 0);
+	if (WIFEXITED(status))
+		exit_code = WEXITSTATUS(status);
+	while (--count > 0)
+		waitpid(pid_array[count - 1], NULL, 0);
+	return (exit_code);
 }
 
 /* int	main(int argc, char **argv, char **envp)
