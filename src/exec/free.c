@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:19:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/05 14:03:51 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:28:51 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,36 @@ void	double_free(void **ptr)
 
 void	free_cmd(t_cmd *cmd)
 {
-	int	i;
+	int		i;
+	t_cmd	*next;
 
-	i = -1;
-	while (cmd->args && cmd->args[++i])
-		free(cmd->args[i]);
-	if (cmd->args)
-		free(cmd->args);
-	// tbd
+	while (cmd)
+	{
+		next = cmd->next;
+		i = -1;
+		while (cmd->args && cmd->args[++i])
+			free(cmd->args[i]);
+		if (cmd->args)
+			free(cmd->args);
+		if (cmd->cmd_path)
+			free(cmd->cmd_path);
+		if (cmd->redirs)
+			free(cmd->redirs);
+		free(cmd);
+		cmd = next;
+	}
+}
+
+void	free_token(t_token *token)
+{
+	t_token	*next;
+
+	while (token)
+	{
+		next = token->next;
+		if (token->inputs)
+			free(token->inputs);
+		free(token);
+		token = next;
+	}
 }
