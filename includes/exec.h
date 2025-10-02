@@ -292,5 +292,11 @@ int		get_signal_received(void);
  * @brief Reset the signal received flag.
  */
 void	reset_signal_received(void);
+/**
+ * @brief Update or create the ? environment variable with the exit code.
+ * @param[in, out] env Environment variables list.
+ * @param[in] exit_code Exit code to set.
+ */
+void	update_exit_code_env(t_env *env, int exit_code);
 
 #endif
