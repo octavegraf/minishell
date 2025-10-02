@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:26:32 by ljudd             #+#    #+#             */
-/*   Updated: 2025/09/30 15:22:15 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:28:51 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,6 @@ int	mini_export(t_env *env, char **args)
 			}
 			continue ;
 		}
-		if (ft_strchr(args[i], ' ') || ft_strchr(args[i], '\t') 
-			|| ft_strchr(args[i], '\n') || ft_strchr(args[i], '\r') 
-			|| ft_strchr(args[i], '\v') || ft_strchr(args[i], '\f'))
-			continue ;
 		if (ft_strchr(equal + 1, '='))
 			continue ;
 		name = ft_substr(args[i], 0, equal - args[i]);
