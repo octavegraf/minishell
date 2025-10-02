@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:31:39 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/30 15:22:29 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/01 15:33:25 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,9 @@ int	core_exec(t_cmd *cmd, t_env *env)
 	if (cmd->next)
 		return (exec_pipeline(cmd, env));
 	if (!cmd->redirs)
-	{
-		if (exec_decide(cmd, env))
-			return (1);
-	}
+		return (exec_decide(cmd, env));
 	else
-	{
-		if (exec_redirs(cmd, env))
-			return (1);
-	}
-	return (0);
+		return (exec_redirs(cmd, env));
 }
 
 
@@ -56,7 +49,7 @@ void	main_clean_next(t_data *data)
 */
 int	main_loop(t_data *data)
 {
-	data->inputs = readline("minishell:");
+	data->inputs = readline("minishell: ");
 	if (get_signal_received())
 	{
 		reset_signal_received();
@@ -94,6 +87,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	ft_bzero(&data, sizeof(t_data));
+	data.exit_code = 0;
 	data.env = get_env(envp);
 	setup_signals();
 	while (main_loop(&data))
