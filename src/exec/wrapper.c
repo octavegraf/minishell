@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:31:39 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/01 15:33:25 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:28:51 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ void	main_clean_next(t_data *data)
 	{
 		free(data->inputs);
 		data->inputs = NULL;
+	}
+	if (data->token)
+	{
+		free_token(data->token);
+		data->token = NULL;
+	}
+	if (data->cmd)
+	{
+		free_cmd(data->cmd);
+		data->cmd = NULL;
 	}
 	data->error_parse = false;
 }
