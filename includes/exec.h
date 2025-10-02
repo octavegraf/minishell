@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/30 15:23:20 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:28:51 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ char	**path_to_array(char **path, t_cmd *cmd);
 
 // free.c
 void	double_free(void **ptr);
+void	free_cmd(t_cmd *cmd);
+void	free_token(t_token *token);
 
 // exec.c
 /**
