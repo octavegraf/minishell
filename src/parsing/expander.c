@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 14:42:54 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/02 13:35:48 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/03 10:59:05 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	expand_dollar(char **res, char *inp, int *i, t_data *data)
 	if (!inp[*i])
 		return (add_char(res, '$'));
 	if (inp[*i] == '?')
-		return (add_exit(res, i, data));
+		return (add_exit(res, data));
 	if (!(ft_isalpha(inp[*i]) || inp[*i] == '_'))
 	{
 		add_char(res, '$');
@@ -93,6 +93,8 @@ char	*expand_inputs(char *inp, t_data *data)
 		{
 			i++;
 			expand_dollar(&res, inp, &i, data);
+			if (!inp[i])
+				break ;
 		}
 		else
 			add_char(&res, inp[i]);

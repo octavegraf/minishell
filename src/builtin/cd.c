@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:23:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/24 16:22:26 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/02 18:43:14 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	mini_cd(char **args, t_env *env)
 	t_env	*old_pwd;
 	t_env	*home_env;
 
-	if (args_count(args) > 1)
+	if (args_count(args) > 2)
 		return (ft_dprintf(2, "cd: too many arguments\n"), 1);
 	pwd_env = search_env(env, "PWD");
 	if (!pwd_env)

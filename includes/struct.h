@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:30:23 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/05 14:33:32 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 10:56:13 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_env
  * @param inputs Text.
  * @param quoted If infos are quoted or not, the type of quote (single/double).
  * @param target Only used in tokenization phase, info of the redirection.
+ * @param space_before True if a space precedes this token.
  * @param next Next element.
  * @param past Previous element.
 */
@@ -74,6 +75,7 @@ typedef struct s_token
 	char			*inputs;
 	char			quoted;
 	char			*target;
+	bool			space_before;
 	struct s_token	*next;
 	struct s_token	*past;
 }	t_token;

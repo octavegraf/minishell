@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:45:12 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/02 14:49:45 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/03 10:56:36 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	core_parsing(t_data *data)
 		expander(data);
 	if (!data->error_parse)
 		tokenization(data);
+	if (!data->error_parse)
+		merge_adjacent_tokens(data);
 	if (!data->error_parse)
 		token_to_cmd(data);
 }

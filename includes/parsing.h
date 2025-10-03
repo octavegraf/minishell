@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 16:39:28 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/02 13:36:47 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/03 10:57:48 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@
  * @return New array created.
  */
 char	**add_to_args(char **vec, char *str);
+
+/**
+ * @brief Concatenate a string to the last element of the given array.
+ * @param[in, out] vec Input array.
+ * @param[in] str String to concatenate.
+ * @return New array created.
+ */
+char	**concat_to_last_arg(char **vec, char *str);
 
 /**
  * @brief Indicate that an error happened during the parsing and print an erro
@@ -169,11 +177,9 @@ void	add_str(char **str, char *to_add);
  * @brief Add the exit code to the result string, starting from the index i.
  * 
  * @param[out] res Output string where the exit code is added.
- * @param[in, out] i Current index in inp, is updated to the end of the
- * variable name.
  * @param[in] data Fetch the exit code.
  */
-void	add_exit(char **res, int *i, t_data *data);
+void	add_exit(char **res, t_data *data);
 
 /**
  * @brief Expand a variable in a string, starting from the index i.
@@ -222,6 +228,14 @@ t_token	*token_deleter(t_data *data, t_token *token);
  * @param[in, out] data Inputs is used, token is created.
  */
 void	pretokenization(t_data *data);
+
+/**
+ * @brief Merge consecutive CMD tokens that are not separated by a space.
+ * This handles cases like echo hello'world' or echo hello""world where
+ * quotes should not introduce spaces.
+ * @param[in, out] data Token list is modified.
+ */
+void	merge_adjacent_tokens(t_data *data);
 
 /**
  * @brief Add the next token as a target to the current redirection token and

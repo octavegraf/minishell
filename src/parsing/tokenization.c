@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 16:15:59 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/25 15:23:44 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/03 10:59:30 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /**
  * @brief Delete the current token and adjust accordingly the previous and next.
+ * Preserves the space_before flag by transferring it to the next token.
  * @param[out] data error_parse is set to true if the list is empty after
  * the deletion.
  * @param[in, out] token token to delete.
@@ -24,7 +25,11 @@ t_token	*token_deleter(t_data *data, t_token *token)
 	t_token	*res;
 
 	if (token->next)
+	{
 		token->next->past = token->past;
+		if (token->space_before)
+			token->next->space_before = true;
+	}
 	if (token->past)
 		token->past->next = token->next;
 	res = token->next;

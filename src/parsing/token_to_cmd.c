@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 14:31:21 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/25 15:53:39 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/03 11:00:13 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,30 @@
 /**
  * @brief Convert a command token into a command. Add the input to the args and
  * set cmd_path if not already set.
+ * If space_before is false, concatenate with the last argument.
  * 
  * @param[in] token Token to convert.
  * @param[in, out] cmd Current command to which we add the argument.
  */
 void	token_convert_cmd(t_token *token, t_cmd **cmd)
 {
-	if (!((*cmd)->cmd_path))
+	int	args_count;
+
+	args_count = 0;
+	while ((*cmd)->args[args_count])
+		args_count++;
+	if (token->space_before || args_count == 0)
 	{
-		(*cmd)->cmd_path = ft_strdup(token->inputs);
 		if (!((*cmd)->cmd_path))
-			clean_exit(12);
+		{
+			(*cmd)->cmd_path = ft_strdup(token->inputs);
+			if (!((*cmd)->cmd_path))
+				clean_exit(12);
+		}
+		(*cmd)->args = add_to_args((*cmd)->args, token->inputs);
 	}
-	(*cmd)->args = add_to_args((*cmd)->args, token->inputs);
+	else
+		(*cmd)->args = concat_to_last_arg((*cmd)->args, token->inputs);
 }
 
 /**

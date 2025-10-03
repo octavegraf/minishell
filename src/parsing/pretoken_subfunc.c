@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:48:45 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/02 14:48:47 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/03 11:04:30 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	pretoken_space(t_data *data, int *i, int *j, t_token **token)
 		pretoken_copy(data, i, j, token);
 		(*token)->next = token_new(NULL, (*token)->quoted, NULL, *token);
 		(*token) = (*token)->next;
+		(*token)->space_before = true;
 		(*i)++;
 	}
 	pretoken_rec(data, i, j, token);

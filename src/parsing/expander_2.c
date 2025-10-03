@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 12:22:07 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/02 13:38:28 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/03 10:57:22 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,13 @@
  * @brief Add the exit code to the result string, starting from the index i.
  * 
  * @param[out] res Output string where the exit code is added.
- * @param[in, out] i Current index in inp, is updated to the end of the
- * variable name.
  * @param[in] data Fetch the exit code.
  */
-void	add_exit(char **res, int *i, t_data *data)
+void	add_exit(char **res, t_data *data)
 {
 	char	*exit_str;
 	int		j;
 
-	*i = *i + 1;
 	j = 0;
 	exit_str = ft_itoa(data->exit_code);
 	if (!exit_str)

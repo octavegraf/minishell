@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 14:33:30 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/25 15:56:47 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/03 10:56:16 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_token	*token_new(char *inputs, char quoted, t_token *next, t_token *past)
 	res->quoted = quoted;
 	res->next = next;
 	res->past = past;
+	res->space_before = false;
 	return (res);
 }
 
