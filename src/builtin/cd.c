@@ -6,30 +6,28 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:23:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/02 15:28:51 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 11:03:04 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/builtin.h"
 
-int	mini_cd(char **args, t_env *env)
+int	check_cd_env(t_env *env, t_env **pwd, t_env **old_pwd, t_env **home)
 {
-	char	path[1024];
-	t_env	*pwd_env;
-	t_env	*old_pwd;
-	t_env	*home_env;
-
-	if (args_count(args) > 2)
-		return (ft_dprintf(2, "cd: too many arguments\n"), 1);
-	pwd_env = search_env(env, "PWD");
-	if (!pwd_env)
+	*pwd = search_env(env, "PWD");
+	if (!*pwd)
 		return (ft_dprintf(2, "cd: PWD not set\n"), -1);
-	old_pwd = search_env(env, "OLDPWD");
-	if (!old_pwd)
+	*old_pwd = search_env(env, "OLDPWD");
+	if (!*old_pwd)
 		return (ft_dprintf(2, "cd: OLDPWD not set\n"), -1);
-	home_env = search_env(env, "HOME");
-	if (!home_env)
+	*home = search_env(env, "HOME");
+	if (!*home)
 		return (ft_dprintf(2, "cd: HOME not set\n"), -1);
+	return (0);
+}
+
+int	change_directory(char **args, t_env *home_env)
+{
 	if (args_count(args) == 1 || !ft_strcmp(args[1], "~"))
 	{
 		if (chdir(home_env->value))
@@ -40,6 +38,22 @@ int	mini_cd(char **args, t_env *env)
 		if (chdir(args[1]))
 			return (perror("chdir"), 1);
 	}
+	return (0);
+}
+
+int	mini_cd(char **args, t_env *env)
+{
+	char	path[1024];
+	t_env	*pwd_env;
+	t_env	*old_pwd;
+	t_env	*home_env;
+
+	if (args_count(args) > 2)
+		return (ft_dprintf(2, "cd: too many arguments\n"), 1);
+	if (check_cd_env(env, &pwd_env, &old_pwd, &home_env) != 0)
+		return (-1);
+	if (change_directory(args, home_env) != 0)
+		return (1);
 	if (!getcwd(path, 1024))
 		return (perror("getcwd"), 1);
 	if (modify_env(old_pwd, NULL, pwd_env->value)
