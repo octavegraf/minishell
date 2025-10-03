@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/24 17:10:08 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/03 10:59:21 by ocgraf           ###   ########.fr       */
+/*   Created: 2025/10/03 11:13:17 by ocgraf            #+#    #+#             */
+/*   Updated: 2025/10/03 11:13:49 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/builtin.h"
+#include "../includes/exec.h"
 
-int	is_builtin(t_cmd *cmd)
+int	exec_function(t_cmd *cmd, t_env *env)
 {
-	if (!cmd->cmd_path)
-		return (0);
-	if (!ft_strcmp(cmd->cmd_path, "cd")
-		|| !ft_strcmp(cmd->cmd_path, "exit")
-		|| !ft_strcmp(cmd->cmd_path, "export")
-		|| !ft_strcmp(cmd->cmd_path, "unset"))
-		return (1);
-	else if (!ft_strcmp(cmd->cmd_path, "echo")
-		|| !ft_strcmp(cmd->cmd_path, "env")
-		|| !ft_strcmp(cmd->cmd_path, "pwd"))
-		return (2);
+	if (is_builtin(cmd))
+		return (exec_builtin(cmd, env));
+	if (!is_builtin(cmd))
+		return (exec_external(cmd, env));
+	return (1);
+}
+
+int	exec_decide(t_cmd *cmd, t_env *env)
+{
+	if (is_builtin(cmd) == 2 || !is_builtin(cmd))
+		return (exec_in_child(cmd, env));
+	else
+		return (exec_builtin(cmd, env));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:26:32 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/02 15:28:51 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:29:58 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,32 @@ t_env	*insert_env(t_env *env, char *name, char *value)
 	return (new_env);
 }
 
+int	process_export_arg(t_env *env, char *arg, int *has_error)
+{
+	char	*equal;
+	char	*name;
+
+	equal = ft_strchr(arg, '=');
+	if (!equal)
+	{
+		if (!is_valid_identifier(arg))
+		{
+			ft_dprintf(2, "export: `%s': not a valid identifier\n", arg);
+			*has_error = 1;
+		}
+		return (0);
+	}
+	if (ft_strchr(equal + 1, '='))
+		return (0);
+	name = ft_substr(arg, 0, equal - arg);
+	if (!name)
+		return (ft_dprintf(2, "export: memory allocation failed\n"), 1);
+	if (mini_export2(env, name, ft_substr(equal + 1, 0,
+				ft_strlen(equal + 1))))
+		*has_error = 1;
+	return (0);
+}
+
 int	mini_export2(t_env *env, char *name, char *value)
 {
 	t_env	*current;
@@ -66,21 +92,19 @@ int	mini_export2(t_env *env, char *name, char *value)
 	if (!env)
 	{
 		if (!create_env(name, value))
-			return (ft_dprintf(2, "export: Memory allocation failed\n"), 1);
+			return (ft_dprintf(2, "export: memory allocation failed\n"), 1);
 	}
 	current = search_env(env, name);
 	if (current)
 		modify_env(current, name, value);
 	else
 		if (!insert_env(env, name, value))
-			return (ft_dprintf(2, "export: Memory allocation failed\n"), 1);
+			return (ft_dprintf(2, "export: memory allocation failed\n"), 1);
 	return (0);
 }
 
 int	mini_export(t_env *env, char **args)
 {
-	char	*equal;
-	char	*name;
 	int		i;
 	int		has_error;
 
@@ -90,24 +114,8 @@ int	mini_export(t_env *env, char **args)
 	has_error = 0;
 	while (args[++i])
 	{
-		equal = ft_strchr(args[i], '=');
-		if (!equal)
-		{
-			if (!is_valid_identifier(args[i]))
-			{
-				ft_dprintf(2, "export: `%s': not a valid identifier\n", args[i]);
-				has_error = 1;
-			}
-			continue ;
-		}
-		if (ft_strchr(equal + 1, '='))
-			continue ;
-		name = ft_substr(args[i], 0, equal - args[i]);
-		if (!name)
-			return (ft_dprintf(2, "export: Memory allocation failed\n"), 1);
-		if (mini_export2(env, name, ft_substr(equal + 1, 0,
-					ft_strlen(equal + 1))))
-			has_error = 1;
+		if (process_export_arg(env, args[i], &has_error))
+			return (1);
 	}
 	return (has_error);
 }

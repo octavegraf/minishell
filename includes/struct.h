@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:30:23 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/05 14:33:32 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 10:58:11 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,7 @@ typedef struct s_data
 	char	*inputs;
 	bool	error_parse;
 	t_token	*token;
-	t_cmd	*cmd; // Can be a simple element not a pointer
+	t_cmd	*cmd;
 }	t_data;
-
-typedef struct s_trash
-{
-	void			*pointer;
-	struct s_trash	*next;
-}	t_trash;
 
 #endif

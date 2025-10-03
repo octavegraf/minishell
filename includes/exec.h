@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/02 15:28:51 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:07:29 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,23 @@ int		exec_builtin(t_cmd *cmd, t_env *env);
  * @return int 0 on success, 1 on failure.
  */
 int		exec_external(t_cmd *cmd, t_env *env);
+/**
+ * @brief Execute a command with a direct path (contains '/').
+ * 
+ * @param[in] cmd Command structure.
+ * @param[in] env Environment variables structures.
+ * @return int Exit code (126 for permission/directory, 127 for not found).
+ */
+int		exec_direct_path(t_cmd *cmd, t_env *env);
+/**
+ * @brief Execute a command by searching in PATH directories.
+ * 
+ * @param[in] cmd Command structure.
+ * @param[in] env Environment variables structures.
+ * @param[in] path Array of full paths to try.
+ * @return int 127 (command not found).
+ */
+int		exec_from_path(t_cmd *cmd, t_env *env, char **path);
 /**
  * @brief Execute a command in a child process.
  * 
@@ -253,6 +270,8 @@ int		apply_redirs(t_redir *redirs, int fd, int dup_result, t_env *env);
 int		exec_redirs(t_cmd *cmd, t_env *env);
 
 // signals.c
+static int	g_heredoc_interrupted = 0;
+static int	g_signal_received = 0;
 /**
  * @brief Handle SIGINT signal.
  * 

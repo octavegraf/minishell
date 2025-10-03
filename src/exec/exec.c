@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/09/30 13:12:17 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:28:43 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	exec_builtin(t_cmd *cmd, t_env *env)
 {
+	if (!cmd->cmd_path)
+		return (1);
 	if (!ft_strcmp(cmd->cmd_path, "cd"))
 		return (mini_cd(cmd->args, env));
 	else if (!ft_strcmp(cmd->cmd_path, "exit"))
@@ -33,18 +35,30 @@ int	exec_builtin(t_cmd *cmd, t_env *env)
 	return (0);
 }
 
-int	exec_external(t_cmd *cmd, t_env *env)
+int	exec_direct_path(t_cmd *cmd, t_env *env)
 {
-	char	**path;
-	int		i;
+	struct stat	statbuf;
 
-	path = ft_split(search_env(env, "PATH")->value, ':');
-	if (!path)
-		return (1);
+	if (stat(cmd->cmd_path, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
+		return (ft_dprintf(2, "minishell: %s: is a folder\n",
+				cmd->cmd_path), 126);
+	if (access(cmd->cmd_path, F_OK) == 0 && access(cmd->cmd_path, X_OK) != 0)
+		return (ft_dprintf(2, "minishell: %s permission denied\n",
+				cmd->cmd_path), 126);
+	if (access(cmd->cmd_path, X_OK) == 0)
+	{
+		execve(cmd->cmd_path, cmd->args, env_to_array(env));
+		return (perror("execve"), 126);
+	}
+	return (ft_dprintf(2, "minishell: %s: no such file or directory\n",
+			cmd->cmd_path), 127);
+}
+
+int	exec_from_path(t_cmd *cmd, t_env *env, char **path)
+{
+	int	i;
+
 	i = -1;
-	path = path_to_array(path, cmd);
-	if (!path)
-		return (1);
 	while (path[++i])
 	{
 		if (access(path[i], X_OK) == 0)
@@ -59,6 +73,28 @@ int	exec_external(t_cmd *cmd, t_env *env)
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	double_free((void **)path);
 	return (127);
+}
+
+int	exec_external(t_cmd *cmd, t_env *env)
+{
+	char		**path;
+	t_env		*path_env;
+
+	if (!cmd->cmd_path || !cmd->cmd_path[0])
+		return (0);
+	if (ft_strchr(cmd->cmd_path, '/'))
+		return (exec_direct_path(cmd, env));
+	path_env = search_env(env, "PATH");
+	if (!path_env)
+		return (ft_dprintf(2, "minishell: %s: command not found\n",
+				cmd->cmd_path), 127);
+	path = ft_split(path_env->value, ':');
+	if (!path)
+		return (1);
+	path = path_to_array(path, cmd);
+	if (!path)
+		return (1);
+	return (exec_from_path(cmd, env, path));
 }
 
 int	exec_in_child(t_cmd *cmd, t_env *env)
@@ -78,24 +114,6 @@ int	exec_in_child(t_cmd *cmd, t_env *env)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (1);
-}
-
-int	exec_function(t_cmd *cmd, t_env *env)
-{
-	if (is_builtin(cmd))
-		return (exec_builtin(cmd, env));
-	if (!is_builtin(cmd))
-		return (exec_external(cmd, env));
-	return (1);
-}
-
-int	exec_decide(t_cmd *cmd, t_env *env)
-{
-	if (is_builtin(cmd) == 2 || !is_builtin(cmd))
-		return (exec_in_child(cmd, env));
-	else
-		return (exec_builtin(cmd, env));
-	return (0);
 }
 
 /* int	main(int argc, char **argv, char **envp)
