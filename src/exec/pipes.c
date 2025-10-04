@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 14:04:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/29 14:53:23 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 11:21:17 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ void	setup_child(t_cmd *cmd, int prev_pipefd, int *pipefd, t_env *env)
 	}
 	if (apply_redirs(cmd->redirs, 0, 0, env))
 		exit(1);
-	exec_function(cmd, env);
-	exit(1);
+	exit(exec_function(cmd, env));
 }
 
 void	close_parent_pipes(t_cmd *cmd, int *prev_pipefd, int *pipefd)
@@ -43,6 +42,20 @@ void	close_parent_pipes(t_cmd *cmd, int *prev_pipefd, int *pipefd)
 		close(pipefd[1]);
 		*prev_pipefd = pipefd[0];
 	}
+}
+
+int	wait_pipeline_processes(int *pid_array, int count)
+{
+	int	status;
+	int	exit_code;
+
+	exit_code = 0;
+	waitpid(pid_array[count - 1], &status, 0);
+	if (WIFEXITED(status))
+		exit_code = WEXITSTATUS(status);
+	while (--count > 0)
+		waitpid(pid_array[count - 1], NULL, 0);
+	return (exit_code);
 }
 
 int	exec_pipeline(t_cmd *cmd, t_env *env)
@@ -70,9 +83,7 @@ int	exec_pipeline(t_cmd *cmd, t_env *env)
 	}
 	if (prev_pipefd >= 0)
 		close(prev_pipefd);
-	while (count > 0)
-		waitpid(pid_array[--count], NULL, 0);
-	return (0);
+	return (wait_pipeline_processes(pid_array, count));
 }
 
 /* int	main(int argc, char **argv, char **envp)

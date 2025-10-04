@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 17:45:17 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/09/30 11:54:45 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 11:24:19 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,61 +27,6 @@ int	open_redir_in(t_redir *redir)
 	if (!redir || !redir->target)
 		return (-1);
 	return (open(redir->target, O_RDONLY));
-}
-
-void	heredoc_child_process(int pipe_fd, const char *end, t_env *env)
-{
-	char	*line;
-	char	*expanded_line;
-	t_data	temp_data;
-
-	temp_data.env = env;
-	setup_heredoc_signals();
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || is_heredoc_interrupted())
-		{
-			if (line)
-				free(line);
-			break ;
-		}
-		if (!ft_strcmp(line, end))
-		{
-			free(line);
-			break ;
-		}
-		expanded_line = expand_inputs(line, &temp_data);
-		write(pipe_fd, expanded_line, ft_strlen(expanded_line));
-		write(pipe_fd, "\n", 1);
-		free(line);
-		if (expanded_line != line)
-			free(expanded_line);
-	}
-}
-
-int	create_heredoc(const char *end, t_env *env)
-{
-	int		pipe_fd[2];
-	pid_t	pid;
-
-	if (pipe(pipe_fd))
-		return (perror("pipe"), -1);
-	pid = fork();
-	if (pid < 0)
-		return (perror("fork"), -1);
-	if (pid == 0)
-	{
-		close(pipe_fd[0]);
-		heredoc_child_process(pipe_fd[1], end, env);
-		close(pipe_fd[1]);
-		if (is_heredoc_interrupted())
-			exit(1);
-		exit(0);
-	}
-	close(pipe_fd[1]);
-	waitpid(pid, NULL, 0);
-	return (pipe_fd[0]);
 }
 
 int	apply_redirs(t_redir *redirs, int fd, int dup_result, t_env *env)
@@ -124,8 +69,7 @@ int	exec_redirs(t_cmd *cmd, t_env *env)
 	{
 		if (apply_redirs(cmd->redirs, 0, 0, env))
 			exit(1);
-		exec_function(cmd, env);
-		exit(1);
+		exit(exec_function(cmd, env));
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))

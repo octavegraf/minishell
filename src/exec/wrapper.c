@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:31:39 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/01 15:33:25 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 14:36:49 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	core_exec(t_cmd *cmd, t_env *env)
 {
-	if (!cmd)
+	if (!cmd || !cmd->cmd_path)
 		return (0);
 	if (cmd->next)
 		return (exec_pipeline(cmd, env));
@@ -24,11 +24,6 @@ int	core_exec(t_cmd *cmd, t_env *env)
 		return (exec_redirs(cmd, env));
 }
 
-
-// TBD TBD TBD
-/* main_clean_next :
-	clean all the elements used between two commands
-*/
 void	main_clean_next(t_data *data)
 {
 	if (data->inputs)
@@ -36,30 +31,22 @@ void	main_clean_next(t_data *data)
 		free(data->inputs);
 		data->inputs = NULL;
 	}
+	if (data->token)
+	{
+		free_token(data->token);
+		data->token = NULL;
+	}
+	if (data->cmd)
+	{
+		free_cmd(data->cmd);
+		data->cmd = NULL;
+	}
 	data->error_parse = false;
 }
 
-// TBD TBD TBD
-/* main_loop :
-	core loop used in function main, 4 parts
-	- read the input
-	- process the input to get the commands to execute
-	- exec the commands
-	- clean the elements
-*/
 int	main_loop(t_data *data)
 {
 	data->inputs = readline("minishell: ");
-	if (get_signal_received())
-	{
-		reset_signal_received();
-		if (data->inputs)
-		{
-			free(data->inputs);
-			data->inputs = NULL;
-		}
-		return (1);
-	}
 	if (!data->inputs)
 		return (0);
 	if (ft_strlen(data->inputs) == 0)
@@ -76,10 +63,6 @@ int	main_loop(t_data *data)
 	return (1);
 }
 
-// TBD TBD TBD
-/* main :
-	the part post loop is never supposed to happen, we exit in the loop directly
-*/
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;

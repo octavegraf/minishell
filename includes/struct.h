@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:30:23 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/03 10:56:13 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/04 19:37:40 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,13 +125,7 @@ typedef struct s_data
 	char	*inputs;
 	bool	error_parse;
 	t_token	*token;
-	t_cmd	*cmd; // Can be a simple element not a pointer
+	t_cmd	*cmd;
 }	t_data;
-
-typedef struct s_trash
-{
-	void			*pointer;
-	struct s_trash	*next;
-}	t_trash;
 
 #endif

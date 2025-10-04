@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 17:10:08 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/25 09:58:31 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 10:59:21 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	is_builtin(t_cmd *cmd)
 {
+	if (!cmd->cmd_path)
+		return (0);
 	if (!ft_strcmp(cmd->cmd_path, "cd")
 		|| !ft_strcmp(cmd->cmd_path, "exit")
 		|| !ft_strcmp(cmd->cmd_path, "export")
@@ -25,4 +27,3 @@ int	is_builtin(t_cmd *cmd)
 		return (2);
 	return (0);
 }
-

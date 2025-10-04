@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:44:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/08/29 11:17:31 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/03 11:15:21 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@
 # include "struct.h"
 
 //	cd.c
+/**
+ * @brief Check if required environment variables for cd are set.
+ * @param[in] env Environment variables list.
+ * @param[out] pwd Pointer to PWD environment variable.
+ * @param[out] old_pwd Pointer to OLDPWD environment variable.
+ * @param[out] home Pointer to HOME environment variable.
+ * @return 0 on success, -1 if any required variable is not set.
+ */
+int		check_cd_env(t_env *env, t_env **pwd, t_env **old_pwd, t_env **home);
+/**
+ * @brief Change to the specified directory.
+ * @param[in] args Array of arguments (directory path or ~ for HOME).
+ * @param[in] home_env HOME environment variable.
+ * @return 0 on success, 1 on error.
+ */
+int		change_directory(char **args, t_env *home_env);
 /**
  * @brief Change the current working directory.
  * @param[in] args Array of arguments.
@@ -58,9 +74,43 @@ int		mini_env(t_env *env);
 int		mini_exit(char **args);
 
 //	export.c
+/**
+ * @brief Export environment variables.
+ * @param[in, out] env Environment variables list.
+ * @param[in] args Array of arguments in format "NAME=VALUE".
+ * @return 0 on success, 1 on error.
+*/
 int		mini_export(t_env *env, char **args);
+/**
+ * @brief Export a single environment variable.
+ * @param[in, out] env Environment variables list.
+ * @param[in] name Variable name (will be freed by function).
+ * @param[in] value Variable value (will be freed by function).
+ * @return 0 on success, 1 on error.
+*/
 int		mini_export2(t_env *env, char *name, char *value);
+/**
+ * @brief Insert a new environment variable in sorted order.
+ * @param[in] env Environment variables list.
+ * @param[in] name Variable name.
+ * @param[in] value Variable value.
+ * @return Pointer to the new environment variable, NULL on error.
+*/
 t_env	*insert_env(t_env *env, char *name, char *value);
+/**
+ * @brief Check if a string is a valid identifier for environment variables.
+ * @param[in] name String to check.
+ * @return 1 if valid, 0 otherwise.
+*/
+int		is_valid_identifier(char *name);
+/**
+ * @brief Process a single export argument.
+ * @param[in, out] env Environment variables list.
+ * @param[in] arg Argument to process.
+ * @param[in, out] has_error Error flag to update.
+ * @return 0 on success, 1 on fatal error.
+*/
+int		process_export_arg(t_env *env, char *arg, int *has_error);
 
 //	pwd.c
 int		mini_pwd(void);
