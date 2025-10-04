@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 16:15:59 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/03 11:21:25 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/04 20:37:29 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ t_token	*token_deleter(t_data *data, t_token *token)
 	res = token->next;
 	if (!token->next && !token->past)
 		data->error_parse = true;
+	if (token->inputs)
+		free(token->inputs);
+	if (token->target)
+		free(token->target);
 	free(token);
 	return (res);
 }
@@ -53,6 +57,7 @@ void	token_redir_target(t_data *data, t_token *token)
 	else
 	{
 		token->target = token->next->inputs;
+		token->next->inputs = NULL;
 		token_deleter(data, token->next);
 	}
 }
@@ -62,14 +67,20 @@ static void	delete_empty_tokens(t_data *data, t_token **last_valid)
 	t_token	*tmp;
 
 	tmp = data->token;
+	*last_valid = NULL;
 	while (tmp)
 	{
 		if (tmp->type == TREE_CMD && !tmp->inputs)
+		{
+			if (tmp == data->token)
+				data->token = tmp->next;
 			tmp = token_deleter(data, tmp);
+		}
 		else
-			tmp = tmp->next;
-		if (tmp)
+		{
 			*last_valid = tmp;
+			tmp = tmp->next;
+		}
 	}
 }
 
@@ -82,16 +93,15 @@ static void	delete_empty_tokens(t_data *data, t_token **last_valid)
 void	tokenization(t_data *data)
 {
 	t_token	*tmp;
-	t_token	*tmp2;
+	t_token	*last_valid;
 
-	tmp2 = data->token;
-	delete_empty_tokens(data, &tmp2);
-	while (tmp2->past)
-		tmp2 = tmp2->past;
-	data->token = tmp2;
+	last_valid = NULL;
+	delete_empty_tokens(data, &last_valid);
+	if (data->error_parse)
+		return ;
 	if (!data->error_parse)
 		merge_adjacent_tokens(data);
-	tmp = tmp2;
+	tmp = data->token;
 	while (tmp && !data->error_parse)
 	{
 		if (tmp->type == TREE_REDIR)
