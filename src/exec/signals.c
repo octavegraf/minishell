@@ -6,11 +6,14 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:00:00 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/03 14:36:59 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/04 18:05:57 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec.h"
+
+static int	g_heredoc_interrupted = 0;
+static int	g_signal_received = 0;
 
 void	handle_sigint(int sig)
 {

@@ -6,11 +6,13 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 11:28:18 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/03 11:28:38 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/04 18:06:27 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec.h"
+
+static int	g_heredoc_interrupted = 0;
 
 void	setup_heredoc_signals(void)
 {
