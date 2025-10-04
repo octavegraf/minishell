@@ -55,6 +55,7 @@ int	process_export_arg(t_env *env, char *arg, int *has_error)
 {
 	char	*equal;
 	char	*name;
+	char	*value;
 
 	equal = ft_strchr(arg, '=');
 	if (!equal)
@@ -71,9 +72,12 @@ int	process_export_arg(t_env *env, char *arg, int *has_error)
 	name = ft_substr(arg, 0, equal - arg);
 	if (!name)
 		return (ft_dprintf(2, "export: memory allocation failed\n"), 1);
-	if (mini_export2(env, name, ft_substr(equal + 1, 0,
-				ft_strlen(equal + 1))))
+	value = ft_substr(equal + 1, 0, ft_strlen(equal + 1));
+	if (mini_export2(env, name, value))
 		*has_error = 1;
+	free(name);
+	if (value)
+		free(value);
 	return (0);
 }
 
@@ -84,9 +88,6 @@ int	mini_export2(t_env *env, char *name, char *value)
 	if (!is_valid_identifier(name))
 	{
 		ft_dprintf(2, "export: `%s': not a valid identifier\n", name);
-		free(name);
-		if (value)
-			free(value);
 		return (1);
 	}
 	if (!env)
