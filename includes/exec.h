@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/03 12:07:29 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/04 18:05:07 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,8 +270,6 @@ int		apply_redirs(t_redir *redirs, int fd, int dup_result, t_env *env);
 int		exec_redirs(t_cmd *cmd, t_env *env);
 
 // signals.c
-static int	g_heredoc_interrupted = 0;
-static int	g_signal_received = 0;
 /**
  * @brief Handle SIGINT signal.
  * 
