@@ -24,6 +24,20 @@ void	double_free(void **ptr)
 	free(ptr);
 }
 
+void	free_redir(t_redir *redir)
+{
+	t_redir	*next;
+
+	while (redir)
+	{
+		next = redir->next;
+		if (redir->target)
+			free(redir->target);
+		free(redir);
+		redir = next;
+	}
+}
+
 void	free_cmd(t_cmd *cmd)
 {
 	int		i;
@@ -40,7 +54,7 @@ void	free_cmd(t_cmd *cmd)
 		if (cmd->cmd_path)
 			free(cmd->cmd_path);
 		if (cmd->redirs)
-			free(cmd->redirs);
+			free_redir(cmd->redirs);
 		free(cmd);
 		cmd = next;
 	}
@@ -55,6 +69,8 @@ void	free_token(t_token *token)
 		next = token->next;
 		if (token->inputs)
 			free(token->inputs);
+		if (token->target)
+			free(token->target);
 		free(token);
 		token = next;
 	}
