@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 11:25:46 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/03 11:34:59 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/05 15:01:15 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	heredoc_child_process(int pipe_fd, const char *end, t_env *env)
 	}
 }
 
-int	create_heredoc(const char *end, t_env *env)
+int	create_heredoc(const char *end, t_env *env, t_data *data)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
@@ -57,8 +57,8 @@ int	create_heredoc(const char *end, t_env *env)
 		heredoc_child_process(pipe_fd[1], end, env);
 		close(pipe_fd[1]);
 		if (is_heredoc_interrupted())
-			exit(1);
-		exit(0);
+			clean_exit(data, 1);
+		clean_exit(data, 0);
 	}
 	close(pipe_fd[1]);
 	waitpid(pid, NULL, 0);

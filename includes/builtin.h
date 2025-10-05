@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:44:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/03 11:15:21 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/05 15:06:07 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		disable_nl(char *prompt);
 int		mini_env(t_env *env);
 
 //	exit.c
-int		mini_exit(char **args);
+int		mini_exit(char **args, t_data *data);
 
 //	export.c
 /**
@@ -111,6 +111,15 @@ int		is_valid_identifier(char *name);
  * @return 0 on success, 1 on fatal error.
 */
 int		process_export_arg(t_env *env, char *arg, int *has_error);
+/**
+ * @brief Process export with value assignment.
+ * @param[in, out] env Environment variables list.
+ * @param[in] arg Full argument string.
+ * @param[in] equal Pointer to '=' character in arg.
+ * @param[in, out] has_error Error flag to update.
+ * @return 0 on success, 1 on fatal error.
+*/
+int		export_with_value(t_env *env, char *arg, char *equal, int *has_error);
 
 //	pwd.c
 int		mini_pwd(void);

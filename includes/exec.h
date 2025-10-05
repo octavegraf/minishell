@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/04 18:05:07 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/05 15:12:13 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		args_count(char **args);
  * otherwise 0.
  */
 int		is_builtin(t_cmd *cmd);
-int		exec_function(t_cmd *cmd, t_env *env);
+int		exec_function(t_cmd *cmd, t_env *env, t_data *data);
 
 // env_to_array.c
 /**
@@ -84,17 +84,19 @@ void	free_token(t_token *token);
  * 
  * @param[in] cmd Command structure.
  * @param[in] env Environment variables structures.
+ * @param[in] data Data structure for clean_exit.
  * @return int 0 on success, 1 on failure.
  */
-int		exec_builtin(t_cmd *cmd, t_env *env);
+int		exec_builtin(t_cmd *cmd, t_env *env, t_data *data);
 /**
  * @brief Execute an external command.
  * 
  * @param[in] cmd Command structure.
  * @param[in] env Environment variables structures.
+ * @param[in] data Main data structure for cleanup on exit.
  * @return int 0 on success, 1 on failure.
  */
-int		exec_external(t_cmd *cmd, t_env *env);
+int		exec_external(t_cmd *cmd, t_env *env, t_data *data);
 /**
  * @brief Execute a command with a direct path (contains '/').
  * 
@@ -109,35 +111,39 @@ int		exec_direct_path(t_cmd *cmd, t_env *env);
  * @param[in] cmd Command structure.
  * @param[in] env Environment variables structures.
  * @param[in] path Array of full paths to try.
+ * @param[in] data Main data structure for cleanup on exit.
  * @return int 127 (command not found).
  */
-int		exec_from_path(t_cmd *cmd, t_env *env, char **path);
+int		exec_from_path(t_cmd *cmd, t_env *env, char **path, t_data *data);
 /**
  * @brief Execute a command in a child process.
  * 
  * @param[in] cmd Command structure.
  * @param[in] env Environment variables structures.
+ * @param[in] data Main data structure for cleanup on exit.
  * @return int 0 on success, 1 on failure.
  */
-int		exec_in_child(t_cmd *cmd, t_env *env);
+int		exec_in_child(t_cmd *cmd, t_env *env, t_data *data);
 /**
  * @brief Decide between built-in or external command and execute it.
  * It will not create a new process.
  * 
  * @param[in] cmd Command structure.
  * @param[in] env Environment variables structures.
+ * @param[in] data Main data structure for cleanup on exit.
  * @return int 0 on success, 1 on failure.
  */
-int		exec_function(t_cmd *cmd, t_env *env);
+int		exec_function(t_cmd *cmd, t_env *env, t_data *data);
 /**
  * @brief Decide if a command should be executed in the parent or child process
  * then execute it.
  * 
  * @param[in] cmd Command structure.
  * @param[in] env Environment variables structures.
+ * @param[in] data Main data structure for cleanup on exit.
  * @return int 0 on success, 1 on failure.
  */
-int		exec_decide(t_cmd *cmd, t_env *env);
+int		exec_decide(t_cmd *cmd, t_env *env, t_data *data);
 
 // env.c
 t_env	*get_env(char **envp);
@@ -172,9 +178,9 @@ t_env	*add_env(t_env *current_env, t_env *to_add);
  * @param[in] cmd Command structure.
  * @param[in] prev_pipefd File descriptor for the previous pipe.
  * @param[in] pipefd Array to hold the current pipe file descriptors.
- * @param[in] env Environment variables structures.
+ * @param[in] data Main data structure for cleanup on exit.
  */
-void	setup_child(t_cmd *cmd, int prev_pipefd, int *pipefd, t_env *env);
+void	setup_child(t_cmd *cmd, int prev_pipefd, int *pipefd, t_data *data);
 /**
  * @brief Close the pipes for a command in a pipeline.
  * 
@@ -187,11 +193,10 @@ void	close_parent_pipes(t_cmd *cmd, int *prev_pipefd, int *pipefd);
  * @brief Execute a pipeline of commands.
  * 
  * @param[in] cmd First command in the pipeline.
- * @param[in] env Environment variables structures.
- * @param[in] count Dummy value (will be overwritten).
+ * @param[in] data Main data structure for cleanup on exit.
  * @return int 0 on success, 1 on failure.
  */
-int		exec_pipeline(t_cmd *cmd, t_env *env);
+int		exec_pipeline(t_cmd *cmd, t_data *data);
 
 // redirs.c
 /**
@@ -215,9 +220,10 @@ int		open_redir_in(t_redir *redir);
  * @note The end delimiter will work only if it match the complete string.
  * @param[in] end The end delimiter.
  * @param[in] env Environment variables for expansion.
+ * @param[in] data Main data structure for cleanup on exit.
  * @return int The STDIN file descriptor on success, -1 on failure.
  */
-int		create_heredoc(const char *end, t_env *env);
+int		create_heredoc(const char *end, t_env *env, t_data *data);
 /**
  * @brief Handle heredoc input in child process.
  * 
@@ -253,21 +259,21 @@ int		open_redir_in(t_redir *redir);
  * @brief Create a heredoc.
  * 
  * @brief Apply all redirections for a command.
- * @note Due to 42 norm, dummy values are used. You can pass whatever you want.
  * @param[in] redirs Redirection structure.
- * @param[in] fd Dummy value (will be overwritten).
- * @param[in] dup_result Dummy value (will be overwritten).
+ * @param[in] env Environment variables structures.
+ * @param[in] data Main data structure for cleanup on exit.
  * @return int 0 on success, 1 on failure.
  */
-int		apply_redirs(t_redir *redirs, int fd, int dup_result, t_env *env);
+int		apply_redirs(t_redir *redirs, t_env *env, t_data *data);
 /**
  * @brief Execute a command with redirections in a child process.
  * 
  * @param[in] cmd Command structure.
  * @param[in] env Environment variables structures.
+ * @param[in] data Main data structure for cleanup on exit.
  * @return int 0 on success, 1 on failure.
  */
-int		exec_redirs(t_cmd *cmd, t_env *env);
+int		exec_redirs(t_cmd *cmd, t_env *env, t_data *data);
 
 // signals.c
 /**
@@ -282,7 +288,7 @@ void	setup_heredoc_signals(void);
 int		is_heredoc_interrupted(void);
 void	setup_child_signals(void);
 
-int		core_exec(t_cmd *cmd, t_env *env);
+int		core_exec(t_cmd *cmd, t_env *env, t_data *data);
 
 // signals.c
 /**

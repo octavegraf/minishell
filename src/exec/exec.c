@@ -6,20 +6,20 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 13:24:20 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 15:01:10 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec.h"
 
-int	exec_builtin(t_cmd *cmd, t_env *env)
+int	exec_builtin(t_cmd *cmd, t_env *env, t_data *data)
 {
 	if (!cmd->cmd_path)
 		return (1);
 	if (!ft_strcmp(cmd->cmd_path, "cd"))
 		return (mini_cd(cmd->args, env));
 	else if (!ft_strcmp(cmd->cmd_path, "exit"))
-		return (mini_exit(cmd->args));
+		return (mini_exit(cmd->args, data));
 	else if (!ft_strcmp(cmd->cmd_path, "export"))
 		return (mini_export(env, cmd->args + 1));
 	else if (!ft_strcmp(cmd->cmd_path, "unset"))
@@ -54,7 +54,7 @@ int	exec_direct_path(t_cmd *cmd, t_env *env)
 			cmd->cmd_path), 127);
 }
 
-int	exec_from_path(t_cmd *cmd, t_env *env, char **path)
+int	exec_from_path(t_cmd *cmd, t_env *env, char **path, t_data *data)
 {
 	int	i;
 
@@ -65,7 +65,7 @@ int	exec_from_path(t_cmd *cmd, t_env *env, char **path)
 		{
 			execve(path[i], cmd->args, env_to_array(env));
 			perror("execve");
-			exit(1);
+			clean_exit(data, 1);
 		}
 	}
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -75,7 +75,7 @@ int	exec_from_path(t_cmd *cmd, t_env *env, char **path)
 	return (127);
 }
 
-int	exec_external(t_cmd *cmd, t_env *env)
+int	exec_external(t_cmd *cmd, t_env *env, t_data *data)
 {
 	char		**path;
 	t_env		*path_env;
@@ -94,10 +94,10 @@ int	exec_external(t_cmd *cmd, t_env *env)
 	path = path_to_array(path, cmd);
 	if (!path)
 		return (1);
-	return (exec_from_path(cmd, env, path));
+	return (exec_from_path(cmd, env, path, data));
 }
 
-int	exec_in_child(t_cmd *cmd, t_env *env)
+int	exec_in_child(t_cmd *cmd, t_env *env, t_data *data)
 {
 	int	pid;
 	int	status;
@@ -108,7 +108,7 @@ int	exec_in_child(t_cmd *cmd, t_env *env)
 	if (!pid)
 	{
 		setup_child_signals();
-		exit(exec_function(cmd, env));
+		clean_exit(data, exec_function(cmd, env, data));
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))

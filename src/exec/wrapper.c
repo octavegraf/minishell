@@ -6,28 +6,28 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:31:39 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 13:48:14 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 15:12:14 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	core_exec(t_cmd *cmd, t_env *env)
+int	core_exec(t_cmd *cmd, t_env *env, t_data *data)
 {
 	if (!cmd)
 		return (0);
 	if (cmd->next)
-		return (exec_pipeline(cmd, env));
+		return (exec_pipeline(cmd, data));
 	if (!cmd->cmd_path)
 	{
 		if (cmd->redirs)
-			return (exec_redirs(cmd, env));
+			return (exec_redirs(cmd, env, data));
 		return (0);
 	}
 	if (!cmd->redirs)
-		return (exec_decide(cmd, env));
+		return (exec_decide(cmd, env, data));
 	else
-		return (exec_redirs(cmd, env));
+		return (exec_redirs(cmd, env, data));
 }
 
 void	main_clean_next(t_data *data)
@@ -64,7 +64,7 @@ int	main_loop(t_data *data)
 	add_history(data->inputs);
 	core_parsing(data);
 	if (!data->error_parse)
-		data->exit_code = core_exec(data->cmd, data->env);
+		data->exit_code = core_exec(data->cmd, data->env, data);
 	else
 		data->exit_code = 2;
 	main_clean_next(data);

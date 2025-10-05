@@ -6,31 +6,31 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 14:04:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 13:24:29 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 15:12:13 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec.h"
 
-void	setup_child(t_cmd *cmd, int prev_pipefd, int *pipefd, t_env *env)
+void	setup_child(t_cmd *cmd, int prev_pipefd, int *pipefd, t_data *data)
 {
 	setup_child_signals();
 	if (prev_pipefd >= 0)
 	{
 		if (dup2(prev_pipefd, STDIN_FILENO) < 0)
-			exit(1);
+			clean_exit(data, 1);
 		close(prev_pipefd);
 	}
 	if (cmd->next)
 	{
 		if (dup2(pipefd[1], STDOUT_FILENO) < 0)
-			exit(1);
+			clean_exit(data, 1);
 		close(pipefd[1]);
 		close(pipefd[0]);
 	}
-	if (apply_redirs(cmd->redirs, 0, 0, env))
-		exit(1);
-	exit(exec_function(cmd, env));
+	if (apply_redirs(cmd->redirs, data->env, data))
+		clean_exit(data, 1);
+	clean_exit(data, exec_function(cmd, data->env, data));
 }
 
 void	close_parent_pipes(t_cmd *cmd, int *prev_pipefd, int *pipefd)
@@ -58,7 +58,7 @@ int	wait_pipeline_processes(int *pid_array, int count)
 	return (exit_code);
 }
 
-int	exec_pipeline(t_cmd *cmd, t_env *env)
+int	exec_pipeline(t_cmd *cmd, t_data *data)
 {
 	int		pipefd[2];
 	int		prev_pipefd;
@@ -76,7 +76,7 @@ int	exec_pipeline(t_cmd *cmd, t_env *env)
 		if (pid < 0)
 			return (perror("fork"), 1);
 		if (pid == 0)
-			setup_child(cmd, prev_pipefd, pipefd, env);
+			setup_child(cmd, prev_pipefd, pipefd, data);
 		pid_array[count++] = pid;
 		close_parent_pipes(cmd, &prev_pipefd, pipefd);
 		cmd = cmd->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:26:32 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/03 12:29:58 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/05 15:07:02 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,11 @@ t_env	*insert_env(t_env *env, char *name, char *value)
 	return (new_env);
 }
 
-int	process_export_arg(t_env *env, char *arg, int *has_error)
+int	export_with_value(t_env *env, char *arg, char *equal, int *has_error)
 {
-	char	*equal;
 	char	*name;
 	char	*value;
 
-	equal = ft_strchr(arg, '=');
-	if (!equal)
-	{
-		if (!is_valid_identifier(arg))
-		{
-			ft_dprintf(2, "export: `%s': not a valid identifier\n", arg);
-			*has_error = 1;
-		}
-		return (0);
-	}
 	if (ft_strchr(equal + 1, '='))
 		return (0);
 	name = ft_substr(arg, 0, equal - arg);
@@ -79,6 +68,23 @@ int	process_export_arg(t_env *env, char *arg, int *has_error)
 	if (value)
 		free(value);
 	return (0);
+}
+
+int	process_export_arg(t_env *env, char *arg, int *has_error)
+{
+	char	*equal;
+
+	equal = ft_strchr(arg, '=');
+	if (!equal)
+	{
+		if (!is_valid_identifier(arg))
+		{
+			ft_dprintf(2, "export: `%s': not a valid identifier\n", arg);
+			*has_error = 1;
+		}
+		return (0);
+	}
+	return (export_with_value(env, arg, equal, has_error));
 }
 
 int	mini_export2(t_env *env, char *name, char *value)
@@ -102,23 +108,6 @@ int	mini_export2(t_env *env, char *name, char *value)
 		if (!insert_env(env, name, value))
 			return (ft_dprintf(2, "export: memory allocation failed\n"), 1);
 	return (0);
-}
-
-int	mini_export(t_env *env, char **args)
-{
-	int		i;
-	int		has_error;
-
-	if (!args || !**args)
-		return (mini_env(env));
-	i = -1;
-	has_error = 0;
-	while (args[++i])
-	{
-		if (process_export_arg(env, args[i], &has_error))
-			return (1);
-	}
-	return (has_error);
 }
 
 /* int main(int argc, char **argv, char **envp)

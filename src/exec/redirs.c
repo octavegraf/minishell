@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 17:45:17 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 13:24:37 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 15:08:58 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ int	open_redir_in(t_redir *redir)
 	return (open(redir->target, O_RDONLY));
 }
 
-int	apply_redirs(t_redir *redirs, int fd, int dup_result, t_env *env)
+int	apply_redirs(t_redir *redirs, t_env *env, t_data *data)
 {
+	int	fd;
+	int	dup_result;
+
 	while (redirs)
 	{
 		if (redirs->type == REDIR_OUT)
@@ -40,9 +43,7 @@ int	apply_redirs(t_redir *redirs, int fd, int dup_result, t_env *env)
 		else if (redirs->type == REDIR_IN)
 			fd = open_redir_in(redirs);
 		else if (redirs->type == REDIR_HEREDOC)
-		{
-			fd = create_heredoc(redirs->target, env);
-		}
+			fd = create_heredoc(redirs->target, env, data);
 		if (fd < 0)
 			return (perror("open"), 1);
 		if (redirs->type == REDIR_OUT || redirs->type == REDIR_APPEND)
@@ -57,7 +58,7 @@ int	apply_redirs(t_redir *redirs, int fd, int dup_result, t_env *env)
 	return (0);
 }
 
-int	exec_redirs(t_cmd *cmd, t_env *env)
+int	exec_redirs(t_cmd *cmd, t_env *env, t_data *data)
 {
 	pid_t	pid;
 	int		status;
@@ -67,9 +68,9 @@ int	exec_redirs(t_cmd *cmd, t_env *env)
 		return (perror("fork"), 1);
 	if (pid == 0)
 	{
-		if (apply_redirs(cmd->redirs, 0, 0, env))
-			exit(1);
-		exit(exec_function(cmd, env));
+		if (apply_redirs(cmd->redirs, env, data))
+			clean_exit(data, 1);
+		clean_exit(data, exec_function(cmd, env, data));
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:25:59 by ljudd             #+#    #+#             */
-/*   Updated: 2025/09/30 15:22:40 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/05 15:01:13 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	is_valid_number(char *str)
 	return (1);
 }
 
-int	mini_exit(char **args)
+int	mini_exit(char **args, t_data *data)
 {
 	int	exit_code;
 
@@ -48,11 +48,11 @@ int	mini_exit(char **args)
 		if (!is_valid_number(args[1]))
 		{
 			ft_dprintf(2, "exit: %s: numeric argument required\n", args[1]);
-			exit(2);
+			clean_exit(data, 2);
 		}
 		exit_code = ft_atoi(args[1]);
 	}
-	exit(exit_code);
+	clean_exit(data, exit_code);
 	return (exit_code);
 }
 
