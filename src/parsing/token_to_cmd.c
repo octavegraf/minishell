@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 14:31:21 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/03 11:00:13 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 11:40:39 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,13 @@
  */
 void	token_convert_cmd(t_token *token, t_cmd **cmd)
 {
-	int	args_count;
-
-	args_count = 0;
-	while ((*cmd)->args[args_count])
-		args_count++;
-	if (token->space_before || args_count == 0)
+	if (!((*cmd)->cmd_path))
 	{
+		(*cmd)->cmd_path = ft_strdup(token->inputs);
 		if (!((*cmd)->cmd_path))
-		{
-			(*cmd)->cmd_path = ft_strdup(token->inputs);
-			if (!((*cmd)->cmd_path))
-				clean_exit(12);
-		}
-		(*cmd)->args = add_to_args((*cmd)->args, token->inputs);
+			clean_exit(12);
 	}
-	else
-		(*cmd)->args = concat_to_last_arg((*cmd)->args, token->inputs);
+	(*cmd)->args = add_to_args((*cmd)->args, token->inputs);
 }
 
 /**
@@ -93,16 +83,18 @@ void	token_converter(t_data *data, t_node_type *last_treated,
 		parse_error(data, NULL, token);
 	else if (*last_treated == TREE_ND && token->type == TREE_CMD)
 		token_convert_cmd(token, cmd);
-	else if (*last_treated == TREE_PIPE && token->type != TREE_CMD)
+	else if (*last_treated == TREE_PIPE && token->type == TREE_PIPE)
 		parse_error(data, NULL, token);
 	else if (*last_treated == TREE_PIPE && token->type == TREE_CMD)
 		token_convert_cmd(token, cmd);
+	else if (*last_treated == TREE_PIPE && token->type == TREE_REDIR)
+		token_convert_redir(token, cmd);
 	else if (token->type == TREE_PIPE)
 		token_convert_pipe(cmd);
 	else if (token->type == TREE_REDIR)
 		token_convert_redir(token, cmd);
 	else if (*last_treated == TREE_REDIR && token->type == TREE_CMD)
-		parse_error(data, NULL, token);
+		token_convert_cmd(token, cmd);
 	else if (*last_treated == TREE_CMD && token->type == TREE_CMD)
 		token_convert_cmd(token, cmd);
 	*last_treated = token->type;

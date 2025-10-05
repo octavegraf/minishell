@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wrapper.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:31:39 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/03 14:36:49 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/05 11:58:56 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 int	core_exec(t_cmd *cmd, t_env *env)
 {
-	if (!cmd || !cmd->cmd_path)
+	if (!cmd)
 		return (0);
 	if (cmd->next)
 		return (exec_pipeline(cmd, env));
+	if (!cmd->cmd_path)
+	{
+		if (cmd->redirs)
+			return (exec_redirs(cmd, env));
+		return (0);
+	}
 	if (!cmd->redirs)
 		return (exec_decide(cmd, env));
 	else
@@ -59,6 +65,8 @@ int	main_loop(t_data *data)
 	core_parsing(data);
 	if (!data->error_parse)
 		data->exit_code = core_exec(data->cmd, data->env);
+	else
+		data->exit_code = 2;
 	main_clean_next(data);
 	return (1);
 }

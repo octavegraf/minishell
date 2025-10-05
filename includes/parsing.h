@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 16:39:28 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/03 10:57:48 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 11:19:49 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,6 @@
  * @return New array created.
  */
 char	**add_to_args(char **vec, char *str);
-
-/**
- * @brief Concatenate a string to the last element of the given array.
- * @param[in, out] vec Input array.
- * @param[in] str String to concatenate.
- * @return New array created.
- */
-char	**concat_to_last_arg(char **vec, char *str);
 
 /**
  * @brief Indicate that an error happened during the parsing and print an erro

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 16:15:59 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/04 20:37:29 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/05 12:01:34 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token	*token_deleter(t_data *data, t_token *token)
 		token->past->next = token->next;
 	res = token->next;
 	if (!token->next && !token->past)
-		data->error_parse = true;
+		data->token = NULL;
 	if (token->inputs)
 		free(token->inputs);
 	if (token->target)
@@ -70,7 +70,7 @@ static void	delete_empty_tokens(t_data *data, t_token **last_valid)
 	*last_valid = NULL;
 	while (tmp)
 	{
-		if (tmp->type == TREE_CMD && !tmp->inputs)
+		if (tmp->type == TREE_CMD && (!tmp->inputs || tmp->inputs[0] == '\0'))
 		{
 			if (tmp == data->token)
 				data->token = tmp->next;
