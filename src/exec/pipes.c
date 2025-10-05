@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 14:04:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 15:12:13 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 18:23:13 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	wait_pipeline_processes(int *pid_array, int count)
 	waitpid(pid_array[count - 1], &status, 0);
 	if (WIFEXITED(status))
 		exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		exit_code = 128 + WTERMSIG(status);
 	while (--count > 0)
 		waitpid(pid_array[count - 1], NULL, 0);
 	return (exit_code);

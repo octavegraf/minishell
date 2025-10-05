@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 11:25:46 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 15:01:15 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 17:52:16 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ void	heredoc_child_process(int pipe_fd, const char *end, t_env *env)
 	while (1)
 	{
 		line = readline("> ");
-		if (line)
-			free(line);
-		if (!line || is_heredoc_interrupted())
+		if (!line || get_heredoc_interrupted())
 			break ;
 		if (!ft_strcmp(line, end))
 		{
@@ -56,7 +54,7 @@ int	create_heredoc(const char *end, t_env *env, t_data *data)
 		close(pipe_fd[0]);
 		heredoc_child_process(pipe_fd[1], end, env);
 		close(pipe_fd[1]);
-		if (is_heredoc_interrupted())
+		if (get_heredoc_interrupted())
 			clean_exit(data, 1);
 		clean_exit(data, 0);
 	}

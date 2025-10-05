@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 14:31:21 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 14:02:44 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 15:38:08 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@ void	token_convert_pipe(t_cmd **cmd, t_data *data)
 void	token_converter(t_data *data, t_node_type *last_treated,
 	t_token *token, t_cmd **cmd)
 {
-	if (*last_treated == TREE_ND && token->type != TREE_CMD)
+	if (*last_treated == TREE_ND && token->type == TREE_PIPE)
 		parse_error(data, NULL, token);
+	else if (*last_treated == TREE_ND && token->type == TREE_REDIR)
+		token_convert_redir(token, cmd, data);
 	else if (*last_treated == TREE_ND && token->type == TREE_CMD)
 		token_convert_cmd(token, cmd, data);
 	else if (*last_treated == TREE_PIPE && token->type == TREE_PIPE)

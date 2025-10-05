@@ -7,3 +7,4 @@ minishell_tester
 Moulinette-minishell
 *
 valgrind.log
+*.sh

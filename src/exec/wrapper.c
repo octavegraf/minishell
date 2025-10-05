@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:31:39 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 15:12:14 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 18:35:50 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,15 @@ void	main_clean_next(t_data *data)
 
 int	main_loop(t_data *data)
 {
+	int	last_signal;
+
 	data->inputs = readline("minishell: ");
+	last_signal = get_last_signal();
+	if (last_signal == SIGINT)
+	{
+		data->exit_code = 130;
+		reset_signal();
+	}
 	if (!data->inputs)
 		return (0);
 	if (ft_strlen(data->inputs) == 0)

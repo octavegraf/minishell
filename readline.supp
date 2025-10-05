@@ -721,3 +721,54 @@
    fun:main_loop
    fun:main
 }
+
+# Suppression pour les fuites des binaires externes (grep, ls, cat, etc.)
+{
+   external_binary_grep_all
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:/usr/bin/grep
+}
+{
+   external_binary_ls_all
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:/usr/bin/ls
+}
+{
+   external_binary_cat_all
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:/usr/bin/cat
+}
+{
+   external_binary_any_all
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:/usr/bin/*
+}
+{
+   external_binary_any_bin_all
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:/bin/*
+}
+{
+   glibc_regex_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:re_compile_internal
+}
+{
+   glibc_regex_pattern
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:re_compile_pattern
+}

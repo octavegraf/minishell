@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 15:01:10 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 18:23:11 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int	exec_in_child(t_cmd *cmd, t_env *env, t_data *data)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 15:12:13 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 18:35:52 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,23 @@ int		open_redir_out(t_redir *redir, int append);
  */
 int		open_redir_in(t_redir *redir);
 /**
+ * @brief Open a redirection file descriptor.
+ * 
+ * @param[in] redir Redirection structure.
+ * @param[in] env Environment variables.
+ * @param[in] data Data structure.
+ * @return int File descriptor on success, -1 on failure.
+ */
+int		open_redir_fd(t_redir *redir, t_env *env, t_data *data);
+/**
+ * @brief Apply a single redirection with dup2.
+ * 
+ * @param[in] redir Redirection structure.
+ * @param[in] fd File descriptor to dup2.
+ * @return int 0 on success, 1 on failure.
+ */
+int		apply_single_redir(t_redir *redir, int fd);
+/**
  * @brief Create a heredoc.
  * 
  * @brief Apply all redirections for a command.
@@ -285,8 +302,6 @@ void	handle_sigint(int sig);
 void	handle_heredoc_sigint(int sig);
 void	setup_child_signals(void);
 void	setup_heredoc_signals(void);
-int		is_heredoc_interrupted(void);
-void	setup_child_signals(void);
 
 int		core_exec(t_cmd *cmd, t_env *env, t_data *data);
 
@@ -296,6 +311,15 @@ int		core_exec(t_cmd *cmd, t_env *env, t_data *data);
  */
 void	setup_signals(void);
 /**
+ * @brief Get the last signal received.
+ * @return Signal number or 0 if no signal.
+ */
+int		get_last_signal(void);
+/**
+ * @brief Reset the signal status to 0.
+ */
+void	reset_signal(void);
+/**
  * @brief Setup default signal handlers for child processes.
  */
 void	setup_child_signals(void);
@@ -304,19 +328,16 @@ void	setup_child_signals(void);
  */
 void	setup_heredoc_signals(void);
 /**
- * @brief Check if heredoc was interrupted by signal.
+ * @brief Set heredoc interrupted flag.
+ * @param[in] value 1 to set, 0 to clear.
+ */
+void	set_heredoc_interrupted(int value);
+/**
+ * @brief Get heredoc interrupted flag. Use bitwise to store the flag, acts
+ * like a little structure with multiple booleans.
  * @return 1 if interrupted, 0 otherwise.
  */
-int		is_heredoc_interrupted(void);
-/**
- * @brief Check if a signal was received.
- * @return 1 if signal received, 0 otherwise.
- */
-int		get_signal_received(void);
-/**
- * @brief Reset the signal received flag.
- */
-void	reset_signal_received(void);
+int		get_heredoc_interrupted(void);
 /**
  * @brief Update or create the ? environment variable with the exit code.
  * @param[in, out] env Environment variables list.
