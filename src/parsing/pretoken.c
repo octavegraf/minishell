@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:47:52 by ljudd             #+#    #+#             */
-/*   Updated: 2025/08/25 15:55:46 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 14:05:48 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	pretokenization(t_data *data)
 
 	i = 0;
 	j = 0;
-	data->token = token_new(NULL, '\0', NULL, NULL);
+	data->token = token_new(NULL, '\0', NULL, data);
 	tmp = data->token;
 	pretoken_rec(data, &i, &j, &tmp);
 }

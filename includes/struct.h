@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:30:23 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/04 19:37:40 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/05 13:48:30 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ typedef struct s_data
 	int		exit_code;
 	char	*inputs;
 	bool	error_parse;
+
 	t_token	*token;
 	t_cmd	*cmd;
 }	t_data;

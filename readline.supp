@@ -1,53 +1,38 @@
+# Suppression complète pour readline et libtinfo
 {
-   ignore_readline
+   readline_all
    Memcheck:Leak
    match-leak-kinds: reachable
-   fun:realloc
-   fun:reallocf
-   fun:_Read_RuneMagi
-   fun:__setrunelocale
-   fun:__wrap_setrunelocale
-   fun:loadlocale
-   fun:_rl_init_locale
-   fun:_rl_init_eightbit
-   fun:rl_initialize
-   fun:readline
-   fun:main_loop
-   fun:main
+   ...
+   obj:*/libreadline.so.*
 }
 {
-   <insert_a_suppression_name_here>
+   tinfo_all
    Memcheck:Leak
    match-leak-kinds: reachable
-   fun:calloc
-   fun:_dirhelper_init
-   fun:_os_once_callout
-   fun:_libcoreservices_fork_child
-   fun:libSystem_atfork_child
-   fun:fork
-   fun:fork_process
-   fun:fork_and_execve
-   fun:piping_builtin_and_exec
-   fun:executer
-   fun:main_loop
-   fun:main
+   ...
+   obj:*/libtinfo.so.*
 }
 {
-   <insert_a_suppression_name_here>
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:malloc
-   fun:rl_initialize
-   fun:readline
-   fun:main_loop
-   fun:main
-}
-{
-   <insert_a_suppression_name_here>
+   readline_xmalloc
    Memcheck:Leak
    match-leak-kinds: reachable
    fun:malloc
    fun:xmalloc
+}
+{
+   readline_keymaps
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:rl_make_bare_keymap
+}
+{
+   readline_history
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:add_history
    fun:_rl_reset_region_color
    fun:_rl_init_terminal_io
    fun:rl_initialize

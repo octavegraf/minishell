@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:48:45 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/03 11:04:30 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 14:05:47 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	pretoken_copy(t_data *data, int *i, int *j, t_token **token)
 {
 	if (*j != 0)
 	{
-		(*token)->inputs = ft_strcpy_ij(data->inputs, *i, *j);
+		(*token)->inputs = ft_strcpy_ij(data->inputs, *i, *j, data);
 		*i = *i + *j;
 		*j = 0;
 	}
@@ -48,7 +48,7 @@ void	pretoken_copy(t_data *data, int *i, int *j, t_token **token)
 void	pretoken_ope(t_data *data, int *i, int *j, t_token **token)
 {
 	pretoken_copy(data, i, j, token);
-	(*token)->next = token_new(NULL, (*token)->quoted, NULL, *token);
+	token_new(NULL, (*token)->quoted, *token, data);
 	(*token) = (*token)->next;
 	(*token)->type = TREE_REDIR;
 	if (data->inputs[*i] == '<' && data->inputs[*i + 1] == '<')
@@ -68,7 +68,7 @@ void	pretoken_ope(t_data *data, int *i, int *j, t_token **token)
 	else if (data->inputs[*i] == '|')
 		(*token)->type = TREE_PIPE;
 	(*i)++;
-	(*token)->next = token_new(NULL, (*token)->quoted, NULL, *token);
+	token_new(NULL, (*token)->quoted, *token, data);
 	(*token) = (*token)->next;
 	pretoken_rec(data, i, j, token);
 }
@@ -93,7 +93,7 @@ void	pretoken_space(t_data *data, int *i, int *j, t_token **token)
 	else
 	{
 		pretoken_copy(data, i, j, token);
-		(*token)->next = token_new(NULL, (*token)->quoted, NULL, *token);
+		token_new(NULL, (*token)->quoted, *token, data);
 		(*token) = (*token)->next;
 		(*token)->space_before = true;
 		(*i)++;
@@ -120,14 +120,14 @@ void	pretoken_quotes(t_data *data, int *i, int *j, t_token **token)
 	if ((*token)->quoted == '\0')
 	{
 		pretoken_copy(data, i, j, token);
-		(*token)->next = token_new(NULL, data->inputs[*i], NULL, *token);
+		token_new(NULL, data->inputs[*i], *token, data);
 		(*token) = (*token)->next;
 		(*i)++;
 	}
 	else if ((*token)->quoted == data->inputs[*i + *j])
 	{
 		pretoken_copy(data, i, j, token);
-		(*token)->next = token_new(NULL, '\0', NULL, *token);
+		token_new(NULL, '\0', *token, data);
 		(*token) = (*token)->next;
 		(*i)++;
 	}

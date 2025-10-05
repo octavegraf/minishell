@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 14:33:30 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/03 10:56:16 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 14:06:21 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,23 @@
  * @param[in] inputs Inputs of the token.
  * @param[in] quoted Whether the token is quoted or not. ' or " or \0 if 
  * not quoted.
- * @param[in] next Next token in the list.
- * @param[in] past Previous token in the list.
+ * @param[in] past Previous token in the list (will set past->next).
  * @return t_token* New token created.
  */
-t_token	*token_new(char *inputs, char quoted, t_token *next, t_token *past)
+t_token	*token_new(char *inputs, char quoted, t_token *past, t_data *data)
 {
 	t_token	*res;
 
 	res = ft_calloc(1, sizeof(t_token));
 	if (!res)
-		clean_exit(12);
+		clean_exit(data, 12);
 	res->inputs = inputs;
 	res->quoted = quoted;
-	res->next = next;
+	res->next = NULL;
 	res->past = past;
 	res->space_before = false;
+	if (past)
+		past->next = res;
 	return (res);
 }
 
@@ -41,16 +42,16 @@ t_token	*token_new(char *inputs, char quoted, t_token *next, t_token *past)
  * @note res->args is initialized as an array with one NULL element.
  * @return t_cmd* New command created.
  */
-t_cmd	*new_cmd(void)
+t_cmd	*new_cmd(t_data *data)
 {
 	t_cmd	*res;
 
 	res = ft_calloc(1, sizeof(t_cmd));
 	if (!res)
-		clean_exit(12);
+		clean_exit(data, 12);
 	res->args = ft_calloc(1, sizeof(char *));
 	if (!res->args)
-		clean_exit(12);
+		clean_exit(data, 12);
 	return (res);
 }
 
@@ -59,16 +60,16 @@ t_cmd	*new_cmd(void)
  * @param[in] token Token from which we want to create a redirection.
  * @return t_redir* Redirection created.
  */
-t_redir	*new_redir(t_token *token)
+t_redir	*new_redir(t_token *token, t_data *data)
 {
 	t_redir	*res;
 
 	res = ft_calloc(1, sizeof(t_redir));
 	if (!res)
-		clean_exit(12);
+		clean_exit(data, 12);
 	res->type = token->redir_type;
 	res->target = ft_strdup(token->target);
 	if (!res->target)
-		clean_exit(12);
+		clean_exit(data, 12);
 	return (res);
 }

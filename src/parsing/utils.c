@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:46:52 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/03 11:04:45 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 13:46:41 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param[in] str String to add.
  * @return New array created.
  */
-char	**add_to_args(char	**vec, char *str)
+char	**add_to_args(char	**vec, char *str, t_data *data)
 {
 	int		l;
 	char	**res;
@@ -29,18 +29,18 @@ char	**add_to_args(char	**vec, char *str)
 		l++;
 	res = ft_calloc(l + 2, sizeof(char *));
 	if (!res)
-		clean_exit(12);
+		clean_exit(data, 12);
 	l = -1;
 	while (vec[++l])
 	{
 		res[l] = ft_strdup(vec[l]);
 		if (!res[l])
-			clean_exit(12);
+			clean_exit(data, 12);
 		free(vec[l]);
 	}
 	res[l] = ft_strdup(str);
 	if (!res[l])
-		clean_exit(12);
+		clean_exit(data, 12);
 	free(vec);
 	return (res);
 }

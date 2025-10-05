@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 16:39:28 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 11:19:49 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 14:07:20 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@
  * free the input one.
  * @param[in, out] vec Input array.
  * @param[in] str String to add.
+ * @param[in] data Data structure for clean_exit if malloc fails.
  * @return New array created.
  */
-char	**add_to_args(char **vec, char *str);
+char	**add_to_args(char **vec, char *str, t_data *data);
 
 /**
  * @brief Indicate that an error happened during the parsing and print an erro
@@ -63,40 +64,43 @@ void	cmd_visualizer(t_cmd *cmd);
  * @param[in] src Source string.
  * @param[in] i Starting index.
  * @param[in] j Length of the substring.
+ * @param[in] data Data structure for clean_exit if malloc fails.
  * @return char* New string created.
  */
-char	*ft_strcpy_ij(char *src, int i, int j);
+char	*ft_strcpy_ij(char *src, int i, int j, t_data *data);
 
 /* clean_exit :
  * 12 = MALLOC ERROR
  * 8 = parsing missing closing quote
  */
-void	clean_exit(int exit_code);
+void	clean_exit(t_data *data, int exit_code);
 
 /**
  * @brief Create a new token structure.
  * @param[in] inputs Inputs of the token.
  * @param[in] quoted Whether the token is quoted or not. ' or " or \0 if not
  * quoted.
- * @param[in] next Next token in the list.
- * @param[in] past Previous token in the list.
+ * @param[in] past Previous token in the list (will set past->next).
+ * @param[in] data Data structure for clean_exit if malloc fails.
  * @return t_token* New token created.
  */
-t_token	*token_new(char *inputs, char quoted, t_token *next, t_token *past);
+t_token	*token_new(char *inputs, char quoted, t_token *past, t_data *data);
 
 /**
  * @brief Create a new empty command structure.
  * @note res->args is initialized as an array with one NULL element.
+ * @param[in] data Data structure for clean_exit if malloc fails.
  * @return t_cmd* New command created.
  */
-t_cmd	*new_cmd(void);
+t_cmd	*new_cmd(t_data *data);
 
 /**
  * @brief Create a new redirection structure from a token.
  * @param[in] token Token from which we want to create a redirection.
+ * @param[in] data Data structure for clean_exit if malloc fails.
  * @return t_redir* Redirection created.
  */
-t_redir	*new_redir(t_token *token);
+t_redir	*new_redir(t_token *token, t_data *data);
 
 /**
  * @brief Add the current word as input the token and reset the word length
@@ -153,8 +157,9 @@ void	pretoken_rec(t_data *data, int *i, int *j, t_token **token);
  * the input one.
  * @param[in, out] str Pointer to the string we modify.
  * @param[in] c Character to add.
+ * @param[in] data Data structure for clean_exit if malloc fails.
  */
-void	add_char(char **str, char c);
+void	add_char(char **str, char c, t_data *data);
 
 /**
  * @brief Add a string to the end of a string. Create a new string and free
@@ -162,8 +167,9 @@ void	add_char(char **str, char c);
  * 
  * @param[in, out] str Pointer to the string we modify.
  * @param[in] to_add String to add.
+ * @param[in] data Data structure for clean_exit if malloc fails.
  */
-void	add_str(char **str, char *to_add);
+void	add_str(char **str, char *to_add, t_data *data);
 
 /**
  * @brief Add the exit code to the result string, starting from the index i.
@@ -249,21 +255,24 @@ void	tokenization(t_data *data);
  * set cmd_path if not already set.
  * @param[in] token Token to convert.
  * @param[in, out] cmd Current command to which we add the argument.
+ * @param[in] data Data structure for clean_exit if malloc fails.
  */
-void	token_convert_cmd(t_token *token, t_cmd **cmd);
+void	token_convert_cmd(t_token *token, t_cmd **cmd, t_data *data);
 
 /**
  * @brief Convert a redirection token into a redirection in the current command.
  * @param[in] token Token to convert.
  * @param[in, out] cmd Current command to which we add the redirection.
+ * @param[in] data Data structure for clean_exit if malloc fails.
  */
-void	token_convert_redir(t_token *token, t_cmd **cmd);
+void	token_convert_redir(t_token *token, t_cmd **cmd, t_data *data);
 
 /**
  * @brief Convert a pipe token into a new command in the command list.
  * @param[in, out] cmd Current command to which we add a new command.
+ * @param[in] data Data structure for clean_exit if malloc fails.
  */
-void	token_convert_pipe(t_cmd **cmd);
+void	token_convert_pipe(t_cmd **cmd, t_data *data);
 
 /**
  * @brief Convert a token depending on its type and the last treated token in a

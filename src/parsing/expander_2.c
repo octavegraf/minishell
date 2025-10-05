@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 12:22:07 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/03 10:57:22 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 14:02:45 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	add_exit(char **res, t_data *data)
 	exit_str = ft_itoa(data->exit_code);
 	if (!exit_str)
 	{
-		add_char(res, '0');
+		add_char(res, '0', data);
 		return ;
 	}
 	while (exit_str[j])
 	{
-		add_char(res, exit_str[j]);
+		add_char(res, exit_str[j], data);
 		j++;
 	}
 	free(exit_str);
@@ -44,15 +44,16 @@ void	add_exit(char **res, t_data *data)
  * 
  * @param[in, out] str Pointer to the string we modify.
  * @param[in] to_add String to add.
+ * @param[in] data Data structure for clean_exit if malloc fails.
  */
-void	add_str(char **str, char *to_add)
+void	add_str(char **str, char *to_add, t_data *data)
 {
 	int		j;
 
 	j = 0;
 	while (to_add[j])
 	{
-		add_char(str, to_add[j]);
+		add_char(str, to_add[j], data);
 		j++;
 	}
 }

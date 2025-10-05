@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:31:39 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 11:58:56 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 13:48:14 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main_loop(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
+	int		exit_code;
 
 	(void)argc;
 	(void)argv;
@@ -85,5 +86,6 @@ int	main(int argc, char **argv, char **envp)
 		continue ;
 	if (data.env)
 		delete_all_env(data.env);
-	return (data.exit_code);
+	exit_code = data.exit_code;
+	return (exit_code);
 }

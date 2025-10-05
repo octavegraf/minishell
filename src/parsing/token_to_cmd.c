@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 14:31:21 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 11:40:39 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 14:02:44 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@
  * @param[in] token Token to convert.
  * @param[in, out] cmd Current command to which we add the argument.
  */
-void	token_convert_cmd(t_token *token, t_cmd **cmd)
+void	token_convert_cmd(t_token *token, t_cmd **cmd, t_data *data)
 {
 	if (!((*cmd)->cmd_path))
 	{
 		(*cmd)->cmd_path = ft_strdup(token->inputs);
 		if (!((*cmd)->cmd_path))
-			clean_exit(12);
+			clean_exit(data, 12);
 	}
-	(*cmd)->args = add_to_args((*cmd)->args, token->inputs);
+	(*cmd)->args = add_to_args((*cmd)->args, token->inputs, data);
 }
 
 /**
@@ -37,12 +37,12 @@ void	token_convert_cmd(t_token *token, t_cmd **cmd)
  * @param[in] token Token to convert.
  * @param[in, out] cmd Current command to which we add the redirection.
  */
-void	token_convert_redir(t_token *token, t_cmd **cmd)
+void	token_convert_redir(t_token *token, t_cmd **cmd, t_data *data)
 {
 	t_redir	*add_redir;
 	t_redir	*last_redir;
 
-	add_redir = new_redir(token);
+	add_redir = new_redir(token, data);
 	last_redir = (*cmd)->redirs;
 	while (last_redir && last_redir->next)
 		last_redir = last_redir->next;
@@ -57,11 +57,11 @@ void	token_convert_redir(t_token *token, t_cmd **cmd)
  * 
  * @param[in, out] cmd Current command to which we add a new command.
  */
-void	token_convert_pipe(t_cmd **cmd)
+void	token_convert_pipe(t_cmd **cmd, t_data *data)
 {
 	t_cmd	*add_cmd;
 
-	add_cmd = new_cmd();
+	add_cmd = new_cmd(data);
 	(*cmd)->next = add_cmd;
 	*cmd = add_cmd;
 }
@@ -82,21 +82,21 @@ void	token_converter(t_data *data, t_node_type *last_treated,
 	if (*last_treated == TREE_ND && token->type != TREE_CMD)
 		parse_error(data, NULL, token);
 	else if (*last_treated == TREE_ND && token->type == TREE_CMD)
-		token_convert_cmd(token, cmd);
+		token_convert_cmd(token, cmd, data);
 	else if (*last_treated == TREE_PIPE && token->type == TREE_PIPE)
 		parse_error(data, NULL, token);
 	else if (*last_treated == TREE_PIPE && token->type == TREE_CMD)
-		token_convert_cmd(token, cmd);
+		token_convert_cmd(token, cmd, data);
 	else if (*last_treated == TREE_PIPE && token->type == TREE_REDIR)
-		token_convert_redir(token, cmd);
+		token_convert_redir(token, cmd, data);
 	else if (token->type == TREE_PIPE)
-		token_convert_pipe(cmd);
+		token_convert_pipe(cmd, data);
 	else if (token->type == TREE_REDIR)
-		token_convert_redir(token, cmd);
+		token_convert_redir(token, cmd, data);
 	else if (*last_treated == TREE_REDIR && token->type == TREE_CMD)
-		token_convert_cmd(token, cmd);
+		token_convert_cmd(token, cmd, data);
 	else if (*last_treated == TREE_CMD && token->type == TREE_CMD)
-		token_convert_cmd(token, cmd);
+		token_convert_cmd(token, cmd, data);
 	*last_treated = token->type;
 }
 
@@ -113,7 +113,7 @@ void	token_to_cmd(t_data *data)
 
 	last_treated = TREE_ND;
 	cur_token = data->token;
-	data->cmd = new_cmd();
+	data->cmd = new_cmd(data);
 	cur_cmd = data->cmd;
 	while (cur_token && !data->error_parse)
 	{

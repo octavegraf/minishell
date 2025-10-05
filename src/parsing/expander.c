@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 14:42:54 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/03 10:59:05 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/05 14:02:46 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param[in, out] str Pointer to the string we modify.
  * @param[in] c Character to add.
  */
-void	add_char(char **str, char c)
+void	add_char(char **str, char c, t_data *data)
 {
 	char	*tmp;
 	int		k;
@@ -28,7 +28,7 @@ void	add_char(char **str, char c)
 		k++;
 	tmp = ft_calloc(k + 2, sizeof(char));
 	if (!tmp)
-		clean_exit(12);
+		clean_exit(data, 12);
 	k = -1;
 	while ((*str)[++k])
 		tmp[k] = (*str)[k];
@@ -53,24 +53,24 @@ void	expand_dollar(char **res, char *inp, int *i, t_data *data)
 	t_env	*found;
 
 	if (!inp[*i])
-		return (add_char(res, '$'));
+		return (add_char(res, '$', data));
 	if (inp[*i] == '?')
 		return (add_exit(res, data));
 	if (!(ft_isalpha(inp[*i]) || inp[*i] == '_'))
 	{
-		add_char(res, '$');
+		add_char(res, '$', data);
 		(*i)--;
 		return ;
 	}
 	j = 1;
 	while (inp[*i + j] && (ft_isalnum(inp[*i + j]) || inp[*i + j] == '_'))
 		j++;
-	to_find = ft_strcpy_ij(inp, *i, j);
+	to_find = ft_strcpy_ij(inp, *i, j, data);
 	*i = *i + j - 1;
 	found = search_env(data->env, to_find);
 	free(to_find);
 	if (found)
-		add_str(res, found->value);
+		add_str(res, found->value, data);
 }
 
 /**
@@ -97,7 +97,7 @@ char	*expand_inputs(char *inp, t_data *data)
 				break ;
 		}
 		else
-			add_char(&res, inp[i]);
+			add_char(&res, inp[i], data);
 	}
 	return (res);
 }
