@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+         #
+#    By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 09:37:05 by ljudd             #+#    #+#              #
-#    Updated: 2025/09/03 11:58:28 by ocgraf           ###   ########.fr        #
+#    Updated: 2025/10/06 10:44:04 by ljudd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC				= cc
-DEBUG			= -g3
+#DEBUG			= -g3
 CFLAGS			= -Wall -Wextra -Werror -MMD -MP $(DEBUG)
 NAME			= minishell
 INCLUDES		= -Ilibft -Iincludes
@@ -21,13 +21,17 @@ SRC_FOLDER		= src/
 BUILTIN_FOLDER	= $(SRC_FOLDER)builtin/
 EXEC_FOLDER		= $(SRC_FOLDER)exec/
 PARSING_FOLDER	= $(SRC_FOLDER)parsing/
-UTILS_FOLDER	= $(SRC_FOLDER)utils/
-BUILTIN			= $(wildcard $(BUILTIN_FOLDER)*.c)
-EXEC			= $(wildcard $(EXEC_FOLDER)*.c)
-PARSING			= $(wildcard $(PARSING_FOLDER)*.c)
-UTILS			= $(wildcard $(UTILS_FOLDER)*.c)
-MAIN			= $(wildcard $(SRC_FOLDER)*.c)
-SOURCES			= $(BUILTIN) $(EXEC) $(PARSING) $(UTILS) $(MAIN)
+BUILTIN			= builtin.c cd.c echo.c env.c exit.c export.c \
+					export_2.c pwd.c unset.c
+EXEC			= args.c data.c env_to_array.c exec2.c exec.c free.c \
+					get_env2.c get_env.c pipes.c redirs.c redirs_heredoc.c \
+					redirs_utils.c signal2.c signals.c signals_heredoc.c \
+					wrapper.c
+PARSING			= expander_2.c expander.c merge_adjacent.c news.c parsing.c \
+					pretoken.c pretoken_subfunc.c tokenization.c \
+					token_to_cmd.c utils.c
+SOURCES			= $(addprefix $(BUILTIN_FOLDER), $(BUILTIN)) $(addprefix $(EXEC_FOLDER), $(EXEC)) \
+					$(addprefix $(PARSING_FOLDER), $(PARSING))
 
 # Objects
 OBJ_PATH		= obj/
