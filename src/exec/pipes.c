@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 14:04:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 18:23:13 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 13:56:24 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,19 @@ int	wait_pipeline_processes(int *pid_array, int count)
 {
 	int	status;
 	int	exit_code;
+	int	i;
 
+	i = 0;
 	exit_code = 0;
-	waitpid(pid_array[count - 1], &status, 0);
-	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		exit_code = 128 + WTERMSIG(status);
-	while (--count > 0)
-		waitpid(pid_array[count - 1], NULL, 0);
+	while (i < count)
+	{
+		waitpid(pid_array[i], &status, 0);
+		if (WIFEXITED(status))
+			exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			exit_code = 128 + WTERMSIG(status);
+		i++;
+	}
 	return (exit_code);
 }
 
