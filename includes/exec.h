@@ -6,12 +6,17 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 18:35:52 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 11:08:55 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
+
+/**
+ * @file exec.h
+ * @brief Execution part of the program.
+ */
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -74,8 +79,20 @@ char	**env_to_array(t_env *env);
 char	**path_to_array(char **path, t_cmd *cmd);
 
 // free.c
+/**
+ * @brief Free a NULL-terminated array of pointers.
+ * @param[in] ptr Array to free.
+*/
 void	double_free(void **ptr);
+/**
+ * @brief Free a command structure and all its allocated memory.
+ * @param[in] cmd Command structure to free.
+*/
 void	free_cmd(t_cmd *cmd);
+/**
+ * @brief Free a token structure and all its allocated memory.
+ * @param[in] token Token structure to free.
+*/
 void	free_token(t_token *token);
 
 // exec.c
@@ -146,9 +163,31 @@ int		exec_function(t_cmd *cmd, t_env *env, t_data *data);
 int		exec_decide(t_cmd *cmd, t_env *env, t_data *data);
 
 // env.c
+/**
+ * @brief Create environment variables list from envp array.
+ * @param[in] envp NULL-terminated environment array.
+ * @return Pointer to the environment list head.
+*/
 t_env	*get_env(char **envp);
+/**
+ * @brief Create a new environment variable node.
+ * @param[in] name Variable name.
+ * @param[in] value Variable value.
+ * @return Pointer to the new environment variable, NULL on error.
+*/
 t_env	*create_env(char *name, char *value);
+/**
+ * @brief Add an environment variable to the end of the list.
+ * @param[in] env Environment variables list.
+ * @param[in] name Variable name.
+ * @param[in] value Variable value.
+ * @return Pointer to the new environment variable, NULL on error.
+*/
 t_env	*add_env_back(t_env *env, char *name, char *value);
+/**
+ * @brief Free a single environment variable node.
+ * @param[in] env Environment variable to free.
+*/
 void	free_env(t_env *env);
 /**
  * @brief Modify an environment variable.
@@ -159,8 +198,16 @@ void	free_env(t_env *env);
  * @return 0 on success, 1 on failure.
  */
 int		modify_env(t_env *env, char *name, char *value);
-
+/**
+ * @brief Delete an environment variable from the list.
+ * @param[in] to_delete Environment variable to delete.
+ * @param[in] head Head of the environment list.
+*/
 void	delete_env(t_env *to_delete, t_env *head);
+/**
+ * @brief Delete all environment variables in the list.
+ * @param[in] head Head of the environment list.
+*/
 void	delete_all_env(t_env *head);
 /**
  * @brief Search for an environment variable by name.
@@ -169,6 +216,12 @@ void	delete_all_env(t_env *head);
  * @return Pointer to the found environment variable, or NULL if not found.
  */
 t_env	*search_env(t_env *head, const char *name);
+/**
+ * @brief Add an environment variable to the list.
+ * @param[in] current_env Current environment list.
+ * @param[in] to_add Environment variable to add.
+ * @return Pointer to the updated list head.
+*/
 t_env	*add_env(t_env *current_env, t_env *to_add);
 
 // pipes.c
@@ -233,29 +286,6 @@ int		create_heredoc(const char *end, t_env *env, t_data *data);
  */
 void	heredoc_child_process(int pipe_fd, const char *end, t_env *env);
 /**
- * @brief Apply all redirections for a command.
- * @note Due to 42 norm, dummy values are used. You can pass whatever you want.
- * @param[in] redirs Redirection structure.
- * @param[in] fd Dummy value (will be overwritten).
- * @param[in] dup_result Dummy value (will be overwritten).
- * @return int 0 on success, 1 on failure.
- */
-/**
- * @brief Open a file for output redirection.
- * 
- * @param[in] redir Redirection structure.
- * @param[in] append 1 to append to the file, 0 to truncate.
- * @return int File descriptor on success, -1 on failure.
- */
-int		open_redir_out(t_redir *redir, int append);
-/**
- * @brief Open a file for input redirection.
- * 
- * @param[in] redir Redirection structure.
- * @return int File descriptor on success, -1 on failure.
- */
-int		open_redir_in(t_redir *redir);
-/**
  * @brief Open a redirection file descriptor.
  * 
  * @param[in] redir Redirection structure.
@@ -273,8 +303,6 @@ int		open_redir_fd(t_redir *redir, t_env *env, t_data *data);
  */
 int		apply_single_redir(t_redir *redir, int fd);
 /**
- * @brief Create a heredoc.
- * 
  * @brief Apply all redirections for a command.
  * @param[in] redirs Redirection structure.
  * @param[in] env Environment variables structures.
@@ -299,10 +327,26 @@ int		exec_redirs(t_cmd *cmd, t_env *env, t_data *data);
  * @param[in] sig Signal number.
  */
 void	handle_sigint(int sig);
+/**
+ * @brief Handle SIGINT signal during heredoc input.
+ * @param[in] sig Signal number.
+*/
 void	handle_heredoc_sigint(int sig);
+/**
+ * @brief Setup default signal handlers for child processes.
+*/
 void	setup_child_signals(void);
+/**
+ * @brief Setup signal handlers for heredoc mode.
+*/
 void	setup_heredoc_signals(void);
-
+/**
+ * @brief Core execution function that decides and executes commands.
+ * @param[in] cmd Command structure.
+ * @param[in] env Environment variables.
+ * @param[in] data Main data structure.
+ * @return Exit code of the command.
+*/
 int		core_exec(t_cmd *cmd, t_env *env, t_data *data);
 
 // signals.c

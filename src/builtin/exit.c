@@ -6,11 +6,34 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:25:59 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 15:01:13 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 10:59:34 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/builtin.h"
+
+/**
+ * @brief Free all allocated memory and exit the program.
+ * 
+ * @param[in] data Data structure containing all allocated memory to free.
+ * @param[in] exit_code Exit code of the program.
+ * 12 = MALLOC ERROR
+ * 11 = ERROR PARSING EXIT CODE
+ * 8 = parsing missing closing quote
+ */
+void	clean_exit(t_data *data, int exit_code)
+{
+	if (data->inputs)
+		free(data->inputs);
+	if (data->token)
+		free_token(data->token);
+	if (data->cmd)
+		free_cmd(data->cmd);
+	if (data->env)
+		delete_all_env(data->env);
+	clear_history();
+	exit(exit_code);
+}
 
 int	is_valid_number(char *str)
 {

@@ -6,12 +6,17 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:30:23 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 13:48:30 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 11:10:08 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
+
+/**
+ * @file struct.h
+ * @brief Handle all structures of the program.
+ */
 
 # include <stdbool.h>
 # include <stddef.h>
@@ -36,6 +41,7 @@ typedef enum e_redir_type
  * @param TREE_CMD command
  * @param TREE_PIPE |
  * @param TREE_REDIR (< > >> <<)
+ * @param TREE_ND undefined/not determined
 */
 typedef enum e_node_type
 {
@@ -61,6 +67,7 @@ typedef struct s_env
 /**
  * @brief Structure to handle the pretokenization to tokenization phase.
  * @param type Preidentified type of the token.
+ * @param redir_type Type of redirection if the token is a redirection.
  * @param inputs Text.
  * @param quoted If infos are quoted or not, the type of quote (single/double).
  * @param target Only used in tokenization phase, info of the redirection.
@@ -85,6 +92,7 @@ typedef struct s_token
  * @param type Type of the redirection.
  * @param target Target of the redirection (what it does depends of redir type).
  * @param heredoc_fd File descriptor for the heredoc.
+ * @param next Next element.
 */
 typedef struct s_redir
 {
@@ -117,6 +125,7 @@ typedef struct s_cmd
  * @param inputs Inputs read by readline.
  * @param error_parse Indicates that an error happened during parsing.
  * @param token Token of the inputs through the tokenization phase.
+ * @param cmd Command list after tokenization and conversion.
 */
 typedef struct s_data
 {

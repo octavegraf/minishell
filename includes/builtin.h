@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:44:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 15:06:07 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 11:00:39 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,35 @@ int		mini_cd(char **args, t_env *env);
 /**
  * @brief Print the arguments to the standard output.
  * @param[in] args Array of arguments.
+ * @return 0 on success.
 */
-int		mini_echo(char **prompt);
-/**
- * @brief Print the arguments to the standard output.
- * @param[in] args Array of arguments.
- * @return 0 on success, -1 on system error.
-*/
-int		disable_nl(char *prompt);
+int		mini_echo(char **args);
 
 //	env.c
+/**
+ * @brief Print all environment variables.
+ * @param[in] env Environment variables list.
+ * @return 0 on success.
+*/
 int		mini_env(t_env *env);
 
 //	exit.c
+/**
+ * @brief Free all allocated memory and exit the program.
+ * 
+ * @param[in] data Data structure containing all allocated memory to free.
+ * @param[in] exit_code Exit code of the program.
+ * 12 = MALLOC ERROR
+ * 11 = ERROR PARSING EXIT CODE
+ * 8 = parsing missing closing quote
+ */
+void	clean_exit(t_data *data, int exit_code);
+/**
+ * @brief Exit the shell with an exit code.
+ * @param[in] args Array of arguments (optional exit code).
+ * @param[in] data Data structure for clean exit.
+ * @return 0 on success, 1 on error (invalid exit code).
+*/
 int		mini_exit(char **args, t_data *data);
 
 //	export.c
@@ -122,8 +138,18 @@ int		process_export_arg(t_env *env, char *arg, int *has_error);
 int		export_with_value(t_env *env, char *arg, char *equal, int *has_error);
 
 //	pwd.c
+/**
+ * @brief Print the current working directory.
+ * @return 0 on success, 1 on error.
+*/
 int		mini_pwd(void);
 
 //	unset.c
+/**
+ * @brief Unset environment variables.
+ * @param[in, out] env Environment variables list.
+ * @param[in] args Array of variable names to unset.
+ * @return 0 on success, 1 on error.
+*/
 int		mini_unset(t_env *env, char **args);
 #endif
