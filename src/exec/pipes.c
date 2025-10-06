@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 14:04:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/06 13:56:24 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/06 14:01:07 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	exec_pipeline(t_cmd *cmd, t_data *data)
 	int		pipefd[2];
 	int		prev_pipefd;
 	pid_t	pid;
-	int		pid_array[100];
+	int		pid_array[10000];
 	int		count;
 
 	prev_pipefd = -1;
