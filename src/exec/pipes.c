@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 14:04:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/06 14:01:07 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/06 14:08:07 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,17 @@ int	wait_pipeline_processes(int *pid_array, int count)
 	return (exit_code);
 }
 
-int	exec_pipeline(t_cmd *cmd, t_data *data)
+int	exec_pipeline(t_cmd *cmd, t_data *data, int count)
 {
 	int		pipefd[2];
 	int		prev_pipefd;
 	pid_t	pid;
-	int		pid_array[10000];
-	int		count;
+	int		pid_array[100];
 
 	prev_pipefd = -1;
 	count = 0;
+	if (count_cmd(cmd) > 100)
+		return (perror("Too many commands in pipeline"), 1);
 	while (cmd)
 	{
 		if (cmd->next && pipe(pipefd) < 0)

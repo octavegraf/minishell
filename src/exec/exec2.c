@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 11:13:17 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/05 15:01:14 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:05:16 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,19 @@ int	exec_decide(t_cmd *cmd, t_env *env, t_data *data)
 	else
 		return (exec_builtin(cmd, env, data));
 	return (0);
+}
+
+int	count_cmd(t_cmd *cmd)
+{
+	int	count;
+
+	count = 0;
+	if (!cmd || !cmd->args)
+		return (count);
+	while (cmd)
+	{
+		count++;
+		cmd = cmd->next;
+	}
+	return (count);
 }

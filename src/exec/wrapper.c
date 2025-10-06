@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:31:39 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/06 13:58:18 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/06 14:07:13 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	core_exec(t_cmd *cmd, t_env *env, t_data *data)
 	if (!cmd)
 		return (0);
 	if (cmd->next)
-		return (exec_pipeline(cmd, data));
+		return (exec_pipeline(cmd, data, 0));
 	if (!cmd->cmd_path)
 	{
 		if (cmd->redirs)

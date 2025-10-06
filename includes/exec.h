@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/06 11:08:55 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:08:45 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,13 @@ int		exec_function(t_cmd *cmd, t_env *env, t_data *data);
  * @return int 0 on success, 1 on failure.
  */
 int		exec_decide(t_cmd *cmd, t_env *env, t_data *data);
+/**
+ * @brief Count the number of commands in a linked list.
+ * 
+ * @param cmd Head of the command linked list.
+ * @return int Number of commands in the list.
+ */
+int		count_cmd(t_cmd *cmd);
 
 // env.c
 /**
@@ -247,9 +254,10 @@ void	close_parent_pipes(t_cmd *cmd, int *prev_pipefd, int *pipefd);
  * 
  * @param[in] cmd First command in the pipeline.
  * @param[in] data Main data structure for cleanup on exit.
+ * @param[in] count Dumb value, will be replaced.
  * @return int 0 on success, 1 on failure.
  */
-int		exec_pipeline(t_cmd *cmd, t_data *data);
+int		exec_pipeline(t_cmd *cmd, t_data *data, int count);
 
 // redirs.c
 /**

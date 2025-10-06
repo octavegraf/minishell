@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+         #
+#    By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 09:37:05 by ljudd             #+#    #+#              #
-#    Updated: 2025/10/06 10:44:04 by ljudd            ###   ########.fr        #
+#    Updated: 2025/10/06 14:09:22 by ocgraf           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ BUILTIN			= builtin.c cd.c echo.c env.c exit.c export.c \
 					export_2.c pwd.c unset.c
 EXEC			= args.c data.c env_to_array.c exec2.c exec.c free.c \
 					get_env2.c get_env.c pipes.c redirs.c redirs_heredoc.c \
-					redirs_utils.c signal2.c signals.c signals_heredoc.c \
+					redirs_utils.c signals.c signals_heredoc.c \
 					wrapper.c
 PARSING			= expander_2.c expander.c merge_adjacent.c news.c parsing.c \
 					pretoken.c pretoken_subfunc.c tokenization.c \
