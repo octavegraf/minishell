@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 14:04:31 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/06 14:08:07 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/06 14:15:54 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	exec_pipeline(t_cmd *cmd, t_data *data, int count)
 	prev_pipefd = -1;
 	count = 0;
 	if (count_cmd(cmd) > 100)
-		return (perror("Too many commands in pipeline"), 1);
+		return (ft_dprintf(2, "Too many commands in pipeline (>= 100)\n"));
 	while (cmd)
 	{
 		if (cmd->next && pipe(pipefd) < 0)
