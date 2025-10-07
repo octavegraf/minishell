@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 14:33:30 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 14:06:21 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 15:45:06 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ t_redir	*new_redir(t_token *token, t_data *data)
 	res->target = ft_strdup(token->target);
 	if (!res->target)
 		clean_exit(data, 12);
+	res->heredoc_fd = -1;
 	return (res);
 }

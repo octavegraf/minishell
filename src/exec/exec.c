@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:33:31 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 18:23:11 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 17:57:19 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_builtin(t_cmd *cmd, t_env *env, t_data *data)
 	else if (!ft_strcmp(cmd->cmd_path, "exit"))
 		return (mini_exit(cmd->args, data));
 	else if (!ft_strcmp(cmd->cmd_path, "export"))
-		return (mini_export(env, cmd->args + 1));
+		return (mini_export(&data->env, cmd->args + 1));
 	else if (!ft_strcmp(cmd->cmd_path, "unset"))
 		return (mini_unset(env, cmd->args + 1));
 	else if (!ft_strcmp(cmd->cmd_path, "echo"))
@@ -35,35 +35,47 @@ int	exec_builtin(t_cmd *cmd, t_env *env, t_data *data)
 	return (0);
 }
 
-int	exec_direct_path(t_cmd *cmd, t_env *env)
+int	exec_direct_path(t_cmd *cmd, t_env *env, t_data *data)
 {
 	struct stat	statbuf;
+	char		**env_array;
 
 	if (stat(cmd->cmd_path, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
-		return (ft_dprintf(2, "minishell: %s: is a folder\n",
-				cmd->cmd_path), 126);
+	{
+		ft_dprintf(2, "minishell: %s: is a folder\n", cmd->cmd_path);
+		clean_exit(data, 126);
+	}
 	if (access(cmd->cmd_path, F_OK) == 0 && access(cmd->cmd_path, X_OK) != 0)
-		return (ft_dprintf(2, "minishell: %s permission denied\n",
-				cmd->cmd_path), 126);
+	{
+		ft_dprintf(2, "minishell: %s permission denied\n", cmd->cmd_path);
+		clean_exit(data, 126);
+	}
 	if (access(cmd->cmd_path, X_OK) == 0)
 	{
-		execve(cmd->cmd_path, cmd->args, env_to_array(env));
-		return (perror("execve"), 126);
+		env_array = env_to_array(env);
+		execve(cmd->cmd_path, cmd->args, env_array);
+		double_free((void **)env_array);
+		perror("execve");
+		clean_exit(data, 126);
 	}
-	return (ft_dprintf(2, "minishell: %s: no such file or directory\n",
-			cmd->cmd_path), 127);
+	ft_dprintf(2, "minishell: %s: no such file or directory\n", cmd->cmd_path);
+	clean_exit(data, 127);
+	return (127);
 }
 
 int	exec_from_path(t_cmd *cmd, t_env *env, char **path, t_data *data)
 {
-	int	i;
+	int		i;
+	char	**env_array;
 
 	i = -1;
 	while (path[++i])
 	{
 		if (access(path[i], X_OK) == 0)
 		{
-			execve(path[i], cmd->args, env_to_array(env));
+			env_array = env_to_array(env);
+			execve(path[i], cmd->args, env_array);
+			double_free((void **)env_array);
 			perror("execve");
 			clean_exit(data, 1);
 		}
@@ -80,10 +92,12 @@ int	exec_external(t_cmd *cmd, t_env *env, t_data *data)
 	char		**path;
 	t_env		*path_env;
 
-	if (!cmd->cmd_path || !cmd->cmd_path[0])
+	if (!cmd->cmd_path)
 		return (0);
+	if (cmd->cmd_path[0] == '\0')
+		return (ft_dprintf(2, "minishell: : command not found\n"), 127);
 	if (ft_strchr(cmd->cmd_path, '/'))
-		return (exec_direct_path(cmd, env));
+		return (exec_direct_path(cmd, env, data));
 	path_env = search_env(env, "PATH");
 	if (!path_env)
 		return (ft_dprintf(2, "minishell: %s: command not found\n",

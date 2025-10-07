@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 15:06:41 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 18:54:44 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:01:48 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,20 @@ static int	print_export(t_env *env)
 
 /**
  * @brief Export environment variables.
- * @param[in, out] env Environment variables list.
+ * @param[in, out] env_ptr Pointer to environment variables list.
  * @param[in] args Array of arguments in format "NAME=VALUE".
  * @return 0 on success, 1 on error.
  */
-int	mini_export(t_env *env, char **args)
+int	mini_export(t_env **env_ptr, char **args)
 {
 	int		i;
 	int		has_error;
 
 	if (!args || !args[0])
-		return (print_export(env));
+		return (print_export(*env_ptr));
 	i = -1;
 	has_error = 0;
 	while (args[++i])
-	{
-		if (process_export_arg(env, args[i], &has_error))
-			return (1);
-	}
+		*env_ptr = process_export_arg(*env_ptr, args[i], &has_error);
 	return (has_error);
 }

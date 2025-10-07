@@ -6,7 +6,7 @@
 /*   By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:58:14 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/06 14:08:45 by ocgraf           ###   ########.fr       */
+/*   Updated: 2025/10/06 17:58:28 by ocgraf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,10 @@ int		exec_external(t_cmd *cmd, t_env *env, t_data *data);
  * 
  * @param[in] cmd Command structure.
  * @param[in] env Environment variables structures.
+ * @param[in] data Data structure for clean exit.
  * @return int Exit code (126 for permission/directory, 127 for not found).
  */
-int		exec_direct_path(t_cmd *cmd, t_env *env);
+int		exec_direct_path(t_cmd *cmd, t_env *env, t_data *data);
 /**
  * @brief Execute a command by searching in PATH directories.
  * 
@@ -161,6 +162,7 @@ int		exec_function(t_cmd *cmd, t_env *env, t_data *data);
  * @return int 0 on success, 1 on failure.
  */
 int		exec_decide(t_cmd *cmd, t_env *env, t_data *data);
+
 /**
  * @brief Count the number of commands in a linked list.
  * 
@@ -294,14 +296,34 @@ int		create_heredoc(const char *end, t_env *env, t_data *data);
  */
 void	heredoc_child_process(int pipe_fd, const char *end, t_env *env);
 /**
+ * @brief Process all heredocs in pipeline before execution.
+ * 
+ * @param[in] cmd First command in pipeline.
+ * @param[in] env Environment variables.
+ * @param[in] data Main data structure.
+ * @return int 0 on success, 1 on failure.
+ */
+int		process_heredocs(t_cmd *cmd, t_env *env, t_data *data);
+/**
+ * @brief Close all heredoc file descriptors.
+ * 
+ * @param[in] cmd First command in pipeline.
+ */
+void	close_heredocs(t_cmd *cmd);
+/**
+ * @brief Close heredoc file descriptors for all commands except current.
+ * 
+ * @param[in] all_cmds First command in pipeline.
+ * @param[in] current_cmd Current command being executed.
+ */
+void	close_unused_heredocs(t_cmd *all_cmds, t_cmd *current_cmd);
+/**
  * @brief Open a redirection file descriptor.
  * 
  * @param[in] redir Redirection structure.
- * @param[in] env Environment variables.
- * @param[in] data Data structure.
  * @return int File descriptor on success, -1 on failure.
  */
-int		open_redir_fd(t_redir *redir, t_env *env, t_data *data);
+int		open_redir_fd(t_redir *redir);
 /**
  * @brief Apply a single redirection with dup2.
  * 
@@ -313,11 +335,9 @@ int		apply_single_redir(t_redir *redir, int fd);
 /**
  * @brief Apply all redirections for a command.
  * @param[in] redirs Redirection structure.
- * @param[in] env Environment variables structures.
- * @param[in] data Main data structure for cleanup on exit.
  * @return int 0 on success, 1 on failure.
  */
-int		apply_redirs(t_redir *redirs, t_env *env, t_data *data);
+int		apply_redirs(t_redir *redirs);
 /**
  * @brief Execute a command with redirections in a child process.
  * 

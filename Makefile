@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ocgraf <ocgraf@student.42.fr>              +#+  +:+       +#+         #
+#    By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 09:37:05 by ljudd             #+#    #+#              #
-#    Updated: 2025/10/06 14:09:22 by ocgraf           ###   ########.fr        #
+#    Updated: 2025/10/06 14:20:28 by ljudd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ EXEC_FOLDER		= $(SRC_FOLDER)exec/
 PARSING_FOLDER	= $(SRC_FOLDER)parsing/
 BUILTIN			= builtin.c cd.c echo.c env.c exit.c export.c \
 					export_2.c pwd.c unset.c
-EXEC			= args.c data.c env_to_array.c exec2.c exec.c free.c \
+EXEC			= args.c env_to_array.c exec2.c exec.c free.c \
 					get_env2.c get_env.c pipes.c redirs.c redirs_heredoc.c \
 					redirs_utils.c signals.c signals_heredoc.c \
 					wrapper.c

@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 16:15:59 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 12:01:34 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 16:37:53 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,23 @@ void	token_redir_target(t_data *data, t_token *token)
 	}
 }
 
+static void	fix_null_quoted_tokens(t_data *data)
+{
+	t_token	*tmp;
+
+	tmp = data->token;
+	while (tmp)
+	{
+		if (tmp->quoted && !tmp->inputs)
+		{
+			tmp->inputs = ft_strdup("");
+			if (!tmp->inputs)
+				clean_exit(data, 12);
+		}
+		tmp = tmp->next;
+	}
+}
+
 static void	delete_empty_tokens(t_data *data, t_token **last_valid)
 {
 	t_token	*tmp;
@@ -70,7 +87,8 @@ static void	delete_empty_tokens(t_data *data, t_token **last_valid)
 	*last_valid = NULL;
 	while (tmp)
 	{
-		if (tmp->type == TREE_CMD && (!tmp->inputs || tmp->inputs[0] == '\0'))
+		if (tmp->type == TREE_CMD && !tmp->quoted
+			&& (!tmp->inputs || tmp->inputs[0] == '\0'))
 		{
 			if (tmp == data->token)
 				data->token = tmp->next;
@@ -96,6 +114,7 @@ void	tokenization(t_data *data)
 	t_token	*last_valid;
 
 	last_valid = NULL;
+	fix_null_quoted_tokens(data);
 	delete_empty_tokens(data, &last_valid);
 	if (data->error_parse)
 		return ;

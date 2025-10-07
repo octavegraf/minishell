@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 11:48:45 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 14:05:47 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 13:24:53 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	pretoken_rec(t_data *data, int *i, int *j, t_token **token)
 		else if ((data->inputs[*i + *j] == '<' || data->inputs[*i + *j] == '>'
 				|| data->inputs[*i + *j] == '|') && !(*token)->quoted)
 			pretoken_ope(data, i, j, token);
-		else if (data->inputs[*i + *j] == ' ')
+		else if (data->inputs[*i + *j] == ' ' || data->inputs[*i + *j] == '\t')
 			pretoken_space(data, i, j, token);
 		else
 		{

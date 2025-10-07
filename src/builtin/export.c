@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:26:32 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 15:07:02 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:48:55 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,30 +47,33 @@ t_env	*insert_env(t_env *env, char *name, char *value)
 	}
 	new_env->next = current;
 	if (prev)
+	{
 		prev->next = new_env;
+		return (env);
+	}
 	return (new_env);
 }
 
-int	export_with_value(t_env *env, char *arg, char *equal, int *has_error)
+t_env	*export_with_value(t_env *env, char *arg, char *equal, int *has_error)
 {
 	char	*name;
 	char	*value;
+	t_env	*new_env;
 
 	if (ft_strchr(equal + 1, '='))
-		return (0);
+		return (env);
 	name = ft_substr(arg, 0, equal - arg);
 	if (!name)
-		return (ft_dprintf(2, "export: memory allocation failed\n"), 1);
+		return (ft_dprintf(2, "export: memory allocation failed\n"), env);
 	value = ft_substr(equal + 1, 0, ft_strlen(equal + 1));
-	if (mini_export2(env, name, value))
-		*has_error = 1;
+	new_env = mini_export2(env, name, value, has_error);
 	free(name);
 	if (value)
 		free(value);
-	return (0);
+	return (new_env);
 }
 
-int	process_export_arg(t_env *env, char *arg, int *has_error)
+t_env	*process_export_arg(t_env *env, char *arg, int *has_error)
 {
 	char	*equal;
 
@@ -82,32 +85,37 @@ int	process_export_arg(t_env *env, char *arg, int *has_error)
 			ft_dprintf(2, "export: `%s': not a valid identifier\n", arg);
 			*has_error = 1;
 		}
-		return (0);
+		return (env);
 	}
 	return (export_with_value(env, arg, equal, has_error));
 }
 
-int	mini_export2(t_env *env, char *name, char *value)
+t_env	*mini_export2(t_env *env, char *name, char *value, int *error)
 {
 	t_env	*current;
+	t_env	*new_env;
 
 	if (!is_valid_identifier(name))
-	{
-		ft_dprintf(2, "export: `%s': not a valid identifier\n", name);
-		return (1);
-	}
+		return (ft_dprintf(2, "export: `%s': not a valid identifier\n", name),
+			*error = 1, env);
 	if (!env)
 	{
-		if (!create_env(name, value))
-			return (ft_dprintf(2, "export: memory allocation failed\n"), 1);
+		new_env = create_env(name, value);
+		if (!new_env)
+			return (ft_dprintf(2, "export: alloc failed\n"), *error = 1, NULL);
+		return (new_env);
 	}
 	current = search_env(env, name);
 	if (current)
 		modify_env(current, name, value);
 	else
-		if (!insert_env(env, name, value))
-			return (ft_dprintf(2, "export: memory allocation failed\n"), 1);
-	return (0);
+	{
+		new_env = insert_env(env, name, value);
+		if (!new_env)
+			return (ft_dprintf(2, "export: alloc failed\n"), *error = 1, env);
+		return (new_env);
+	}
+	return (env);
 }
 
 /* int main(int argc, char **argv, char **envp)

@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 15:30:00 by ljudd             #+#    #+#             */
-/*   Updated: 2025/10/05 17:27:51 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 16:16:49 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	open_redir_in(t_redir *redir)
 	return (open(redir->target, O_RDONLY));
 }
 
-int	open_redir_fd(t_redir *redir, t_env *env, t_data *data)
+int	open_redir_fd(t_redir *redir)
 {
 	if (redir->type == REDIR_OUT)
 		return (open_redir_out(redir, 0));
@@ -38,7 +38,7 @@ int	open_redir_fd(t_redir *redir, t_env *env, t_data *data)
 	else if (redir->type == REDIR_IN)
 		return (open_redir_in(redir));
 	else if (redir->type == REDIR_HEREDOC)
-		return (create_heredoc(redir->target, env, data));
+		return (dup(redir->heredoc_fd));
 	return (-1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ljudd <ljudd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:44:28 by ocgraf            #+#    #+#             */
-/*   Updated: 2025/10/06 11:00:39 by ljudd            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:01:50 by ljudd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,20 @@ int		mini_exit(char **args, t_data *data);
 //	export.c
 /**
  * @brief Export environment variables.
- * @param[in, out] env Environment variables list.
+ * @param[in, out] env_ptr Pointer to environment variables list.
  * @param[in] args Array of arguments in format "NAME=VALUE".
  * @return 0 on success, 1 on error.
 */
-int		mini_export(t_env *env, char **args);
+int		mini_export(t_env **env_ptr, char **args);
 /**
  * @brief Export a single environment variable.
  * @param[in, out] env Environment variables list.
  * @param[in] name Variable name (will be freed by function).
  * @param[in] value Variable value (will be freed by function).
- * @return 0 on success, 1 on error.
+ * @param[in, out] error Error flag to update.
+ * @return Updated environment list.
 */
-int		mini_export2(t_env *env, char *name, char *value);
+t_env	*mini_export2(t_env *env, char *name, char *value, int *error);
 /**
  * @brief Insert a new environment variable in sorted order.
  * @param[in] env Environment variables list.
@@ -124,18 +125,18 @@ int		is_valid_identifier(char *name);
  * @param[in, out] env Environment variables list.
  * @param[in] arg Argument to process.
  * @param[in, out] has_error Error flag to update.
- * @return 0 on success, 1 on fatal error.
+ * @return Updated environment list.
 */
-int		process_export_arg(t_env *env, char *arg, int *has_error);
+t_env	*process_export_arg(t_env *env, char *arg, int *has_error);
 /**
  * @brief Process export with value assignment.
  * @param[in, out] env Environment variables list.
  * @param[in] arg Full argument string.
  * @param[in] equal Pointer to '=' character in arg.
  * @param[in, out] has_error Error flag to update.
- * @return 0 on success, 1 on fatal error.
+ * @return Updated environment list.
 */
-int		export_with_value(t_env *env, char *arg, char *equal, int *has_error);
+t_env	*export_with_value(t_env *env, char *arg, char *equal, int *has_error);
 
 //	pwd.c
 /**
